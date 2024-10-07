@@ -1,0 +1,23 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">List over food registration </h1>
+</div>
+
+<form>
+    <div class="mb-3">
+    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Search">
+    </div>
+</form>
+
+<div class="container-fluid">
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src="..." alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">Card title</h5>
+            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
+        </div>
+    </div>
+</div>
