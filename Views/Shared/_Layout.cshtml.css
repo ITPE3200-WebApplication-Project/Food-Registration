@@ -39,10 +39,103 @@ button.accept-policy {
   line-height: inherit;
 }
 
-.footer {
+.search-form {
+  display: inline-block;
+  margin-left:20px;
+  margin-top:10px;
+}
+
+.search-input {
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.search-button {
+  padding: 5px 10px;
+  background-color: #555;
+  border: none;
+  color: white;
+  cursor: pointer;
+}
+
+/* Category Slayt */
+.category-slider {
+  margin: 20px 0;
+  padding: 10px;
+  background-color: #f0f0f0;
+}
+
+.slider {
+  display: flex;
+  overflow-x: auto;
+}
+
+.slide {
+  min-width: 150px;
+  margin-right: 10px;
+  background-color: #ccc;
+  padding: 20px;
+  text-align: center;
+}
+
+
+
+.food-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.food-item {
+  border: 1px solid #ddd;
+  padding: 20px;
+  text-align: center;
+}
+
+.food-items h2 {
+  margin-left: 20px; 
+  margin-bottom: 20px; 
+}
+
+.food-item img {
+  max-width: 100%;
+  height: 150px;
+  object-fit:cover;
+}
+
+.btn-info {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #0e2e51;
+  color: white;
+  text-decoration: none;
+}
+
+.btn-info:hover {
+  background-color: #304964;
+}
+
+
+/*.footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   white-space: nowrap;
   line-height: 60px;
+}*/
+
+/* Footer */
+.footer{
+  padding: 10px;
+  text-align: center;
+  background-color: #333;
+  color:white;
+  position: relative;
+  bottom:0;
+  width: 100%;
+  height: auto;
+  bottom: 0;
+  left: 0;
+  box-sizing: border-box;
 }
