@@ -1,6 +1,7 @@
 /* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
+<<<<<<< HEAD
 * {
   margin: 0;
   padding: 0;
@@ -12,6 +13,8 @@ body{
 }
 
 
+=======
+>>>>>>> e6bfbe1 (added css file, added bilde)
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -25,6 +28,10 @@ a.navbar-brand {
   .btn-primary {
     color: #fff;
     background-color: #1b6ec2;
+<<<<<<< HEAD
+=======
+    border-color: #1861ac;
+>>>>>>> e6bfbe1 (added css file, added bilde)
   }
   
   .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -67,6 +74,7 @@ a.navbar-brand {
     color: white;
     cursor: pointer;
   }
+<<<<<<< HEAD
 
   /* Category Carousel*/
   #categoryCarousel{
@@ -90,6 +98,8 @@ a.navbar-brand {
 .carousel-control-next-icon:hover {
     background-color: darkgray; /* Hover efekt */
 }
+=======
+>>>>>>> e6bfbe1 (added css file, added bilde)
   
   /* Category Slayt */
   .category-slider {
@@ -110,6 +120,7 @@ a.navbar-brand {
     padding: 20px;
     text-align: center;
   }
+<<<<<<< HEAD
  
   /* Card */
 .card {
@@ -124,6 +135,17 @@ a.navbar-brand {
 }
 
 
+=======
+  
+  /* images*/
+  .card-img-top {
+    border-radius: 50%;
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    object-fit: cover;
+  }
+>>>>>>> e6bfbe1 (added css file, added bilde)
   
   /*Logo*/
   .logo {
@@ -148,6 +170,7 @@ a.navbar-brand {
     left: 0;
     box-sizing: border-box;
   }
+<<<<<<< HEAD
   
   .item-count{
     display: flex;
@@ -295,3 +318,6 @@ a.navbar-brand {
   align-items: flex-start;
   justify-content: flex-start;
 }
+=======
+  
+>>>>>>> e6bfbe1 (added css file, added bilde)
