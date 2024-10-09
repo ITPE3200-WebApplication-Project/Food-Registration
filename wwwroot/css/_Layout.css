@@ -77,24 +77,46 @@ a.navbar-brand {
     padding: 20px;
     text-align: center;
   }
-  
+  /*
   .card {
     display: flex; 
     flex-direction: column; 
     align-items: center; 
     justify-content: center; 
     margin: 10px; 
-    text-align: center; /* text center */
+    text-align: center; /* text center */ /*
   }
 
-  /* images*/
+  /* images*/   /*
   .card-img-top {
     border-radius: 50%;
-    width: 100%; /* Ther will be a way to synchronuze the images*/
+    width: 100%; /* Ther will be a way to synchronuze the images*/ /*
     max-width: 150px;
     height: auto;
     object-fit: cover;
-  }
+  } */
+
+  /* Card */
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    text-align: center;
+    height: 300px; 
+    width: 18rem; 
+}
+
+/* Card Image */
+.card-img-top {
+    border-radius: 60%; 
+    width: 50%;
+    height: 100px; 
+    object-fit: cover; 
+    margin-top: 10px;
+
+}
   
   /*Logo*/
   .logo {

@@ -1,6 +1,6 @@
 ﻿/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
-
+/*
 a.navbar-brand {
   white-space: normal;
   text-align: center;
@@ -57,8 +57,9 @@ button.accept-policy {
   color: white;
   cursor: pointer;
 }
-
+*/
 /* Category Slayt */
+/*
 .category-slider {
   margin: 20px 0;
   padding: 10px;
@@ -125,7 +126,7 @@ button.accept-policy {
   line-height: 60px;
 }*/
 
-/* Footer */
+/* Footer */ /*
 .footer{
   padding: 10px;
   text-align: center;
