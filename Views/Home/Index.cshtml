@@ -2,73 +2,61 @@
     ViewData["Title"] = "Home Page";
 }
 
-<!--<div class="text-center">
+<div class="text-center">
     <h1 class="display-4">List over food registration </h1>
 </div>
-
-<form>
-    <div class="mb-3">
-    <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="Search">
-    </div>
-</form>
-
-<div class="container-fluid">
-    <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src="..." alt="Card image cap">
-        <div class="card-body">
-            <h5 class="card-title">Card title</h5>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
-</div> -->
-
 
 
 <section class = "searching-box">
     <div class="searching">
         <!-- Search box-->
-                <form action = "/Search" method="get" class="search-form">
-                    <input type="text" name="q" placeholder="Search..." class="search-input" />
-                    <button type="submit" class="search-button">Search</button>
-                </form>
+        <form action = "/Search" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search..." class="search-input" />
+            <button type="submit" class="search-button">Search</button>
+        </form>
     </div>
 </section>
 
 <section class="category-slider">
     <!-- Carusell for categories, it is cooming here-->
     <div class="slider">
-
-        
-        <div class="slider">
-            <div class="slide">Fruit</div>
-            <div class="slide">Vegetable</div>
-            <div class="slide">Fast Food</div>
-            <!--More categories will be added here when decided-->
-        </div>
+        <div class="slide">Fruit</div>
+        <div class="slide">Vegetable</div>
+        <div class="slide">Fast Food</div>
+        <!--More categories will be added here when decided-->
     </div>
 </section>
 
-<section class="food-items">
-    <h2>Foods</h2>
-    <div class="food-grid">
-        <!--Food 1-->
-        <div class="food-item">
-            <img src="~/images/apple.png" alt="Apple" style="height: 100px;"/>      
-            <h3>Apple</h3>
+
+<div class="container-fluid">
+    <!-- Card 1: Apple -->
+    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
+        <img class="card-img-top" src="@Url.Content("~/images/apple.png")" alt="Apple">
+        <div class="card-body">
+            <h5 class="card-title">Apple</h5>
             <p>Calories: 50</p>
-            <!--I will add more information-->
-            <a href="/Food/Details/Apple" class="btn-info">More Info</a>
+            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
         </div>
+    </div>
 
-        <!-- Food 2-->
-        <div class="food-item">
-            <img src="~/images/burger.jpg" alt="Burger"  style="height: 100px;"/>
-            <h3>Burger</h3>
-            <p>Calories: 300</p><!-- research right information-->
-            <a href="Food/Details/Burger" class="btn-info">More info</a>
+    <!-- Card 2: Burger -->
+    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
+        <img class="card-img-top" src="@Url.Content("~/images/burger.jpg")" alt="Burger">
+        <div class="card-body">
+            <h5 class="card-title">Burger</h5>
+            <p>Calories: 300</p>
+            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
         </div>
+    </div>
 
-        <!-- Cooming Soon more food and more inromation-->
+    <!-- Card 3: Cake -->
+    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
+        <img class="card-img-top" src="@Url.Content("~/images/cake.jpg")" alt="Cake">
+        <div class="card-body">
+            <h5 class="card-title">Cake</h5>
+            <p>Calories: 300</p>
+            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
+        </div>
+    </div>
+</div>
 
-     </div>
-</selection>        
