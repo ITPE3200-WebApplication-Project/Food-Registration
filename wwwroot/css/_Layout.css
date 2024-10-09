@@ -57,6 +57,29 @@ a.navbar-brand {
     color: white;
     cursor: pointer;
   }
+
+  /* Category Carousel*/
+  #categoryCarousel{
+    margin:20px 0;
+    padding: 10px;
+    background-color:#f0f0f0
+  }
+
+  #categoryCarousel img {
+    object-fit:cover;
+  }
+
+  /* Carousel prev icon made visible */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black; /* prev icon black */
+    border-radius: 50%; 
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: darkgray; /* Hover efekt */
+}
   
   /* Category Slayt */
   .category-slider {
