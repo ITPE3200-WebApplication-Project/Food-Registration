@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Food-Registration\\Food-Registration.csproj",
+      "projectUniqueName": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\Food-Registration.csproj",
       "projectName": "Food-Registration",
-      "projectPath": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Food-Registration\\Food-Registration.csproj",
+      "projectPath": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\Food-Registration.csproj",
       "packagesPath": "C:\\Users\\nasim\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Food-Registration\\obj\\",
+      "outputPath": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\nasim\\AppData\\Roaming\\NuGet\\NuGet.Config",
