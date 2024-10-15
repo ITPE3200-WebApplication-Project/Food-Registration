@@ -79,6 +79,17 @@
     </div>
 </section>
 
+<form method="get" asp-action="Index">
+ <div class="d-flex justify-content-center">
+    <div class="input-group mb-3" style="max-width: 500px;">
+        <input type="search" class="form-control" placeholder="Search products using product name or ID" value=" @ViewData["Getproductlist"]" name="ProductSearch" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+        <div class="input-group-append" style="margin-left: 10px;">
+            <button value="search"  class="btn btn-primary" type="submit" style="border-top-left-radius: 0; border-bottom-left-radius: 0;">Search</button>
+        </div>
+    </div>
+</div>
+</form>
+
 
 <div class="container-fluid">
     <!-- Card 1: Apple -->
