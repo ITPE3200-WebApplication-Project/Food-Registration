@@ -1,32 +1,39 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using webapplikasjon.Models;
+using Food_Registration.Models;
+using Food_Registration.ViewModels;
 
-namespace webapplikasjon.Controllers;
+namespace Food_Registration.Controllers;
 
 public class ProductController : Controller
 {
-    private readonly ProductDB _db;
+  private readonly ProductDbContext _ProductDbContext;
 
-    public ProductController(ProductDB db)
-    {
-        _db = db;
-    }
+  public ProductController(ProductDbContext ProductDbContext)
+  {
+    _ProductDbContext = ProductDbContext;
+  }
 
+  public IActionResult Table()
+  {
+    List<Product> products = _ProductDbContext.Products.ToList();
+    var ProductsViewModel = new ProductsViewModel(products, "Table");
 
-[HttpGet]
-     public async Task<IActionResult> index (string ProductSearch)
-    {
-      // ViewData["Getproductlist"] = ProductSearch; // dersom du bruker value i html da kan du bruker @ViewData["Getproductlist"]
-       var Products = await _repository.GetAllAsync(); // dersom du ikke bruker ViewData["Getproductlist"] i html index kan du denne
-        var productQuery = from x in _db.ProductTable select x;
-        if (!string.IsNullOrEmpty(ProductSearch))
-        {
-            Products = Products.where (x=>x.ProductName.comtains(ProductSearch) || x.ProductId.contains(ProductSearch));
-           
+    return View(ProductsViewModel);
+  }
 
-        }
-        return View(await Products.AsnoTracking().TolistAsync());
-    }
+  public IActionResult Grid()
+  {
+    List<Product> products = _ProductDbContext.Products.ToList();
+    var ProductsViewModel = new ProductsViewModel(products, "Grid");
+    return View(ProductsViewModel);
+  }
 
+  public IActionResult Details(int id)
+  {
+    List<Product> Products = _ProductDbContext.Products.ToList();
+    var product = Products.FirstOrDefault(i => i.ProductId == id);
+    if (product == null)
+      return NotFound();
+    return View(product);
+  }
 }
