@@ -6,69 +6,6 @@
     <h1 class="display-4">List over food registration </h1>
 </div>
 
-
-<section class = "searching-box">
-    <div class="searching">
-        <!-- Search box-->
-        <form action = "/Search" method="get" class="search-form">
-            <input type="text" name="q" placeholder="Search..." class="search-input" />
-            <button type="submit" class="search-button">Search</button>
-        </form>
-    </div>
-</section>
-
-<!-- Category Carousel -->
-<section id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-            <div class="d-flex justify-content-center">
-                <div class="text-center">
-                    <img src="~/images/fruits.jpg" class="d-block" alt="Fruit" style="width: 150px; height: 150px;">
-                    <h5>Fruit</h5>
-                </div>
-            </div>
-        </div>
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-            <div class="d-flex justify-content-center">
-                <div class="text-center">
-                    <img src="~/images/vegetables.jpg" class="d-block" alt="Vegetable" style="width: 150px; height: 150px;">
-                    <h5>Vegetable</h5>
-                </div>
-            </div>
-        </div>
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-            <div class="d-flex justify-content-center">
-                <div class="text-center">
-                    <img src="~/images/fastfoods.jpg" class="d-block" alt="Fast Food" style="width: 150px; height: 150px;">
-                    <h5>Fast Food</h5>
-                </div>
-            </div>
-        </div>
-        <!-- Slide 4 -->
-        <div class="carousel-item">
-            <div class="d-flex justify-content-center">
-                <div class="text-center">
-                    <img src="~/images/dessert2.jpg" class="d-block" alt="Desserts" style="width: 150px; height: 150px;">
-                    <h5>Fast Food</h5>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Carousel Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</section>
-
 <section class="category-slider">
     <!-- Carusell for categories, it is cooming here-->
     <div class="slider">
@@ -79,46 +16,22 @@
     </div>
 </section>
 
+<form method="get" action="/">
+    <div class="d-flex justify-content-center">
+        <div class="input-group mb-3" style="max-width: 500px;">
+            <input type="text" name="searching" class="form-control"
+                placeholder="Search products using product name or ID" value=" @ViewData["Getproductlist"]"
+                name="ProductSearch" style="border-top-right-radius: 0; border-bottom-right-radius: 0;">
+            <div class="input-group-append" style="margin-left: 10px;">
+                <button value="search" class="btn btn-primary" type="submit"
+                    style="border-top-left-radius: 0; border-bottom-left-radius: 0;">Search</button>
+            </div>
+        </div>
+    </div>
+</form>
+
+
 
 <div class="container-fluid">
-    <!-- Card 1: Apple -->
-    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
-        <img class="card-img-top" src="@Url.Content("~/images/apple.png")" alt="Apple">
-        <div class="card-body">
-            <h5 class="card-title">Apple</h5>
-            <p>Calories: 50</p>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
-
-    <!-- Card 2: Burger -->
-    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
-        <img class="card-img-top" src="@Url.Content("~/images/burgers.jpg")" alt="Burger">
-        <div class="card-body">
-            <h5 class="card-title">Burger</h5>
-            <p>Calories: 300</p>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
-
-    <!-- Card 3: Cake -->
-    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
-        <img class="card-img-top" src="@Url.Content("~/images/cake.jpg")" alt="Cake">
-        <div class="card-body">
-            <h5 class="card-title">Cake</h5>
-            <p>Calories: 300</p>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
-
-    <!-- Card 4: pizza -->
-    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
-        <img class="card-img-top" src="@Url.Content("~/images/pizza.jpg")" alt="Pizza">
-        <div class="card-body">
-            <h5 class="card-title">Pizza</h5>
-            <p>Calories: 300</p>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
+    <partial name="_SearchResultPartial" />
 </div>
-

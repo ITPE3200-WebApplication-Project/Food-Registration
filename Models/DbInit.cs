@@ -1,19 +1,19 @@
 using Food_Registration.Models;
 
-namespace MyShop.Models;
+namespace Food_Registration.Models;
 
 public static class DBInit
 {
-  public static void Seed(IApplicationBuilder app)
-  {
-    using var serviceScope = app.ApplicationServices.CreateScope();
-    ProductDbContext context = serviceScope.ServiceProvider.GetRequiredService<ProductDbContext>();
-    context.Database.EnsureDeleted();
-    context.Database.EnsureCreated();
-
-    if (!context.Products.Any())
+    public static void Seed(IApplicationBuilder app)
     {
-      var products = new List<Product>
+        using var serviceScope = app.ApplicationServices.CreateScope();
+        ProductDbContext context = serviceScope.ServiceProvider.GetRequiredService<ProductDbContext>();
+        context.Database.EnsureDeleted();
+        context.Database.EnsureCreated();
+
+        if (!context.Products.Any())
+        {
+            var products = new List<Product>
             {
                 new Product
                 {
@@ -64,21 +64,21 @@ public static class DBInit
                     ImageUrl = "/images/coke.jpg"
                 },
             };
-      context.AddRange(products);
-      context.SaveChanges();
-    }
+            context.AddRange(products);
+            context.SaveChanges();
+        }
 
-    if (!context.Producers.Any())
-    {
-      var producers = new List<Producer>
+        if (!context.Producers.Any())
+        {
+            var producers = new List<Producer>
             {
                 new Producer { name = "Orkla", description = "Orkla is a leading supplier of branded consumer goods and concept solutions to the grocery, out-of-home, specialized retail, pharmacy and bakery sectors." },
                 new Producer { name ="Nestle", description = "Nestle is the world's largest food and beverage company. We have more than 2000 brands ranging from global icons to local favorites, and we are present in 191 countries around the world." },
             };
-      context.AddRange(producers);
-      context.SaveChanges();
-    }
+            context.AddRange(producers);
+            context.SaveChanges();
+        }
 
-    context.SaveChanges();
-  }
+        context.SaveChanges();
+    }
 }
