@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Food_Registration.Controllers;
 
+
 public class SearchController : Controller
 {
     private readonly ProductDbContext _ProductDbContext;
