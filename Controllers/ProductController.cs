@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
 using Food_Registration.ViewModels;
-using Microsoft.EntityFrameworkCore;
 
 namespace Food_Registration.Controllers;
 
@@ -15,20 +14,20 @@ public class ProductController : Controller
   }
 
 
-/*
-[HttpGet]
-public async Task<IActionResult> Index(string ProductSearch)
-{
-    var productQuery = _ProductDbContext.Products.AsQueryable();
+  /*
+  [HttpGet]
+  public async Task<IActionResult> Index(string ProductSearch)
+  {
+      var productQuery = _ProductDbContext.Products.AsQueryable();
 
-    if (!string.IsNullOrEmpty(ProductSearch))
-    {
-        productQuery = productQuery.Where(x => x.Name.Contains(ProductSearch) || x.ProductId.ToString().Contains(ProductSearch));
-    }
+      if (!string.IsNullOrEmpty(ProductSearch))
+      {
+          productQuery = productQuery.Where(x => x.Name.Contains(ProductSearch) || x.ProductId.ToString().Contains(ProductSearch));
+      }
 
-    var products = await productQuery.AsNoTracking().ToListAsync();
-    return View(products);
-}*/
+      var products = await productQuery.AsNoTracking().ToListAsync();
+      return View(products);
+  }*/
 
 
 
