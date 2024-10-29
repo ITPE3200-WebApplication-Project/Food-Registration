@@ -17,69 +17,56 @@
     </div>
 </section>
 
-<!-- Category Carousel -->
-<section id="categoryCarousel" class="carousel slide" data-bs-ride="carousel">
-    <div class="carousel-inner">
-        <!-- Slide 1 -->
-        <div class="carousel-item active">
-            <div class="d-flex justify-content-center">
-                <div class="text-center">
-                    <img src="~/images/fruits.jpg" class="d-block" alt="Fruit" style="width: 150px; height: 150px;">
-                    <h5>Fruit</h5>
-                </div>
-            </div>
+<!--Categoyr-bar-->
+<section id="categoryLinks">
+    <div class="row">
+        <div class="col text-center">
+            <a href="/Categories/Fruits" class="category-link">
+                <img src="@Url.Content("~/images/icons/basket.png")" class="icon" alt="Fruits">
+                <h5>Fruits</h5>
+            </a>
         </div>
-        <!-- Slide 2 -->
-        <div class="carousel-item">
-            <div class="d-flex justify-content-center">
-                <div class="text-center">
-                    <img src="~/images/vegetables.jpg" class="d-block" alt="Vegetable" style="width: 150px; height: 150px;">
-                    <h5>Vegetable</h5>
-                </div>
-            </div>
+        <div class="col text-center">
+            <a href="/Categories/Vegetables" class="category-link">
+                <img src="@Url.Content("~/images/icons/vegetable.png")" class="icon" alt="Vegetables">
+                <h5>Vegetables</h5>
+            </a>
         </div>
-        <!-- Slide 3 -->
-        <div class="carousel-item">
-            <div class="d-flex justify-content-center">
-                <div class="text-center">
-                    <img src="~/images/fastfoods.jpg" class="d-block" alt="Fast Food" style="width: 150px; height: 150px;">
-                    <h5>Fast Food</h5>
-                </div>
-            </div>
+        <div class="col text-center">
+            <a href="/Categories/FastFood" class="category-link">
+                <img src="@Url.Content("~/images/icons/proteins.png")" class="icon" alt="Meats">
+                <h5>Meats</h5>
+            </a>
         </div>
-        <!-- Slide 4 -->
-        <div class="carousel-item">
-            <div class="d-flex justify-content-center">
-                <div class="text-center">
-                    <img src="~/images/dessert2.jpg" class="d-block" alt="Desserts" style="width: 150px; height: 150px;">
-                    <h5>Fast Food</h5>
-                </div>
-            </div>
+        <div class="col text-center">
+            <a href="/Categories/Desserts" class="category-link">
+                <img src="@Url.Content("~/images/icons/breads.png")" class="icon" alt="Bakery Food">
+                <h5>Bakery Foods</h5>
+            </a>
         </div>
-    </div>
-
-    <!-- Carousel Controls -->
-    <button class="carousel-control-prev" type="button" data-bs-target="#categoryCarousel" data-bs-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Previous</span>
-    </button>
-    <button class="carousel-control-next" type="button" data-bs-target="#categoryCarousel" data-bs-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="visually-hidden">Next</span>
-    </button>
-</section>
-
-<section class="category-slider">
-    <!-- Carusell for categories, it is cooming here-->
-    <div class="slider">
-        <div class="slide">Fruit</div>
-        <div class="slide">Vegetable</div>
-        <div class="slide">Fast Food</div>
-        <!--More categories will be added here when decided-->
+        <div class="col text-center">
+            <a href="/Categories/Snacks" class="category-link">
+                <img src="@Url.Content("~/images/icons/daily-products.png")" class="icon" alt="Daily Product">
+                <h5>Daily Products</h5>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="/Categories/Drinks" class="category-link">
+                <img src="@Url.Content("~/images/icons/soft-drink.png")" class="icon" alt="Drinks">
+                <h5>Drinks</h5>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="/Categories/Other" class="category-link">
+                <img src="@Url.Content("~/images/icons/fast-food.png")" class="icon" alt="Other">
+                <h5>Other</h5>
+            </a>
+        </div>
     </div>
 </section>
 
 
+<!--Foods Table-->
 <div class="container-fluid">
     <!-- Card 1: Apple -->
     <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
