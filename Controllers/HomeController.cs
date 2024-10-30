@@ -23,6 +23,10 @@ public class HomeController : Controller
         return View();
     }
     
+    public ActionResult Category()
+    {
+        return View();
+    }
     public IActionResult NewProduct()
         {
             return View(); 
