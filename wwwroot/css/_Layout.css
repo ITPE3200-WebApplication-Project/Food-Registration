@@ -1,0 +1,297 @@
+/* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  background-color: #F8F7F5;
+}
+
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+  }
+  
+  a {
+    color: #0077cc;
+  }
+  
+  .btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+  }
+  
+  .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+  }
+  
+  .border-top {
+    border-top: 1px solid #e5e5e5;
+  }
+  .border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  .box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+  }
+  
+  button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+  }
+  
+  .search-form {
+    display: inline-block;
+    margin-left:20px;
+    margin-top:10px;
+  }
+  
+  .search-input {
+    padding: 5px;
+    border-radius: 5px;
+  }
+  
+  .search-button {
+    padding: 5px 10px;
+    background-color: #555;
+    border: none;
+    color: white;
+    cursor: pointer;
+  }
+
+  /* Category Carousel*/
+  #categoryCarousel{
+    margin:20px 0;
+    padding: 10px;
+    background-color:#f0f0f0
+  }
+
+  #categoryCarousel img {
+    object-fit:cover;
+  }
+
+  /* Carousel prev icon made visible */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: black; /* prev icon black */
+    border-radius: 50%; 
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: darkgray; /* Hover efekt */
+}
+  
+  /* Category Slayt */
+  .category-slider {
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #f0f0f0;
+  }
+  
+  .slider {
+    display: flex;
+    overflow-x: auto;
+  }
+  
+  .slide {
+    min-width: 150px;
+    margin-right: 10px;
+    background-color: #ccc;
+    padding: 20px;
+    text-align: center;
+  }
+ 
+  /* Card */
+.card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    text-align: center;
+    height: 300px; 
+    width: 18rem; 
+}
+
+
+  
+  /*Logo*/
+  .logo {
+    border-radius: 50%;
+    width: 100%;
+    max-width: 150px;
+    height: auto;
+    object-fit: cover;
+  }
+  
+  
+  /* Footer */
+  .footer {
+    padding: 10px;
+    text-align: center;
+    background-color: #333;
+    color:white;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    height: auto;
+    left: 0;
+    box-sizing: border-box;
+  }
+  
+  .item-count{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+    background-color: #e6f4f0;
+    text-align: center;
+    position: relative;
+    text-transform: uppercase;
+  }
+
+  .item-count span{
+    color: #262626;
+    font-weight: 500;
+    font-size: 16px;
+    margin-left: 8px;
+  }
+
+  .empty-list{
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    align-items: center;
+    padding: 65px 30px 45px 30px;
+    background-color: #F8F7F5;
+    height: 100%;
+  }
+
+  .btn-explore {
+    background-color: #28a745;
+    color: white;
+    width: 100%;
+    margin-top: 10px;
+    border-radius: 0 0 15px 15px;
+}
+
+/* Card container */
+.card {
+  width: 18rem;
+  display: inline-block;
+  margin: 10px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Top section of the card with image */
+.card-top {
+  position: relative;
+  height: 180px; 
+  overflow: hidden;
+}
+
+/* Card image styling */
+.card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Heart icon styling */
+.icon-heart-favoritt {
+  position: absolute;
+  width: 26px;
+  height: 30px;
+  right: 10px;
+  background: black;
+  border-radius: 0 0 20px 20px;
+  border: none;
+  z-index: 2;
+  padding: 0;
+  font-size: 15px;
+  color: #F8F7F5;
+}
+
+/* Card body styling */
+.card-body {
+  text-align: left; 
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+/* Title styling */
+.card-title {
+  align-self: flex-start; 
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 10px 0; 
+}
+
+/* Container for Nutrition Score and Read More button */
+.card-bottom {
+  display: flex;             
+  justify-content: space-between;
+  align-items: center;       
+  width: 100%;              
+  padding: 10px 0;          
+  margin-top: 10px;
+}
+
+/* Nutrition score styling */
+.nutrition-score {
+  width: 90px;
+  height: 48px;
+  object-fit: cover;
+  padding: 2px;
+  margin-left: 10px;
+}
+
+/* Styling for the Read More button */
+.btn-primary {
+  margin-right: 10px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+
+
+.icon-heart-button i {
+  position: absolute;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.produkt-liste-hjem {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; 
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.produkt-liste-hjem > .container-fluid {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
+}

@@ -1,0 +1,85 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\css\\_Layout.css",
+      "PackagePath": "staticwebassets\\css\\_Layout.css"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\Nutri-Score.jpg",
+      "PackagePath": "staticwebassets\\images\\Nutri-Score.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\apple.png",
+      "PackagePath": "staticwebassets\\images\\apple.png"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\apple2.jpg",
+      "PackagePath": "staticwebassets\\images\\apple2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\apple3.jpg",
+      "PackagePath": "staticwebassets\\images\\apple3.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\burger.jpg",
+      "PackagePath": "staticwebassets\\images\\burger.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\burgers.jpg",
+      "PackagePath": "staticwebassets\\images\\burgers.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\cake.jpg",
+      "PackagePath": "staticwebassets\\images\\cake.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\cakes.jpg",
+      "PackagePath": "staticwebassets\\images\\cakes.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\dessert.jpg",
+      "PackagePath": "staticwebassets\\images\\dessert.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\dessert2.jpg",
+      "PackagePath": "staticwebassets\\images\\dessert2.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\fastfoods.jpg",
+      "PackagePath": "staticwebassets\\images\\fastfoods.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\fruits.jpg",
+      "PackagePath": "staticwebassets\\images\\fruits.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\logo.png",
+      "PackagePath": "staticwebassets\\images\\logo.png"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\pizza.jpg",
+      "PackagePath": "staticwebassets\\images\\pizza.jpg"
+    },
+    {
+      "Id": "C:\\Users\\nasim\\OneDrive\\Dokumenter\\Webapplikasjoner - 24\\Food-Registration\\wwwroot\\images\\vegetables.jpg",
+      "PackagePath": "staticwebassets\\images\\vegetables.jpg"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Food-Registration.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Food-Registration.props",
+      "PackagePath": "build\\Food-Registration.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Food-Registration.props",
+      "PackagePath": "buildMultiTargeting\\Food-Registration.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Food-Registration.props",
+      "PackagePath": "buildTransitive\\Food-Registration.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
