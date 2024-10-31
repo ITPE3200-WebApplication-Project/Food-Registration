@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<IdentityUser> SignInManager
@@ -39,6 +40,8 @@
     
 </ul>
 =======
+=======
+>>>>>>> 2616024 (la til card)
 @using Microsoft.AspNetCore.Identity
 
 @inject SignInManager<IdentityUser> SignInManager
@@ -68,4 +71,48 @@
         </li>
     }
 </ul>
+<<<<<<< HEAD
 >>>>>>> 2350c4f (feat: add auth)
+=======
+=======
+@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<IdentityUser> SignInManager
+@inject UserManager<IdentityUser> UserManager
+
+<ul class="navbar-nav">
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index"
+                title="Manage">Hello @UserManager.GetUserName(User)!</a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout"
+                asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+                <button id="logout" type="submit" class="nav-link btn btn-link text-dark border-0">Logout</button>
+            </form>
+        </li>
+    }
+    else
+    {
+        <li class="nav-item">
+            <!-- Button to open the offcanvas drawer -->
+            <button class="nav-link btn btn-link text-dark border-0" data-bs-toggle="offcanvas" data-bs-target="#favoritesDrawer">
+                <i class="bi bi-heart"></i>
+                <span>Favoritt</span>
+            </button>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
+        </li>
+
+        <li class="nav-item">
+            <a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
+        </li>
+    }
+    
+</ul>
+>>>>>>> ca370ea (la til card)
+>>>>>>> 2616024 (la til card)

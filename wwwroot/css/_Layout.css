@@ -2,6 +2,10 @@
 for details on configuring this project to bundle and minify static web assets. */
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+=======
+>>>>>>> 2616024 (la til card)
 * {
   margin: 0;
   padding: 0;
@@ -13,8 +17,12 @@ body{
 }
 
 
+<<<<<<< HEAD
 =======
 >>>>>>> e6bfbe1 (added css file, added bilde)
+=======
+>>>>>>> ca370ea (la til card)
+>>>>>>> 2616024 (la til card)
 a.navbar-brand {
     white-space: normal;
     text-align: center;
@@ -29,9 +37,15 @@ a.navbar-brand {
     color: #fff;
     background-color: #1b6ec2;
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
     border-color: #1861ac;
 >>>>>>> e6bfbe1 (added css file, added bilde)
+=======
+    border-color: #1861ac;
+=======
+>>>>>>> ca370ea (la til card)
+>>>>>>> 2616024 (la til card)
   }
   
   .nav-pills .nav-link.active, .nav-pills .show > .nav-link {
@@ -128,6 +142,7 @@ a.navbar-brand {
   }
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
  
   /* Card */
 .card {
@@ -145,6 +160,8 @@ a.navbar-brand {
 =======
   
 =======
+=======
+>>>>>>> 2616024 (la til card)
   /*
 >>>>>>> 7beaeb0 (images  edited at the homepage)
   .card {
@@ -169,6 +186,9 @@ a.navbar-brand {
 =======
   } */
 
+=======
+ 
+>>>>>>> ca370ea (la til card)
   /* Card */
 .card {
     display: flex;
@@ -181,6 +201,7 @@ a.navbar-brand {
     width: 18rem; 
 }
 
+<<<<<<< HEAD
 /* Card Image */
 .card-img-top {
     border-radius: 60%; 
@@ -190,7 +211,13 @@ a.navbar-brand {
     margin-top: 10px;
 
 }
+<<<<<<< HEAD
 >>>>>>> 7beaeb0 (images  edited at the homepage)
+=======
+=======
+
+>>>>>>> ca370ea (la til card)
+>>>>>>> 2616024 (la til card)
   
   /*Logo*/
   .logo {
@@ -217,6 +244,11 @@ a.navbar-brand {
   }
 <<<<<<< HEAD
   
+<<<<<<< HEAD
+=======
+=======
+  
+>>>>>>> 2616024 (la til card)
   .item-count{
     display: flex;
     justify-content: center;
@@ -363,6 +395,10 @@ a.navbar-brand {
   align-items: flex-start;
   justify-content: flex-start;
 }
+<<<<<<< HEAD
 =======
   
 >>>>>>> e6bfbe1 (added css file, added bilde)
+=======
+>>>>>>> ca370ea (la til card)
+>>>>>>> 2616024 (la til card)
