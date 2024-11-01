@@ -2,10 +2,12 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+
+
 <div class="text-center">
     <h1 class="display-4">List over food registration </h1>
 </div>
-
 
 <section class = "searching-box">
     <div class="searching">
@@ -65,47 +67,26 @@
     </div>
 </section>
 
+<form method="get" action="/">
+    <div class="d-flex justify-content-center">
+        <div class="input-group mb-3">
+            <div style="border: 1px solid #ced4da; border-radius: 15px; display: flex; overflow: hidden; width: 700px;">
+                <input type="text" name="searching" class="form-control" 
+                       placeholder="Search products using product name or ID" value="@ViewData["Getproductlist"]" 
+                       name="ProductSearch" 
+                       style="border: none; border-radius: 0; width: 85%;">
+                <button value="search" class="btn btn-primary" type="submit"
+                        style="border: none; border-radius: 0; width: 15%;">Search</button>
+            </div>
 
-<!--Foods Table-->
+        </div>
+    </div>
+</form>
+
+
+
+
 <div class="container-fluid">
-    <!-- Card 1: Apple -->
-    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
-        <img class="card-img-top" src="@Url.Content("~/images/apple.png")" alt="Apple">
-        <div class="card-body">
-            <h5 class="card-title">Apple</h5>
-            <p>Calories: 50</p>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
-
-    <!-- Card 2: Burger -->
-    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
-        <img class="card-img-top" src="@Url.Content("~/images/burgers.jpg")" alt="Burger">
-        <div class="card-body">
-            <h5 class="card-title">Burger</h5>
-            <p>Calories: 300</p>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
-
-    <!-- Card 3: Cake -->
-    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
-        <img class="card-img-top" src="@Url.Content("~/images/cake.jpg")" alt="Cake">
-        <div class="card-body">
-            <h5 class="card-title">Cake</h5>
-            <p>Calories: 300</p>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
-
-    <!-- Card 4: pizza -->
-    <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
-        <img class="card-img-top" src="@Url.Content("~/images/pizza.jpg")" alt="Pizza">
-        <div class="card-body">
-            <h5 class="card-title">Pizza</h5>
-            <p>Calories: 300</p>
-            <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
-        </div>
-    </div>
+    <partial name="_SearchResultPartial" />
 </div>
 

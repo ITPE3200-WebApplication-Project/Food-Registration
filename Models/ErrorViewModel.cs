@@ -1,4 +1,4 @@
-namespace webapplikasjon.Models;
+namespace Food_Registration.Models;
 
 public class ErrorViewModel
 {

@@ -1,0 +1,19 @@
+@using Food_Registration.Models
+@model List<Product>
+
+@foreach (var product in Model)
+{
+  <div class="card" style="width: 18rem; display: inline-block; margin: 10px;">
+  <img class="card-img-top" src="@Url.Content("~/images/apple.png")" alt="Apple">
+  <div class="card-body">
+    <h5 class="card-title">@product.Name</h5>
+    <p>Calories: 50</p>
+    <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
+  </div>
+</div>
+}
+
+@if (Model.Count == 0)
+{
+  <p>No products found</p>
+}

@@ -1,0 +1,12 @@
+@using Food_Registration.ViewModels
+@model ProductsViewModel
+
+<h1>List of Products (@Model.CurrentViewName View)</h1>
+<a href="/Product/Table">Table View</a>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+    @foreach (var product in Model.Products)
+    {
+        <partial name="_ProductCard" model="@product" />
+    }
+</div>
