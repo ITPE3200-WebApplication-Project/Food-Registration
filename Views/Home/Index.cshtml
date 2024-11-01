@@ -9,13 +9,61 @@
     <h1 class="display-4">List over food registration </h1>
 </div>
 
-<section class="category-slider">
-    <!-- Carusell for categories, it is cooming here-->
-    <div class="slider">
-        <div class="slide">Fruit</div>
-        <div class="slide">Vegetable</div>
-        <div class="slide">Fast Food</div>
-        <!--More categories will be added here when decided-->
+<section class = "searching-box">
+    <div class="searching">
+        <!-- Search box-->
+        <form action = "/Search" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search..." class="search-input" />
+            <button type="submit" class="search-button">Search</button>
+        </form>
+    </div>
+</section>
+
+<!--Categoyr-bar While preparing the category bar, we were inspired from https://www.airbnb.no/ -->
+<section id="categoryLinks">
+    <div class="row">
+        <div class="col text-center">
+            <a href="@Url.Action("Category", "Home")" class="category-link">
+                <img src="@Url.Content("~/images/icons/basket.png")" class="icon" alt="Fruits">
+                <h5>Fruits</h5>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="@Url.Action("Category", "Home")" class="category-link">
+                <img src="@Url.Content("~/images/icons/vegetable.png")" class="icon" alt="Vegetables">
+                <h5>Vegetables</h5>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="@Url.Action("Category", "Home")" class="category-link">
+                <img src="@Url.Content("~/images/icons/proteins.png")" class="icon" alt="Meats">
+                <h5>Meats</h5>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="@Url.Action("Category", "Home")" class="category-link">
+                <img src="@Url.Content("~/images/icons/breads.png")" class="icon" alt="Bakery Food">
+                <h5>Bakery Foods</h5>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="@Url.Action("Category", "Home")" class="category-link">
+                <img src="@Url.Content("~/images/icons/daily-products.png")" class="icon" alt="Dairy">
+                <h5>Dairy</h5>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="@Url.Action("Category", "Home")" class="category-link">
+                <img src="@Url.Content("~/images/icons/soft-drink.png")" class="icon" alt="Drinks">
+                <h5>Drinks</h5>
+            </a>
+        </div>
+        <div class="col text-center">
+            <a href="@Url.Action("Category", "Home")" class="category-link">
+                <img src="@Url.Content("~/images/icons/fast-food.png")" class="icon" alt="Other">
+                <h5>Other</h5>
+            </a>
+        </div>
     </div>
 </section>
 
@@ -30,6 +78,7 @@
                 <button value="search" class="btn btn-primary" type="submit"
                         style="border: none; border-radius: 0; width: 15%;">Search</button>
             </div>
+
         </div>
     </div>
 </form>

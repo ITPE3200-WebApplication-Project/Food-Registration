@@ -31,6 +31,51 @@ a {
   border-bottom: 1px solid #e5e5e5;
 }
 
+  /*category Homepage
+   /* Icon Styles */
+.icon {
+  width: 40px; /* Width of the icons */
+  height: 40px; /* Height of the icons */
+  margin: 10px 10px; /* Vertical space between icons */
+  transition: transform 0.2s; /* Smooth scale transition */
+}
+
+/* Styles for titles */
+h5 {
+  font-size: 1rem; /* Font size for titles */
+  margin-top: 5px; /* Top margin for titles */
+  color: black; /* Normal text color */
+  transition: color 0.2s, text-decoration 0.2s; /* Transition for color and underline */
+}
+
+/* Links to categories */
+.category-link {
+  text-decoration: none; /* No underline by default */
+  color: black; /* Text color */
+  display: flex; /* Flexbox for layout */
+  flex-direction: column; /* Stack icon and title */
+  align-items: center; /* Center align */
+}
+
+/* Hover effects */
+.category-link:hover .icon {
+  transform: scale(1.2); /* Enlarge icon on hover */
+}
+
+.category-link:hover h5 {
+  color: blue; /* Change text color on hover */
+  text-decoration: underline; /* Underline text on hover */
+}
+
+/* Center the text within columns */
+.row .col {
+  display: flex; /* Use flexbox for alignment */
+  flex-direction: column; /* Align items in a column */
+  align-items: center; /* Center items horizontally */
+  text-align: center; /* Center text */
+}
+  
+/* Card in Foods Table in Homepage*/
 .box-shadow {
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
 }
