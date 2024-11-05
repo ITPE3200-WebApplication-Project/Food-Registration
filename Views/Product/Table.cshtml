@@ -1,21 +1,29 @@
 @using Food_Registration.ViewModels
 @model ProductsViewModel
-    <div class="container">
+  
+    <div class="container my-4">
         <h1> @ViewBag.CurrentViewName </h1>
         <table class="table table-striped">
             <tr>
               <th>Product ID</th>
               <th> Name </th>
-              <th>Description</th>
+              <td> Update </td>
+              <td> Delete </td>
             </tr>
      @foreach (var product in Model.Products)
       {
         <tr>
             <td>@product.ProductId</td>
             <td>@product.Name</td>
-            <td>@product.Description</td>
+            <td>
+                    <a asp-action="Update" asp-route-id="@product.ProductId">Update</a>
+            </td>
+            <td>
+                    <a asp-action="Delete" asp-route-id="@product.ProductId">Delete</a>
+            </td>
         </tr>
       }
       
         </table>
-    </div>    
+    </div>
+  </div>   

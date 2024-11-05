@@ -55,4 +55,52 @@ public class ProductController : Controller
       return NotFound();
     return View(product);
   }
+
+
+[HttpGet]
+public IActionResult Update(int id)
+{
+    var product = _ProductDbContext.Products.FirstOrDefault(p => p.ProductId == id);
+    if (product == null)
+    {
+        return NotFound();
+    }
+    return View(product); // View Only product taht is choiced
+}
+
+[HttpPost]
+    public IActionResult Update(Product Products)
+    {
+        if (ModelState.IsValid)
+        {
+            _ProductDbContext.Products.Update(Products);
+            _ProductDbContext.SaveChanges();
+            return RedirectToAction(nameof(Table));
+        }
+        return View(Products);//show if there is feil.
+    }
+
+    [HttpGet]
+    public IActionResult Delete(int id)
+    {
+        var item = _ProductDbContext.Products.Find(id);
+        if (item == null)
+        {
+            return NotFound();
+        }
+        return View(item);
+    }
+
+    [HttpPost]
+    public IActionResult DeleteConfirmed(int id)
+    {
+        var item = _ProductDbContext.Products.Find(id);
+        if (item == null)
+        {
+            return NotFound();
+        }
+        _ProductDbContext.Products.Remove(item);
+        _ProductDbContext.SaveChanges();
+        return RedirectToAction(nameof(Table));
+    }
 }
