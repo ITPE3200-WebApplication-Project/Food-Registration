@@ -1,0 +1,78 @@
+@model Food_Registration.Models.Product
+
+<div class="container my-4">
+    <div class"card shadow-sm>
+        <div class="card body">
+            <h2 class="card-title text-center mb-4">Update Product</h2>
+            <div class="row">
+                <!-- For image-->
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <img src="@Model.ImageUrl" alt="@Model.Name" class="img-fluid rounded shadow-sm" style="max-width: 100%; max-height: 300px;" />
+                </div>
+
+                <!--For information-->
+                 <div class="col-md-8">
+                    <form asp-action="Update">
+                        <input type="hidden" asp-for="ProductId" />
+                        
+                        <!--Products Information-->
+                        <div class="form-group mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Category" class="form-label"></label>
+                            <input asp-for="Category" class="form-control" />
+                            <span asp-validation-for="Category" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Calorie" class="form-label"></label>
+                            <input asp-for="Calorie" class="form-control" />
+                            <span asp-validation-for="Calorie" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Carbonhydrate" class="form-label"></label>
+                            <input asp-for="Carbonhydrate" class="form-control" />
+                            <span asp-validation-for="Carbonhydrate" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Fat" class="form-label"></label>
+                            <input asp-for="Fat" class="form-control" />
+                            <span asp-validation-for="Fat" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Protein" class="form-label"></label>
+                            <input asp-for="Protein" class="form-control" />
+                            <span asp-validation-for="Protein" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group mb-3">
+                            <label asp-for="Description" class="form-label"></label>
+                            <textarea asp-for="Description" class="form-control"></textarea>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+
+                        <!-- Resim URL Girişi -->
+                        <div class="form-group mb-3">
+                            <label asp-for="ImageUrl" class="form-label"></label>
+                            <input asp-for="ImageUrl" class="form-control" />
+                            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                        </div>
+
+                        <!-- Button -->
+                        <div class="d-flex justify-content-end mt-3">
+                            <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+                            <a asp-action="Table" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
