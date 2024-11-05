@@ -31,30 +31,30 @@ a {
   border-bottom: 1px solid #e5e5e5;
 }
 
-  /*category Homepage
+/*category Homepage
    /* Icon Styles */
 .icon {
-  width: 2.5rem; 
-  height: 2.5rem; 
+  width: 2.5rem;
+  height: 2.5rem;
   margin: 0.6rem 0.6rem; /* Vertical space between icons */
   transition: transform 0.2s; /* Smooth scale transition */
 }
 
 /* Styles for titles */
 h5 {
-  font-size: 1rem; 
+  font-size: 1rem;
   margin-top: 0.3rem;
-  color: black; 
+  color: black;
   transition: color 0.2s, text-decoration 0.2s; /* Transition for color and underline */
 }
 
 /* Links to categories */
 .category-link {
   text-decoration: none; /* No underline by default */
-  color: black; 
-  display: flex; 
+  color: black;
+  display: flex;
   flex-direction: column; /* Stack icon and title */
-  align-items: center; 
+  align-items: center;
 }
 
 /* Hover effects */
@@ -71,10 +71,10 @@ h5 {
 .row .col {
   display: flex; /* Use flexbox for alignment */
   flex-direction: column; /* Align items in a column */
-  align-items: center; 
-  text-align: center; 
+  align-items: center;
+  text-align: center;
 }
-  
+
 .box-shadow {
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
 }
@@ -83,7 +83,6 @@ button.accept-policy {
   font-size: 1rem;
   line-height: inherit;
 }
-
 
 /* Card in Foods Table in Homepage*/
 /* Card */
@@ -128,4 +127,113 @@ button.accept-policy {
   height: auto;
   left: 0;
   box-sizing: border-box;
+}
+
+/* Card container */
+.card {
+  width: 18rem;
+  display: inline-block;
+  margin: 10px;
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Top section of the card with image */
+.card-top {
+  position: relative;
+  height: 180px;
+  overflow: hidden;
+}
+
+/* Card image styling */
+.card-img-top {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Heart icon styling */
+.icon-heart-favoritt {
+  position: absolute;
+  width: 26px;
+  height: 30px;
+  right: 10px;
+  background: black;
+  border-radius: 0 0 20px 20px;
+  border: none;
+  z-index: 2;
+  padding: 0;
+  font-size: 15px;
+  color: #f8f7f5;
+}
+
+/* Card body styling */
+.card-body {
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 1rem;
+}
+
+/* Title styling */
+.card-title {
+  align-self: flex-start;
+  font-size: 16px;
+  line-height: 1.5;
+  margin: 0 0 10px 0;
+}
+
+/* Container for Nutrition Score and Read More button */
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 10px 0;
+  margin-top: 10px;
+}
+
+/* Nutrition score styling */
+.nutrition-score {
+  width: 90px;
+  height: 48px;
+  object-fit: cover;
+  padding: 2px;
+  margin-left: 10px;
+}
+
+/* Styling for the Read More button */
+.btn-primary {
+  margin-right: 10px;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.icon-heart-button i {
+  position: absolute;
+  color: white;
+  font-size: 1.2rem;
+}
+
+.produkt-liste-hjem {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.produkt-liste-hjem > .container-fluid {
+  width: 25%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: flex-start;
 }

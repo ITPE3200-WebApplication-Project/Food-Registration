@@ -25,43 +25,43 @@ public static class DBInit
                 {
                     Name = "Fried Chicken Leg",
                     Description = "Crispy and succulent chicken leg that is deep-fried to perfection, often served as a popular fast food Product.",
-                    ImageUrl = "/images/chickenleg.jpg"
+                    ImageUrl = "/images/pizza.jpg"
                 },
                 new Product
                 {
                     Name = "French Fries",
                     Description = "Crispy, golden-brown potato slices seasoned with salt and often served as a popular side dish or snack.",
-                    ImageUrl = "/images/frenchfries.jpg"
+                    ImageUrl = "/images/pizza.jpg"
                 },
                 new Product
                 {
                     Name = "Grilled Ribs",
                     Description = "Tender and flavorful ribs grilled to perfection, usually served with barbecue sauce.",
-                    ImageUrl = "/images/ribs.jpg"
+                    ImageUrl = "/images/pizza.jpg"
                 },
                 new Product
                 {
                     Name = "Tacos",
                     Description = "Tortillas filled with various ingredients such as seasoned meat, vegetables, and salsa, folded into a delicious handheld meal.",
-                    ImageUrl = "/images/tacos.jpg"
+                    ImageUrl = "/images/pizza.jpg"
                 },
                 new Product
                 {
                     Name = "Fish and Chips",
                     Description = "Classic British dish featuring battered and deep-fried fish served with thick-cut fried potatoes.",
-                    ImageUrl = "/images/fishandchips.jpg"
+                    ImageUrl = "/images/pizza.jpg"
                 },
                 new Product
                 {
                     Name = "Cider",
                     Description = "Refreshing alcoholic beverage made from fermented apple juice, available in various flavors.",
-                    ImageUrl = "/images/cider.jpg"
+                    ImageUrl = "/images/pizza.jpg"
                 },
                 new Product
                 {
                     Name = "Coke",
                     Description = "Popular carbonated soft drink known for its sweet and refreshing taste.",
-                    ImageUrl = "/images/coke.jpg"
+                    ImageUrl = "/images/pizza.jpg"
                 },
             };
             context.AddRange(products);
