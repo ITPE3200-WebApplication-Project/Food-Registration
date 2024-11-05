@@ -1,18 +1,27 @@
 @using Food_Registration.Models
 @model Product
-<div class="col">
-    <div>
-        <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Name">
-        <div>
-            <div class="d-flex justify-content-between mt-2">
-                <h5 class="text-start">
-                    <a asp-controller="Product"
-                        asp-action="Details"
-                        asp-route-id="@Model.ProductId">@Model.Name</a>
-                </h5>
-                <h5 class="text-nowrap">
-                    @Model.Description
-                </h5>
+<div class="container-fluid">
+    <div class="card">
+        <div class="card-top">
+            <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name">
+
+            <button class="icon-heart-favoritt">
+                <i class="bi bi-heart-fill"></i>
+                <!--<span>Apple- legg item til favoritter function</span>-->
+            </button>
+        </div>
+
+        <div class="card-body">
+            <h5 class="card-title">
+                <span>@Model.Name</span>
+            </h5>
+            <div class="card-bottom">
+                <div>
+                    <img class="nutrition-score" src="@Url.Content("~/images/nutri-Score.jpg")" alt="Nutrition score">
+                </div>
+                <div>
+                    <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
+                </div>
             </div>
         </div>
     </div>
