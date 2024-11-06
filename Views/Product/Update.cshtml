@@ -34,20 +34,23 @@
                             <span asp-validation-for="Calorie" class="text-danger"></span>
                         </div>
 
+                         <!-- 100g Değerleri Başlıkları -->
+                        <h5 class="mt-4">Nutritional Values per 100g for Carbohydrate, Fat, Protein</h5>
+
                         <div class="form-group mb-3">
-                            <label asp-for="Carbonhydrate" class="form-label"></label>
-                            <input asp-for="Carbonhydrate" class="form-control" />
-                            <span asp-validation-for="Carbonhydrate" class="text-danger"></span>
+                            <label asp-for="Carbohydrate" class="form-label">Carbohydrate (mg)</label>
+                            <input asp-for="Carbohydrate" class="form-control" />
+                            <span asp-validation-for="Carbohydrate" class="text-danger"></span>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label asp-for="Fat" class="form-label"></label>
+                            <label asp-for="Fat" class="form-label">Fat (mg)</label>
                             <input asp-for="Fat" class="form-control" />
                             <span asp-validation-for="Fat" class="text-danger"></span>
                         </div>
 
                         <div class="form-group mb-3">
-                            <label asp-for="Protein" class="form-label"></label>
+                            <label asp-for="Protein" class="form-label">Protein (mg)</label>
                             <input asp-for="Protein" class="form-control" />
                             <span asp-validation-for="Protein" class="text-danger"></span>
                         </div>
@@ -58,15 +61,19 @@
                             <span asp-validation-for="Description" class="text-danger"></span>
                         </div>
 
-                        <!-- Resim URL Girişi -->
+                        <!-- Image URL  -->
                         <div class="form-group mb-3">
                             <label asp-for="ImageUrl" class="form-label"></label>
                             <input asp-for="ImageUrl" class="form-control" />
                             <span asp-validation-for="ImageUrl" class="text-danger"></span>
                         </div>
 
+                        <div class="alert alert-info" role="alert">
+                            Note: Please use a comma for decimal numbers (e.g., 1,5 instead of 1.5).
+                        </div>
+
                         <!-- Button -->
-                        <div class="d-flex justify-content-end mt-3">
+                        <div class="d-flex justify-content-end mt-3" style="margin: 20px;">
                             <button type="submit" class="btn btn-primary me-2">Save Changes</button>
                             <a asp-action="Table" class="btn btn-secondary">Cancel</a>
                         </div>
