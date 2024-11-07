@@ -7,18 +7,16 @@
     <div class="d-flex justify-content-center">
         <div class="input-group mb-3">
             <div style="border: 1px solid #ced4da; border-radius: 15px; display: flex; overflow: hidden; width: 700px;">
-                <input type="text" name="searching" class="form-control" 
-                       placeholder="Search products using product name or ID" value="@ViewData["Getproductlist"]" 
-                       name="ProductSearch" 
-                       style="border: none; border-radius: 0; width: 85%;">
+                <input type="text" name="searching" class="form-control"
+                    placeholder="Search products using product name or ID" value="@ViewData["Getproductlist"]"
+                    name="ProductSearch" style="border: none; border-radius: 0; width: 85%;">
                 <button value="search" class="btn btn-primary" type="submit"
-                        style="border: none; border-radius: 0; width: 15%;">Search</button>
+                    style="border: none; border-radius: 0; width: 15%;">Search</button>
             </div>
 
         </div>
     </div>
 </form>
-
 
 <div class="text-center">
     <h1 class="display-4">List over food registration </h1>
@@ -84,4 +82,3 @@
 <div class="container-fluid">
     <partial name="_SearchResultPartial" />
 </div>
-
