@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Food_Registration.Controllers;
 
@@ -42,9 +43,23 @@ public class HomeController : Controller
         return View();
     }
 
+    [Authorize]
     public IActionResult NewProduct()
     {
         return View();
+    }
+
+    [Authorize]
+    [HttpPost]
+    public IActionResult NewProduct(Product Products)
+    {
+        if (ModelState.IsValid)
+        {
+            _ProductDbContext.Products.Update(Products);
+            _ProductDbContext.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        return View(Products);//show if there is feil.
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
