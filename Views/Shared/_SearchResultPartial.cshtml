@@ -1,10 +1,12 @@
 @using Food_Registration.Models
 @model List<Product>
 
-@foreach (var product in Model)
-{
+
 <div class="container-fluid">
-    <div class="card">
+    <div class="row">
+    @foreach (var product in Model) 
+    {
+        <div class="card">
         <div class="card-top">
             <img class="card-img-top" src="@product.ImageUrl" alt="@product.Name">
 
@@ -20,7 +22,7 @@
             </h5>
             <div class="card-bottom">
                 <div>
-                    <img class="nutrition-score" src="@Url.Content("~/images/nutri-Score.jpg")" alt="Nutrition score">
+                    <img class="nutrition-score" src="@Url.Content("~/images/nutri-Score.jpg")" alt="Nutrition score" style="width: 100px; height: 50px;">
                 </div>
                 <div>
                     <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
@@ -28,8 +30,11 @@
             </div>
         </div>
     </div>
+    }
+    
+    </div>
 </div>
-}
+
 
 @if (Model.Count == 0)
 {

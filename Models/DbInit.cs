@@ -72,8 +72,8 @@ public static class DBInit
         {
             var producers = new List<Producer>
             {
-                new Producer { name = "Orkla", description = "Orkla is a leading supplier of branded consumer goods and concept solutions to the grocery, out-of-home, specialized retail, pharmacy and bakery sectors." },
-                new Producer { name ="Nestle", description = "Nestle is the world's largest food and beverage company. We have more than 2000 brands ranging from global icons to local favorites, and we are present in 191 countries around the world." },
+                new Producer { Name = "Orkla", Description = "Orkla is a leading supplier of branded consumer goods and concept solutions to the grocery, out-of-home, specialized retail, pharmacy and bakery sectors." },
+                new Producer { Name ="Nestle", Description = "Nestle is the world's largest food and beverage company. We have more than 2000 brands ranging from global icons to local favorites, and we are present in 191 countries around the world." },
             };
             context.AddRange(producers);
             context.SaveChanges();
