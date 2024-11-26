@@ -102,7 +102,7 @@ public IActionResult Update(int id)
         _ProductDbContext.Products.Remove(item);
         _ProductDbContext.SaveChanges();
 
-         //Set ViewBag.DeletionSuccess to true when the product is successfully deleted.
+        //Set ViewBag.DeletionSuccess to true when the product is successfully deleted.
         ViewBag.DeletionSuccess = true;
 
         return RedirectToAction(nameof(Table));
