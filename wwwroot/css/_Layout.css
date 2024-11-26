@@ -1,9 +1,8 @@
 /* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-body{
-  background-color: #F8F7F5;
-
+body {
+  background-color: #f8f7f5;
 }
 a.navbar-brand {
   white-space: normal;
@@ -88,7 +87,6 @@ button.accept-policy {
   line-height: inherit;
 }
 
-
 /*Logo*/
 .logo {
   border-radius: 50%;
@@ -112,7 +110,6 @@ button.accept-policy {
   box-sizing: border-box;
 }
 
-
 .card {
   width: 18rem;
   height: 20rem;
@@ -125,7 +122,7 @@ button.accept-policy {
   padding: none;
 }
 
-.card-img-top{
+.card-img-top {
   width: 100%;
   height: 60%;
   object-fit: cover;
@@ -140,15 +137,15 @@ button.accept-policy {
   padding: 1rem;
 }
 
-/* Container for Nutrition Score and Read More button */x
-.card-bottom{
+/* Container for Nutrition Score and Read More button */
+x .card-bottom {
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
 }
 
-.nutrition-score{
+.nutrition-score {
   width: 90px;
   height: 48px;
   object-fit: cover;
@@ -182,12 +179,12 @@ button.accept-policy {
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-  background-color: #006349 ;
+  background-color: #006349;
   border-color: #006349;
 }
 
-.card-title:hover{
-  color: #00805C;
+.card-title:hover {
+  color: #00805c;
   text-decoration: underline;
 }
 
@@ -197,9 +194,7 @@ button.accept-policy {
   font-size: 16px;
   line-height: 1.5;
   margin: 20px;
-
 }
-
 
 .produkt-liste-hjem {
   display: flex;
@@ -218,4 +213,94 @@ button.accept-policy {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+}
+
+/* Product Card Styling */
+.product-card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+  height: 100%;
+  overflow: hidden;
+}
+
+.product-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+.product-content {
+  padding: 1.5rem;
+}
+
+.product-title {
+  font-size: 1.1rem;
+  margin: 0 0 1rem 0;
+  color: #333;
+  font-weight: 500;
+}
+
+.product-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.nutrition-score {
+  width: 80px;
+  height: auto;
+  margin: 0;
+  position: static;
+}
+
+.btn-primary {
+  background-color: #00805c;
+  border: none;
+  padding: 0.5rem 1.25rem;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: #006349;
+}
+
+/* Remove old card styles that might conflict */
+.card {
+  width: auto;
+  height: auto;
+  margin: 0;
+}
+
+.card-body-description {
+  padding: 0;
+}
+
+.nutrition-item {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.nutrition-item strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+.nutrition-item p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #212529;
+}
+
+.producer-info {
+  background-color: #f8f9fa;
+}
+
+.producer-logo {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

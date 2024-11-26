@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Food_Registration.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20241125155222_FirstEdit")]
-    partial class FirstEdit
+    [Migration("20241126175952_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,10 @@ namespace Food_Registration.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("OwnerId")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
@@ -69,14 +73,15 @@ namespace Food_Registration.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProducerId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProducerId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("Protein")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ProductId");
+
+                    b.HasIndex("ProducerId");
 
                     b.ToTable("Products");
                 });
@@ -275,6 +280,17 @@ namespace Food_Registration.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Food_Registration.Models.Product", b =>
+                {
+                    b.HasOne("Food_Registration.Models.Producer", "Producer")
+                        .WithMany()
+                        .HasForeignKey("ProducerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Producer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

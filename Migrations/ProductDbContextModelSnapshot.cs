@@ -33,6 +33,10 @@ namespace Food_Registration.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("OwnerId")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
                     b.HasKey("ProducerId");
 
                     b.ToTable("Producers");
@@ -66,14 +70,15 @@ namespace Food_Registration.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("ProducerId")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
+                    b.Property<int>("ProducerId")
+                        .HasColumnType("INTEGER");
 
                     b.Property<decimal?>("Protein")
                         .HasColumnType("TEXT");
 
                     b.HasKey("ProductId");
+
+                    b.HasIndex("ProducerId");
 
                     b.ToTable("Products");
                 });
@@ -272,6 +277,17 @@ namespace Food_Registration.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens", (string)null);
+                });
+
+            modelBuilder.Entity("Food_Registration.Models.Product", b =>
+                {
+                    b.HasOne("Food_Registration.Models.Producer", "Producer")
+                        .WithMany()
+                        .HasForeignKey("ProducerId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Producer");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
