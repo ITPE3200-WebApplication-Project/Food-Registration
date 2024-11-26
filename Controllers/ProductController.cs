@@ -37,6 +37,21 @@ public class ProductController : Controller
   [Authorize]
   public IActionResult Table()
   {
+    var currentUserId = User.Identity?.Name;
+
+    if (string.IsNullOrEmpty(currentUserId))
+    {
+      return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+    }
+
+    var producerExists = _ProductDbContext.Producers?
+        .Any(p => p.OwnerId == currentUserId);
+
+    if (!producerExists ?? true)
+    {
+      return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+    }
+
     List<Product> products = _ProductDbContext.Products?.ToList() ?? new List<Product>();
     var ProductsViewModel = new ProductsViewModel(products, "Table");
 
