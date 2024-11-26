@@ -1,5 +1,4 @@
 using Food_Registration.Models;
-
 namespace Food_Registration.Models;
 
 public static class DBInit
@@ -8,9 +7,9 @@ public static class DBInit
     {
         using var serviceScope = app.ApplicationServices.CreateScope();
         ProductDbContext context = serviceScope.ServiceProvider.GetRequiredService<ProductDbContext>();
-        
 
-        if (!context.Products.Any())
+
+        if (!(context.Products?.Any() ?? false))
         {
             var products = new List<Product>
             {
@@ -75,7 +74,7 @@ public static class DBInit
             context.SaveChanges();
         }
 
-        if (!context.Producers.Any())
+        if (!(context.Producers?.Any() ?? false))
         {
             var producers = new List<Producer>
             {

@@ -20,6 +20,11 @@ public class HomeController : Controller
 
     async public Task<IActionResult> Index(string searching, string category)
     {
+        if (_ProductDbContext?.Products == null)
+        {
+            return Problem("Entity set 'ProductDbContext.Products' is null.");
+        }
+
         var productQuery = _ProductDbContext.Products.AsQueryable();
 
         if (!string.IsNullOrEmpty(searching))
@@ -31,7 +36,7 @@ public class HomeController : Controller
         // Legg til kategorifiltrering hvis en kategori er spesifisert
         if (!string.IsNullOrEmpty(category))
         {
-            productQuery = productQuery.Where(x => x.Category.ToLower() == category.ToLower());
+            productQuery = productQuery.Where(x => x.Category != null && x.Category.ToLower() == category.ToLower());
         }
 
         var products = await productQuery.AsNoTracking().ToListAsync();
@@ -43,7 +48,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    
+
     public ActionResult Category()
     {
         return View();
@@ -59,13 +64,13 @@ public class HomeController : Controller
     [HttpPost]
     public IActionResult NewProduct(Product Products)
     {
-        if (ModelState.IsValid)
+        if (ModelState.IsValid && _ProductDbContext != null)
         {
-            _ProductDbContext.Products.Update(Products);
-            _ProductDbContext.SaveChanges();
+            _ProductDbContext?.Products?.Update(Products);
+            _ProductDbContext?.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
-        return View(Products);//show if there is feil.
+        return View(Products);
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
