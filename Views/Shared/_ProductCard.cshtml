@@ -2,23 +2,18 @@
 @model Product
 <div class="container-fluid">
     <div class="card">
-        <div class="card-top">
             <img class="card-img-top" src="@Model.ImageUrl" alt="@Model.Name">
-
-            <button class="icon-heart-favoritt">
-                <i class="bi bi-heart-fill"></i>
-                <!--<span>Apple- legg item til favoritter function</span>-->
-            </button>
-        </div>
 
         <div class="card-body">
             <h5 class="card-title">
                 <span>@Model.Name</span>
             </h5>
+
             <div class="card-bottom">
                 <div>
                     <img class="nutrition-score" src="@Url.Content("~/images/nutri-Score.jpg")" alt="Nutrition score">
                 </div>
+
                 <div>
                     <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary">Read More</a>
                 </div>
