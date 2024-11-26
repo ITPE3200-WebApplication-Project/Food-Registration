@@ -44,18 +44,28 @@ public class ProductController : Controller
       return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
     }
 
-    var producerExists = _ProductDbContext.Producers?
-        .Any(p => p.OwnerId == currentUserId);
+    // Get all producers owned by current user
+    var userProducerIds = _ProductDbContext.Producers?
+        .Where(p => p.OwnerId == currentUserId)
+        .Select(p => p.ProducerId)
+        .ToList();
 
-    if (!producerExists ?? true)
+    if (userProducerIds == null || !userProducerIds.Any())
     {
       return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
     }
 
-    List<Product> products = _ProductDbContext.Products?.ToList() ?? new List<Product>();
-    var ProductsViewModel = new ProductsViewModel(products, "Table");
+    // Get all products that belong to the user's producers
+    var products = _ProductDbContext.Products?
+        .Where(p => userProducerIds.Contains(p.ProducerId))
+        .ToList();
 
-    return View(ProductsViewModel);
+    var viewModel = new ProductsViewModel(
+        products ?? new List<Product>(),
+        "Table"
+    );
+
+    return View(viewModel);
   }
 
   [Authorize]

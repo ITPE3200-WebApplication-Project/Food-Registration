@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Food_Registration.Controllers;
 
@@ -64,13 +65,33 @@ public class HomeController : Controller
             return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
         }
 
-        var producerExists = _ProductDbContext.Producers?
-            .Any(p => p.OwnerId == currentUserId);
+        // Get producers owned by current user
+        var userProducers = _ProductDbContext.Producers?
+            .Where(p => p.OwnerId == currentUserId)
+            .ToList();
 
-        if (!producerExists ?? true)
+        if (userProducers == null || !userProducers.Any())
         {
             return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
         }
+
+        // Create SelectList for producers dropdown
+        ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
+
+        // Create SelectList for categories dropdown
+        var categories = new List<string>
+        {
+            "Fruits",
+            "Vegetables",
+            "Meat",
+            "Fish",
+            "Dairy",
+            "Grains",
+            "Beverages",
+            "Snacks",
+            "Other"
+        };
+        ViewBag.Categories = new SelectList(categories);
 
         return View();
     }

@@ -154,23 +154,23 @@ x .card-bottom {
   padding: 2px;
 }
 
-.btn-primary {
+/* .btn-primary{
   position: absolute;
   left: 170px;
   white-space: nowrap;
   top: 260px;
 }
-*/
+  */
 
 /* Styling for the Read More button 
 .btn-primary {
   margin-right: 10px;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  background-color: #00805c;
-  border-color: #00805c;
+  background-color: #00805C ;
+  border-color: #00805C ;
 }
-
+*/
 .btn-primary a {
   color: white;
   text-decoration: none;
@@ -213,8 +213,4 @@ x .card-bottom {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-}
-
-.card {
-  margin: 0 2rem; /* Add some margin on the sides */
 }

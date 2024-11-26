@@ -86,29 +86,33 @@ namespace Food_Registration.Controllers
     [ValidateAntiForgeryToken]
     public IActionResult Edit(Producer producer)
     {
-      if (ModelState.IsValid)
+      if (!ModelState.IsValid)
       {
-        var currentUserId = User.Identity?.Name;
-        var existingProducer = _ProductDbContext.Producers?.FirstOrDefault(p => p.ProducerId == producer.ProducerId);
-
-        if (existingProducer == null)
-        {
-          return NotFound();
-        }
-
-        if (existingProducer.OwnerId != currentUserId)
-        {
-          return Redirect($"/Producer/Index?error={Uri.EscapeDataString("You can only edit your own producers")}");
-        }
-
-        // Update only allowed fields
-        existingProducer.Name = producer.Name;
-        existingProducer.Description = producer.Description;
-        existingProducer.ImageUrl = producer.ImageUrl;
-
-        _ProductDbContext.SaveChanges();
-        return RedirectToAction(nameof(Index));
+        return View(producer);
       }
-      return View(producer);
+
+      var currentUserId = User.Identity?.Name;
+      var existingProducer = _ProductDbContext.Producers?.FirstOrDefault(p => p.ProducerId == producer.ProducerId);
+
+      if (existingProducer == null)
+      {
+        return NotFound();
+      }
+
+      // Verify ownership before allowing edit
+      if (existingProducer.OwnerId != currentUserId)
+      {
+        return Redirect($"/Producer/Index?error={Uri.EscapeDataString("You can only edit your own producers")}");
+      }
+
+      // Update only allowed fields
+      existingProducer.Name = producer.Name;
+      existingProducer.Description = producer.Description;
+      existingProducer.ImageUrl = producer.ImageUrl;
+      // Do not update OwnerId as it should remain unchanged
+
+      _ProductDbContext.SaveChanges();
+      return RedirectToAction(nameof(Index));
     }
   }
+}
