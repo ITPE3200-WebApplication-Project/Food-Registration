@@ -64,7 +64,7 @@
 </section>
 
 <!--Table-->
-<div class="container-fluid">
+<div class="container-fluid mt-4">
     @if (Model.Count == 0)
     {
         <div class="text-center py-5">
@@ -90,31 +90,20 @@
     }
     else
     {
-        <div class="row g-0">
+        <div class="row g-4">
             @foreach (var product in Model)
             {
-                <div class="col-3 d-flex">
-                    <div class="card">
-
-                        <img class="card-img-top" src="@product.ImageUrl" alt="@product.Name">
-
-
-                        <div class="card-body-description">
-                            <h5 class="card-title">
-                                <span>@product.Name</span>
-                            </h5>
-
-                            <div class="card-bottom">
-                                <div>
-                                    <img class="nutrition-score" src="@Url.Content("~/images/Nutri/Nutri-score-A.svg.png")"
-                                        alt="Nutrition score">
-
-                                </div>
-                                <div>
-                                    <button class="btn btn-primary btn-card">
-                                        <a href="@Url.Action("ReadMore", "Home")">Read More</a>
-                                    </button>
-                                </div>
+                <div class="col-12 col-sm-6 col-md-4 col-lg-3">
+                    <div class="product-card">
+                        <img class="product-image" src="@product.ImageUrl" alt="@product.Name">
+                        <div class="product-content">
+                            <h5 class="product-title">@product.Name</h5>
+                            <div class="product-footer">
+                                <img class="nutrition-score" src="@Url.Content("~/images/Nutri/Nutri-score-A.svg.png")"
+                                    alt="Nutrition score">
+                                <a href="@Url.Action("ReadMore", "Home")" class="btn btn-primary rounded-pill">
+                                    Read More
+                                </a>
                             </div>
                         </div>
                     </div>
