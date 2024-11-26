@@ -8,8 +8,7 @@ public static class DBInit
     {
         using var serviceScope = app.ApplicationServices.CreateScope();
         ProductDbContext context = serviceScope.ServiceProvider.GetRequiredService<ProductDbContext>();
-        context.Database.EnsureDeleted();
-        context.Database.EnsureCreated();
+        
 
         if (!context.Products.Any())
         {
