@@ -1,9 +1,8 @@
 /* Please see documentation at https://learn.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
-body{
-  background-color: #F8F7F5;
-
+body {
+  background-color: #f8f7f5;
 }
 a.navbar-brand {
   white-space: normal;
@@ -88,7 +87,6 @@ button.accept-policy {
   line-height: inherit;
 }
 
-
 /*Logo*/
 .logo {
   border-radius: 50%;
@@ -112,7 +110,6 @@ button.accept-policy {
   box-sizing: border-box;
 }
 
-
 .card {
   width: 18rem;
   height: 20rem;
@@ -125,7 +122,7 @@ button.accept-policy {
   padding: none;
 }
 
-.card-img-top{
+.card-img-top {
   width: 100%;
   height: 60%;
   object-fit: cover;
@@ -140,15 +137,15 @@ button.accept-policy {
   padding: 1rem;
 }
 
-/* Container for Nutrition Score and Read More button */x
-.card-bottom{
+/* Container for Nutrition Score and Read More button */
+x .card-bottom {
   display: flex;
   justify-content: center;
   align-items: center;
   position: absolute;
 }
 
-.nutrition-score{
+.nutrition-score {
   width: 90px;
   height: 48px;
   object-fit: cover;
@@ -157,7 +154,7 @@ button.accept-policy {
   padding: 2px;
 }
 
-.btn-primary{
+.btn-primary {
   position: absolute;
   left: 170px;
   white-space: nowrap;
@@ -169,11 +166,11 @@ button.accept-policy {
   margin-right: 10px;
   padding: 0.5rem 1rem;
   font-size: 0.875rem;
-  background-color: #00805C ;
-  border-color: #00805C ;
+  background-color: #00805c;
+  border-color: #00805c;
 }
 
-.btn-primary a{
+.btn-primary a {
   color: white;
   text-decoration: none;
 }
@@ -181,12 +178,12 @@ button.accept-policy {
 .btn-primary:hover,
 .btn-primary:focus,
 .btn-primary:active {
-  background-color: #006349 ;
+  background-color: #006349;
   border-color: #006349;
 }
 
-.card-title:hover{
-  color: #00805C;
+.card-title:hover {
+  color: #00805c;
   text-decoration: underline;
 }
 
@@ -196,9 +193,7 @@ button.accept-policy {
   font-size: 16px;
   line-height: 1.5;
   margin: 20px;
-
 }
-
 
 .produkt-liste-hjem {
   display: flex;
@@ -217,4 +212,8 @@ button.accept-policy {
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
+}
+
+.card {
+  margin: 0 2rem; /* Add some margin on the sides */
 }

@@ -1,0 +1,46 @@
+@model IEnumerable<Food_Registration.Models.Producer>
+
+<div class="container my-4">
+  <h1 class="text-center mb-4">Producers</h1>
+  <div class="card shadow-sm" style="width: 100%; max-width: none; height: 100%; max-height: none;">
+    <div class="card-body">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="card-title text-center mb-4">My Producers</h1>
+        <a asp-action="NewProducer" class="btn btn-success rounded-pill px-3">
+          <i class="bi bi-plus-circle"></i> Add New Producer
+        </a>
+      </div>
+
+      <table class="table table-hover table-bordered">
+        <thead class="table-primary">
+          <tr>
+            <th>Name</th>
+            <th>Description</th>
+            <th class="text-center">Update</th>
+            <th class="text-center">Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          @foreach (var producer in Model)
+          {
+            <tr>
+              <td>@producer.Name</td>
+              <td>@producer.Description</td>
+              <td class="text-center">
+                <a asp-action="Edit" asp-route-id="@producer.ProducerId" class="btn btn-sm btn-warning rounded-pill px-3">
+                  <i class="bi bi-pencil-square"></i> Update
+                </a>
+              </td>
+              <td class="text-center">
+                <a asp-action="Delete" asp-route-id="@producer.ProducerId"
+                  class="btn btn-sm btn-danger rounded-pill px-3">
+                  <i class="bi bi-trash"></i> Delete
+                </a>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
