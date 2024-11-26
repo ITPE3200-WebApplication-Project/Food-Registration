@@ -15,7 +15,7 @@ namespace Food_Registration.Controllers
     }
 
     [Authorize]
-    public IActionResult Index()
+    public IActionResult Table()
     {
       if (_ProductDbContext?.Producers == null)
       {
@@ -51,7 +51,7 @@ namespace Food_Registration.Controllers
         producer.OwnerId = User.Identity?.Name ?? string.Empty;
         _ProductDbContext.Producers.Add(producer);
         await _ProductDbContext.SaveChangesAsync();
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Table));
       }
       return View(producer);
     }
@@ -75,7 +75,7 @@ namespace Food_Registration.Controllers
       // Check if the current user owns this producer
       if (producer.OwnerId != currentUserId)
       {
-        return Redirect($"/Producer/Index?error={Uri.EscapeDataString("You can only edit your own producers")}");
+        return Redirect($"/Producer/Table?error={Uri.EscapeDataString("You can only edit your own producers")}");
       }
 
       return View(producer);
@@ -102,7 +102,7 @@ namespace Food_Registration.Controllers
       // Verify ownership before allowing edit
       if (existingProducer.OwnerId != currentUserId)
       {
-        return Redirect($"/Producer/Index?error={Uri.EscapeDataString("You can only edit your own producers")}");
+        return Redirect($"/Producer/Table?error={Uri.EscapeDataString("You can only edit your own producers")}");
       }
 
       // Update only allowed fields
@@ -112,7 +112,57 @@ namespace Food_Registration.Controllers
       // Do not update OwnerId as it should remain unchanged
 
       _ProductDbContext.SaveChanges();
-      return RedirectToAction(nameof(Index));
+      return RedirectToAction(nameof(Table));
+    }
+
+    [HttpPost]
+    [Authorize]
+    public IActionResult DeleteConfirmed(int id)
+    {
+      if (_ProductDbContext?.Producers == null)
+      {
+        return Problem("Entity set 'ProductDbContext.Producers' is null.");
+      }
+
+      var producer = _ProductDbContext.Producers
+        .FirstOrDefault(p => p.ProducerId == id);
+
+      if (producer == null)
+      {
+        return NotFound();
+      }
+
+      // Verify ownership before allowing deletion
+      var currentUserId = User.Identity?.Name;
+      if (producer.OwnerId != currentUserId)
+      {
+        return RedirectWithMessage("Producer", "Table", "You can only delete your own producers", "danger");
+      }
+
+      // Check if producer has any associated products
+      if (_ProductDbContext.Products == null)
+      {
+        return Problem("Entity set 'ProductDbContext.Products' is null.");
+      }
+
+      var hasProducts = _ProductDbContext.Products.Any(p => p.ProducerId == id);
+      if (hasProducts)
+      {
+        return RedirectWithMessage("Producer", "Table",
+          "Cannot delete producer that has associated products. Please delete all products first.",
+          "warning");
+      }
+
+      // Delete the producer
+      _ProductDbContext.Producers.Remove(producer);
+      _ProductDbContext.SaveChanges();
+
+      return RedirectWithMessage("Producer", "Table", "Producer successfully deleted", "success");
+    }
+
+    private IActionResult RedirectWithMessage(string controller, string action, string message, string messageType = "info")
+    {
+      return Redirect($"/{controller}/{action}?message={Uri.EscapeDataString(message)}&messageType={messageType}");
     }
   }
 }

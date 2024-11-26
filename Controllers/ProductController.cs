@@ -69,7 +69,7 @@ public class ProductController : Controller
 
     if (string.IsNullOrEmpty(currentUserId))
     {
-      return RedirectWithMessage("Producer", "Index", "Please create a producer account first", "warning");
+      return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
     }
 
     // Get all producers owned by current user
@@ -80,11 +80,12 @@ public class ProductController : Controller
 
     if (userProducerIds == null || !userProducerIds.Any())
     {
-      return RedirectWithMessage("Producer", "Index", "Please create a producer account first", "warning");
+      return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
     }
 
     // Get all products that belong to the user's producers
     var products = _ProductDbContext.Products?
+        .Include(p => p.Producer)
         .Where(p => userProducerIds.Contains(p.ProducerId))
         .ToList();
 
@@ -103,7 +104,7 @@ public class ProductController : Controller
 
     if (string.IsNullOrEmpty(currentUserId))
     {
-      return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+      return Redirect($"/Producer/Table?error={Uri.EscapeDataString("Please create a producer account first")}");
     }
 
     // Get producers owned by current user
@@ -113,7 +114,7 @@ public class ProductController : Controller
 
     if (userProducers == null || !userProducers.Any())
     {
-      return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+      return Redirect($"/Producer/Table?error={Uri.EscapeDataString("Please create a producer account first")}");
     }
 
     // Create SelectList for producers dropdown
@@ -145,7 +146,7 @@ public class ProductController : Controller
     {
       _ProductDbContext?.Products?.Update(Products);
       _ProductDbContext?.SaveChanges();
-      return RedirectToAction(nameof(Index));
+      return RedirectToAction(nameof(Table));
     }
     return View(Products);
   }
@@ -217,18 +218,6 @@ public class ProductController : Controller
 
     }
     return View(product);
-  }
-
-  [HttpGet]
-  [Authorize]
-  public IActionResult Delete(int id)
-  {
-    var item = _ProductDbContext.Products?.Find(id);
-    if (item == null)
-    {
-      return NotFound();
-    }
-    return View(item);
   }
 
   [HttpPost]
