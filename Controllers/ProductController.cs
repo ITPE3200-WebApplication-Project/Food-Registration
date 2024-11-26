@@ -3,10 +3,11 @@ using Food_Registration.Models;
 using Food_Registration.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace Food_Registration.Controllers;
 
-[Authorize]
+
 public class ProductController : Controller
 {
   private readonly ProductDbContext _ProductDbContext;
@@ -16,6 +17,51 @@ public class ProductController : Controller
     _ProductDbContext = ProductDbContext;
   }
 
+  async public Task<IActionResult> AllProducts(string searching, string category)
+  {
+    if (_ProductDbContext?.Products == null)
+    {
+      return Problem("Entity set 'ProductDbContext.Products' is null.");
+    }
+
+    var productQuery = _ProductDbContext.Products.AsQueryable();
+
+    if (!string.IsNullOrEmpty(searching))
+    {
+      // Use ToLower() to make the search case-insensitive
+      productQuery = productQuery.Where(x => x.Name.ToLower().Contains(searching.ToLower()) || x.ProductId.ToString().ToLower().Contains(searching.ToLower()));
+    }
+
+    // Legg til kategorifiltrering hvis en kategori er spesifisert
+    if (!string.IsNullOrEmpty(category))
+    {
+      productQuery = productQuery.Where(x => x.Category != null && x.Category.ToLower() == category.ToLower());
+    }
+
+    var products = await productQuery.AsNoTracking().ToListAsync();
+
+    return View("~/Views/Product/AllProducts.cshtml", products);
+  }
+
+  public IActionResult ReadMore(int id)
+  {
+    if (_ProductDbContext?.Products == null)
+    {
+      return Problem("Entity set 'ProductDbContext.Products' is null.");
+    }
+
+    var product = _ProductDbContext.Products
+      .Include(p => p.Producer)
+      .FirstOrDefault(p => p.ProductId == id);
+
+    if (product == null)
+    {
+      return NotFound();
+    }
+
+    return View(product);
+  }
+
   [Authorize]
   public IActionResult Table()
   {
@@ -23,7 +69,7 @@ public class ProductController : Controller
 
     if (string.IsNullOrEmpty(currentUserId))
     {
-      return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+      return RedirectWithMessage("Producer", "Index", "Please create a producer account first", "warning");
     }
 
     // Get all producers owned by current user
@@ -34,7 +80,7 @@ public class ProductController : Controller
 
     if (userProducerIds == null || !userProducerIds.Any())
     {
-      return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+      return RedirectWithMessage("Producer", "Index", "Please create a producer account first", "warning");
     }
 
     // Get all products that belong to the user's producers
@@ -49,24 +95,6 @@ public class ProductController : Controller
 
     return View(viewModel);
   }
-
-  [Authorize]
-  public IActionResult Grid()
-  {
-    List<Product> products = _ProductDbContext.Products?.ToList() ?? new List<Product>();
-    var ProductsViewModel = new ProductsViewModel(products, "Grid");
-    return View(ProductsViewModel);
-  }
-
-  public IActionResult Details(int id)
-  {
-    List<Product> Products = _ProductDbContext.Products?.ToList() ?? new List<Product>();
-    var product = Products?.FirstOrDefault(i => i.ProductId == id);
-    if (product == null)
-      return NotFound();
-    return View(product);
-  }
-
 
   [Authorize]
   public IActionResult NewProduct()
@@ -124,6 +152,7 @@ public class ProductController : Controller
 
 
   [HttpGet]
+  [Authorize]
   public IActionResult Edit(int id)
   {
     var product = _ProductDbContext.Products?.FirstOrDefault(p => p.ProductId == id);
@@ -147,11 +176,25 @@ public class ProductController : Controller
         };
     ViewBag.Categories = new SelectList(categories);
 
+    var currentUserId = User.Identity?.Name;
+
+    if (_ProductDbContext.Producers == null)
+    {
+      return Problem("Entity set 'ProductDbContext.Products' is null.");
+    }
+    ViewBag.ProducerList = new SelectList(
+        _ProductDbContext.Producers.Where(p => p.OwnerId == currentUserId),
+        "ProducerId",
+        "Name",
+        product.ProducerId
+    );
+
     return View(product); // View Only product taht is choiced
   }
 
   [HttpPost]
-  public IActionResult Edit(Product Products)
+  [Authorize]
+  public IActionResult Edit(Product product)
   {
     if (ModelState.IsValid)
     {
@@ -159,14 +202,25 @@ public class ProductController : Controller
       {
         return Problem("Entity set 'ProductDbContext.Products' is null.");
       }
-      _ProductDbContext.Products.Update(Products);
+
+      var existingProduct = _ProductDbContext.Products.Find(product.ProductId);
+      if (existingProduct == null)
+      {
+        return NotFound();
+      }
+
+      // Update the existing product's properties
+      _ProductDbContext.Entry(existingProduct).CurrentValues.SetValues(product);
       _ProductDbContext.SaveChanges();
-      return RedirectToAction(nameof(Table));
+
+      return RedirectWithMessage("Product", nameof(Table), "Product updated", "info");
+
     }
-    return View(Products);//show if there is feil.
+    return View(product);
   }
 
   [HttpGet]
+  [Authorize]
   public IActionResult Delete(int id)
   {
     var item = _ProductDbContext.Products?.Find(id);
@@ -178,6 +232,7 @@ public class ProductController : Controller
   }
 
   [HttpPost]
+  [Authorize]
   public IActionResult DeleteConfirmed(int id)
   {
     if (_ProductDbContext.Products == null)
@@ -193,9 +248,11 @@ public class ProductController : Controller
     _ProductDbContext.Products.Remove(item);
     _ProductDbContext.SaveChanges();
 
-    //Set ViewBag.DeletionSuccess to true when the product is successfully deleted.
-    ViewBag.DeletionSuccess = true;
+    return RedirectWithMessage("Product", "Table", "Product successfully deleted", "success");
+  }
 
-    return RedirectToAction(nameof(Table));
+  private IActionResult RedirectWithMessage(string controller, string action, string message, string messageType = "info")
+  {
+    return Redirect($"/{controller}/{action}?message={Uri.EscapeDataString(message)}&messageType={messageType}");
   }
 }

@@ -17,42 +17,6 @@ public class HomeController : Controller
         _ProductDbContext = ProductDbContext;
     }
 
-    async public Task<IActionResult> Index(string searching, string category)
-    {
-        if (_ProductDbContext?.Products == null)
-        {
-            return Problem("Entity set 'ProductDbContext.Products' is null.");
-        }
-
-        var productQuery = _ProductDbContext.Products.AsQueryable();
-
-        if (!string.IsNullOrEmpty(searching))
-        {
-            // Use ToLower() to make the search case-insensitive
-            productQuery = productQuery.Where(x => x.Name.ToLower().Contains(searching.ToLower()) || x.ProductId.ToString().ToLower().Contains(searching.ToLower()));
-        }
-
-        // Legg til kategorifiltrering hvis en kategori er spesifisert
-        if (!string.IsNullOrEmpty(category))
-        {
-            productQuery = productQuery.Where(x => x.Category != null && x.Category.ToLower() == category.ToLower());
-        }
-
-        var products = await productQuery.AsNoTracking().ToListAsync();
-
-        return View("~/Views/Home/Index.cshtml", products);
-    }
-
-    public ActionResult ReadMore()
-    {
-        return View();
-    }
-
-    public ActionResult Category()
-    {
-        return View();
-    }
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

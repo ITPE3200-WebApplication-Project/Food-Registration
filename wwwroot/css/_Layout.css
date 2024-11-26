@@ -220,13 +220,8 @@ x .card-bottom {
   background: white;
   border-radius: 12px;
   box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
-  transition: transform 0.2s;
   height: 100%;
   overflow: hidden;
-}
-
-.product-card:hover {
-  transform: translateY(-5px);
 }
 
 .product-image {
@@ -281,4 +276,31 @@ x .card-bottom {
 
 .card-body-description {
   padding: 0;
+}
+
+.nutrition-item {
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.nutrition-item strong {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #495057;
+}
+
+.nutrition-item p {
+  margin: 0;
+  font-size: 1.1rem;
+  color: #212529;
+}
+
+.producer-info {
+  background-color: #f8f9fa;
+}
+
+.producer-logo {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

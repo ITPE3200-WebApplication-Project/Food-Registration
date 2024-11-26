@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Food_Registration.Migrations
 {
     [DbContext(typeof(ProductDbContext))]
-    [Migration("20241126160116_ProducerID3")]
-    partial class ProducerID3
+    [Migration("20241126175952_InitialMigration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
