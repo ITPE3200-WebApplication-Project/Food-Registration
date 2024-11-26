@@ -61,3 +61,14 @@
         </div>
     </div>
 </div>
+
+<!-- Onay Mesajı (Silme Sonrası) -->
+@if (ViewBag.DeletionSuccess != null && (bool)ViewBag.DeletionSuccess)
+{
+    <script>
+        window.onload = function() {
+            alert("The product has been successfully deleted.");
+            window.location.href = '@Url.Action("Table", "Product")';
+        };
+    </script>
+}
