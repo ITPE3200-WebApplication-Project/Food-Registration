@@ -57,6 +57,21 @@ public class HomeController : Controller
     [Authorize]
     public IActionResult NewProduct()
     {
+        var currentUserId = User.Identity?.Name;
+
+        if (string.IsNullOrEmpty(currentUserId))
+        {
+            return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+        }
+
+        var producerExists = _ProductDbContext.Producers?
+            .Any(p => p.OwnerId == currentUserId);
+
+        if (!producerExists ?? true)
+        {
+            return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+        }
+
         return View();
     }
 

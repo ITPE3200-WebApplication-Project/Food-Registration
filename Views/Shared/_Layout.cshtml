@@ -34,7 +34,7 @@
                             @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NewProduct">New
-                                    Products</a>
+                                    Product</a>
                             }
                         </li>
                         <li class="nav-item">
@@ -47,7 +47,7 @@
                         <li class="nav-item">
                             @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
-                                <a class="nav-link text-dark" asp-controller="Producer" asp-action="Index">Producers</a>
+                                <a class="nav-link text-dark" asp-controller="Producer" asp-action="Index">Producer</a>
                             }
                         </li>
                     </ul>
@@ -62,6 +62,7 @@
 
 
     <div class="container">
+        <partial name="_ErrorMessage" />
         <main role="main" class="pb-3">
             @RenderBody()
             @RenderSection("Scripts", required: false)

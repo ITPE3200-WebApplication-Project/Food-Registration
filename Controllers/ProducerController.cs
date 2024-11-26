@@ -55,5 +55,61 @@ namespace Food_Registration.Controllers
       }
       return View(producer);
     }
+
+    [Authorize]
+    public IActionResult Edit(int id)
+    {
+      if (_ProductDbContext?.Producers == null)
+      {
+        return Problem("Entity set 'ProductDbContext.Producers' is null.");
+      }
+
+      var currentUserId = User.Identity?.Name;
+      var producer = _ProductDbContext.Producers.FirstOrDefault(p => p.ProducerId == id);
+
+      if (producer == null)
+      {
+        return NotFound();
+      }
+
+      // Check if the current user owns this producer
+      if (producer.OwnerId != currentUserId)
+      {
+        return Redirect($"/Producer/Index?error={Uri.EscapeDataString("You can only edit your own producers")}");
+      }
+
+      return View(producer);
+    }
+
+    [HttpPost]
+    [Authorize]
+    [ValidateAntiForgeryToken]
+    public IActionResult Edit(Producer producer)
+    {
+      if (ModelState.IsValid)
+      {
+        var currentUserId = User.Identity?.Name;
+        var existingProducer = _ProductDbContext.Producers?.FirstOrDefault(p => p.ProducerId == producer.ProducerId);
+
+        if (existingProducer == null)
+        {
+          return NotFound();
+        }
+
+        if (existingProducer.OwnerId != currentUserId)
+        {
+          return Redirect($"/Producer/Index?error={Uri.EscapeDataString("You can only edit your own producers")}");
+        }
+
+        // Update only allowed fields
+        existingProducer.Name = producer.Name;
+        existingProducer.Description = producer.Description;
+        existingProducer.ImageUrl = producer.ImageUrl;
+
+        _ProductDbContext.SaveChanges();
+        return RedirectToAction(nameof(Index));
+      }
+      return View(producer);
+    }
   }
 }
