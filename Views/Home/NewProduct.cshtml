@@ -1,68 +1,79 @@
 ﻿@{
-    ViewData["Title"] = "NewProduct";
+    ViewData["Title"] = "New Product";
 }
-
 
 @model Food_Registration.Models.Product
 
+<div class="container my-5">
+    <h2 class="mb-4 text-center">Create New Item</h2>
 
-<h2>Create New Item</h2>
+    <form asp-action="NewProduct" method="post">
+        <div class="form-group mb-3">
+            <label asp-for="Name"></label><span class="text-danger">*</span>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
 
-<form asp-action="NewProduct", method="post">
-    <div class="form-group">
-        <label asp-for="Name"></label><span class="text-danger">*</span>
-        <input asp-for="Name" class="form-control" />
-        <span asp-validation-for="Name" class="text-danger"></span>
-    </div>
-    <div class="form-group mb-3">
-        <label asp-for="Category" class="form-label"></label>
-        <select asp-for="Category" class="form-control">
-            <option value="">Select Category</option>
-            <option value="Fruits">Fruits</option>
-            <option value="Vegetables">Vegetables</option>
-            <option value="Meats">Meats</option>
-            <option value="Bakery">Bakery</option>
-            <option value="Dairy">Dairy</option>
-            <option value="Drinks">Drinks</option>
-            <option value="Other">Other</option>
-        </select>
-        <span asp-validation-for="Category" class="text-danger"></span>
-                        </div>
-    <div class="form-group">
-        <label asp-for="Calories"></label><span class="text-danger">*</span>
-        <input asp-for="Calories" class="form-control" />
-        <span asp-validation-for="Calories" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Carbohydrates"></label><span class="text-danger">*</span>
-        <input asp-for="Carbohydrates" class="form-control" />
-        <span asp-validation-for="Carbohydrates" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Fat"></label><span class="text-danger">*</span>
-        <input asp-for="Fat" class="form-control" />
-        <span asp-validation-for="Fat" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Protein"></label><span class="text-danger">*</span>
-        <input asp-for="Protein" class="form-control" />
-        <span asp-validation-for="Protein" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="Description"></label><span class="text-danger">*</span>
-        <input asp-for="Description" class="form-control" />
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ImageUrl"></label>
-        <input asp-for="ImageUrl" class="form-control" />
-        <span asp-validation-for="ImageUrl" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ProducerId"></label><span class="text-danger">*</span>
-        <input asp-for="ProducerId" class="form-control" />
-        <span asp-validation-for="ProducerId" class="text-danger"></span>
-    </div>
-    <button type="submit" class="btn btn-primary">NewProduct</button>
-    <a asp-action="Index" class="btn btn-secondary">Back to Index View</a>
-</form>
+        <div class="form-group mb-3">
+            <label asp-for="Category" class="form-label"></label>
+            <select asp-for="Category" class="form-control">
+                <option value="">Select Category</option>
+                <option value="Fruits">Fruits</option>
+                <option value="Vegetables">Vegetables</option>
+                <option value="Meats">Meats</option>
+                <option value="Bakery">Bakery</option>
+                <option value="Dairy">Dairy</option>
+                <option value="Drinks">Drinks</option>
+                <option value="Other">Other</option>
+            </select>
+            <span asp-validation-for="Category" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Calories"></label><span class="text-danger">*</span>
+            <input asp-for="Calories" class="form-control" />
+            <span asp-validation-for="Calories" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Carbohydrates"></label><span class="text-danger">*</span>
+            <input asp-for="Carbohydrates" class="form-control" />
+            <span asp-validation-for="Carbohydrates" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Fat"></label><span class="text-danger">*</span>
+            <input asp-for="Fat" class="form-control" />
+            <span asp-validation-for="Fat" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Protein"></label><span class="text-danger">*</span>
+            <input asp-for="Protein" class="form-control" />
+            <span asp-validation-for="Protein" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="Description"></label><span class="text-danger">*</span>
+            <textarea asp-for="Description" class="form-control"></textarea>
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="ImageUrl"></label>
+            <input asp-for="ImageUrl" class="form-control" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+
+        <div class="form-group mb-3">
+            <label asp-for="ProducerId"></label><span class="text-danger">*</span>
+            <input asp-for="ProducerId" class="form-control" />
+            <span asp-validation-for="ProducerId" class="text-danger"></span>
+        </div>
+
+        <div class="d-flex justify-content-end mt-4">
+            <button type="submit" class="btn btn-primary me-2">New Product</button>
+            <a asp-action="Index" class="btn btn-secondary">Back to Index View</a>
+        </div>
+    </form>
+</div>

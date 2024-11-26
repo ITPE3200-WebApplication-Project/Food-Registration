@@ -29,12 +29,18 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
                         </li>
                         <li class="nav-item">
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
                             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="NewProduct">New
                                 Products</a>
+                            }
                         </li>
                         <li class="nav-item">
+                            @if (User.Identity != null && User.Identity.IsAuthenticated)
+                            {
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Table">My
                                  Products</a>
+                            }
                         </li>
                     </ul>
                     <div class="d-flex">
