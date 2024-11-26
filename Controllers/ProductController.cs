@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
 using Food_Registration.ViewModels;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Food_Registration.Controllers;
 
@@ -14,25 +15,6 @@ public class ProductController : Controller
   {
     _ProductDbContext = ProductDbContext;
   }
-
-
-  /*
-  [HttpGet]
-  public async Task<IActionResult> Index(string ProductSearch)
-  {
-      var productQuery = _ProductDbContext.Products.AsQueryable();
-
-      if (!string.IsNullOrEmpty(ProductSearch))
-      {
-          productQuery = productQuery.Where(x => x.Name.Contains(ProductSearch) || x.ProductId.ToString().Contains(ProductSearch));
-      }
-
-      var products = await productQuery.AsNoTracking().ToListAsync();
-      return View(products);
-  }*/
-
-
-
 
   [Authorize]
   public IActionResult Table()
@@ -86,19 +68,90 @@ public class ProductController : Controller
   }
 
 
+  [Authorize]
+  public IActionResult NewProduct()
+  {
+    var currentUserId = User.Identity?.Name;
+
+    if (string.IsNullOrEmpty(currentUserId))
+    {
+      return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+    }
+
+    // Get producers owned by current user
+    var userProducers = _ProductDbContext.Producers?
+        .Where(p => p.OwnerId == currentUserId)
+        .ToList();
+
+    if (userProducers == null || !userProducers.Any())
+    {
+      return Redirect($"/Producer/Index?error={Uri.EscapeDataString("Please create a producer account first")}");
+    }
+
+    // Create SelectList for producers dropdown
+    ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
+
+    // Create SelectList for categories dropdown
+    var categories = new List<string>
+        {
+            "Fruits",
+            "Vegetables",
+            "Meat",
+            "Fish",
+            "Dairy",
+            "Grains",
+            "Beverages",
+            "Snacks",
+            "Other"
+        };
+    ViewBag.Categories = new SelectList(categories);
+
+    return View();
+  }
+
+  [Authorize]
+  [HttpPost]
+  public IActionResult NewProduct(Product Products)
+  {
+    if (ModelState.IsValid && _ProductDbContext != null)
+    {
+      _ProductDbContext?.Products?.Update(Products);
+      _ProductDbContext?.SaveChanges();
+      return RedirectToAction(nameof(Index));
+    }
+    return View(Products);
+  }
+
+
   [HttpGet]
-  public IActionResult Update(int id)
+  public IActionResult Edit(int id)
   {
     var product = _ProductDbContext.Products?.FirstOrDefault(p => p.ProductId == id);
     if (product == null)
     {
       return NotFound();
     }
+
+    // Create SelectList for categories dropdown
+    var categories = new List<string>
+        {
+            "Fruits",
+            "Vegetables",
+            "Meat",
+            "Fish",
+            "Dairy",
+            "Grains",
+            "Beverages",
+            "Snacks",
+            "Other"
+        };
+    ViewBag.Categories = new SelectList(categories);
+
     return View(product); // View Only product taht is choiced
   }
 
   [HttpPost]
-  public IActionResult Update(Product Products)
+  public IActionResult Edit(Product Products)
   {
     if (ModelState.IsValid)
     {

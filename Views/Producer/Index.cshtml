@@ -1,17 +1,16 @@
 @model IEnumerable<Food_Registration.Models.Producer>
 
 <div class="container my-4">
-  <h1 class="text-center mb-4">Producers</h1>
   <div class="card shadow-sm" style="width: 100%; max-width: none; height: 100%; max-height: none;">
-    <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="card-title text-center mb-4">My Producers</h1>
+    <div class="card-body px-4 py-2">
+      <div class="d-flex justify-content-between align-items-center" style="width: 100%; min-height: 60px;">
+        <h1 class="card-title">My Producers</h1>
         <a asp-action="NewProducer" class="btn btn-success rounded-pill px-3">
           <i class="bi bi-plus-circle"></i> Add New Producer
         </a>
       </div>
 
-      <table class="table table-hover table-bordered">
+      <table class="table table-hover table-bordered mt-2">
         <thead class="table-primary">
           <tr>
             <th>Name</th>

@@ -19,17 +19,21 @@ public static class DBInit
                     Name = "Orkla",
                     Description = "Orkla is a leading supplier of branded consumer goods and concept solutions to the grocery, out-of-home, specialized retail, pharmacy and bakery sectors.",
                     OwnerId = "orkla@test.com",
-                    ImageUrl = "/images/orkla.jpg"
+                    ImageUrl = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Orkla_foods_norge_logo_01.JPG/320px-Orkla_foods_norge_logo_01.JPG"
                 },
                 new Producer {
                     ProducerId = 2,
                     Name ="Nestle",
                     Description = "Nestle is the world's largest food and beverage company. We have more than 2000 brands ranging from global icons to local favorites, and we are present in 191 countries around the world.",
                     OwnerId = "nestle@test.com",
-                    ImageUrl = "/images/nestle.jpg"
+                    ImageUrl = "https://1000logos.net/wp-content/uploads/2017/03/Nestle-Logo.jpg"
                 }
             };
-        context.AddRange(producers);
+
+        if (context.Producers?.Count() == 0)
+        {
+            context.AddRange(producers);
+        }
         context.SaveChanges();  // Save producers first
 
         // Only proceed with products after ensuring producers exist
@@ -134,7 +138,10 @@ public static class DBInit
                 }
             };
 
-        context.AddRange(products);
+        if (context.Products?.Count() == 0 && context.Producers?.Count() > 0)
+        {
+            context.AddRange(products);
+        }
         context.SaveChanges();
     }
 }

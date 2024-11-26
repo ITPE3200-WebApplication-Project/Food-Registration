@@ -6,8 +6,8 @@ Det som gjenstår der er:
 
 - [x] Legge inn Owner-Id felt på producer
 - [x] Legge inn en Create Producer side slik at en bruker kan opprette producer med beskrivelse, logo og slikt. Her må også OwnerId-feltet bli henta fra brukeren som oppretter.
-- [ ] Legge inn Owner-Id felt på product
-- [ ] Fjern "New Products" og "My Products" når man ikke er logga inn
+- [x] Legge inn Owner-Id felt på product
+- [x] Fjern "New Products" og "My Products" når man ikke er logga inn
 
 Andre ting som gjenstår:
 

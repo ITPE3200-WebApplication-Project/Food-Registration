@@ -1,0 +1,83 @@
+@model Food_Registration.Models.Product
+
+<div class="container my-4">
+  <h1 class="text-center mb-4">Edit Product</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <form asp-action="Edit" asp-controller="Product" method="post">
+        <input type="hidden" asp-for="ProductId" />
+        <!-- Rest of the form remains the same -->
+
+
+        <!--For information-->
+        <div class="col-md-8" style="flex: 0 0 35%;">
+          <form asp-action="Update">
+            <input type="hidden" asp-for="ProductId" />
+
+            <!--Products Information-->
+            <div class="form-group mb-3">
+              <label asp-for="Name" class="form-label"></label>
+              <input asp-for="Name" class="form-control" />
+              <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <select asp-for="Category" asp-items="ViewBag.Categories" class="form-select">
+              <option value="">-- Select a Category --</option>
+            </select>
+
+
+            <div class="form-group mb-3">
+              <label asp-for="Calories" class="form-label"></label>
+              <input asp-for="Calories" class="form-control" />
+              <span asp-validation-for="Calories" class="text-danger"></span>
+            </div>
+
+            <!-- 100g Değerleri Başlıkları -->
+            <h5 class="mt-4">Nutritional Values per 100g for Carbohydrates, Fat, Protein</h5>
+
+            <div class="form-group mb-3">
+              <label asp-for="Carbohydrates" class="form-label">Carbohydrates (mg)</label>
+              <input asp-for="Carbohydrates" class="form-control" />
+              <span asp-validation-for="Carbohydrates" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+              <label asp-for="Fat" class="form-label">Fat (mg)</label>
+              <input asp-for="Fat" class="form-control" />
+              <span asp-validation-for="Fat" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+              <label asp-for="Protein" class="form-label">Protein (mg)</label>
+              <input asp-for="Protein" class="form-control" />
+              <span asp-validation-for="Protein" class="text-danger"></span>
+            </div>
+
+            <div class="form-group mb-3">
+              <label asp-for="Description" class="form-label"></label>
+              <textarea asp-for="Description" class="form-control"></textarea>
+              <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+
+            <!-- Image URL  -->
+            <div class="form-group mb-3">
+              <label asp-for="ImageUrl" class="form-label"></label>
+              <input asp-for="ImageUrl" class="form-control" />
+              <span asp-validation-for="ImageUrl" class="text-danger"></span>
+            </div>
+
+            <div class="alert alert-info" role="alert">
+              Note: Please use a comma for decimal numbers (e.g., 1,5 instead of 1.5).
+            </div>
+
+            <!-- Button -->
+            <div class="d-flex justify-content-end mt-3" style="margin: 20px;">
+              <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+              <a asp-action="Table" class="btn btn-secondary">Cancel</a>
+            </div>
+          </form>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
