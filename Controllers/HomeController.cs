@@ -18,7 +18,7 @@ public class HomeController : Controller
         _ProductDbContext = ProductDbContext;
     }
 
-    async public Task<IActionResult> Index(string searching)
+    async public Task<IActionResult> Index(string searching, string category)
     {
         var productQuery = _ProductDbContext.Products.AsQueryable();
 
@@ -26,6 +26,12 @@ public class HomeController : Controller
         {
             // Use ToLower() to make the search case-insensitive
             productQuery = productQuery.Where(x => x.Name.ToLower().Contains(searching.ToLower()) || x.ProductId.ToString().ToLower().Contains(searching.ToLower()));
+        }
+
+        // Legg til kategorifiltrering hvis en kategori er spesifisert
+        if (!string.IsNullOrEmpty(category))
+        {
+            productQuery = productQuery.Where(x => x.Category.ToLower() == category.ToLower());
         }
 
         var products = await productQuery.AsNoTracking().ToListAsync();
