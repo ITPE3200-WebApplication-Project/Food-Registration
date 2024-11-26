@@ -154,13 +154,13 @@ x .card-bottom {
   padding: 2px;
 }
 
-/* .btn-primary{
+.btn-primary {
   position: absolute;
   left: 170px;
   white-space: nowrap;
   top: 260px;
 }
-  */
+*/
 
 /* Styling for the Read More button 
 .btn-primary {
@@ -170,8 +170,8 @@ x .card-bottom {
   background-color: #00805c;
   border-color: #00805c;
 }
-*/
-.btn-primary a{
+
+.btn-primary a {
   color: white;
   text-decoration: none;
 }
