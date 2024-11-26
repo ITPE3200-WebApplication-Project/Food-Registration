@@ -24,7 +24,16 @@
 
                         <div class="form-group mb-3">
                             <label asp-for="Category" class="form-label"></label>
-                            <input asp-for="Category" class="form-control" />
+                            <select asp-for="Category" class="form-control">
+                                <option value="">Select Category</option>
+                                <option value="Fruits">Fruits</option>
+                                <option value="Vegetables">Vegetables</option>
+                                <option value="Meats">Meats</option>
+                                <option value="Bakery">Bakery</option>
+                                <option value="Dairy">Dairy</option>
+                                <option value="Drinks">Drinks</option>
+                                <option value="Other">Other</option>
+                            </select>
                             <span asp-validation-for="Category" class="text-danger"></span>
                         </div>
 
