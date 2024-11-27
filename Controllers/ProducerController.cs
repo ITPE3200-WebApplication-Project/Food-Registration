@@ -146,7 +146,7 @@ namespace Food_Registration.Controllers
         return Problem("Entity set 'ProductDbContext.Products' is null.");
       }
 
-      var hasProducts = await _ProductDbContext.Products.AnyAsync(p => p.ProducerId == id);
+      var hasProducts = await _ProductDbContext.Products.AnyAsync(p => p.ProducerId.Equals(id));
       if (hasProducts)
       {
         return RedirectWithMessage("Producer", "Table",
