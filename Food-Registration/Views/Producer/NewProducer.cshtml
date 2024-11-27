@@ -1,0 +1,26 @@
+@model Food_Registration.Models.Producer
+
+<h2>Create New Producer</h2>
+
+<form asp-action="NewProducer" method="post">
+  <div class="form-group">
+    <label asp-for="Name"></label><span class="text-danger">*</span>
+    <input asp-for="Name" class="form-control" />
+    <span asp-validation-for="Name" class="text-danger"></span>
+  </div>
+
+  <div class="form-group">
+    <label asp-for="Description"></label>
+    <textarea asp-for="Description" class="form-control"></textarea>
+    <span asp-validation-for="Description" class="text-danger"></span>
+  </div>
+
+  <div class="form-group mb-2">
+    <label asp-for="ImageUrl"></label>
+    <input asp-for="ImageUrl" class="form-control" />
+    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+  </div>
+
+  <button type="submit" class="btn btn-success">Create Producer</button>
+  <a asp-action="AllProducts" asp-controller="Product" class="btn btn-secondary">Cancel</a>
+</form>
