@@ -2,6 +2,8 @@ using Microsoft.EntityFrameworkCore;
 using Food_Registration.Models;
 using Microsoft.AspNetCore.Identity;
 using Food_Registration.DAL;
+using Serilog;
+using Serilog.Events;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +26,21 @@ builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<Pro
 
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
+
+
+// Logging configuration.
+var loggerConfiguration = new LoggerConfiguration()
+    .MinimumLevel.Information()
+    .WriteTo.File($"Loggs/app_{DateTime.Now:yyyyMMdd_HHmmss}.log");
+
+// Creates logger.
+var logger = loggerConfiguration.CreateLogger();
+builder.Logging.AddSerilog(logger);
+
+// Makes logging less verbos.
+loggerConfiguration.Filter.ByExcluding(e => e.Properties.TryGetValue("SourceContext", out var value) &&
+e.Level == LogEventLevel.Information &&
+e.MessageTemplate.Text.Contains("Executed DbCommand"));
 
 
 var app = builder.Build();
