@@ -94,11 +94,10 @@ Console.WriteLine($"currentUserId: {currentUserId}");
         .ToList();
 
     if (userProducers == null || !userProducers.Any())
-{
-    Console.WriteLine("Havner i nr3 - No producers found");
-    Console.WriteLine($"userProducers count: {userProducers?.Count}");
-    return Redirect($"/Producer/Table?error={Uri.EscapeDataString("Please create a producer account first")}");
-}
+    {
+      Console.WriteLine("Havner i nr3");
+      return Redirect($"/Producer/Table?error={Uri.EscapeDataString("Please create a producer account first")}");
+    }
 
     // Create SelectList for producers dropdown
     ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
