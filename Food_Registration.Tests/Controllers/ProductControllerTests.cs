@@ -169,5 +169,51 @@ namespace Food_Registration.Tests.Controllers
       Assert.IsType<RedirectResult>(result);
       _mockProductRepo.Verify(repo => repo.AddProductAsync(It.IsAny<Product>()), Times.Never);
     }
+
+    [Fact]
+    public async Task AllProducts_ReturnsFilteredProducts()
+    {
+        // Arrange
+        var products = new List<Product>
+        {
+            new Product { ProductId = 1, Name = "Apple", Category = "Fruits" },
+            new Product { ProductId = 2, Name = "Orange", Category = "Fruits" },
+            new Product { ProductId = 3, Name = "Carrot", Category = "Vegetables" }
+        };
+
+        _mockProductRepo.Setup(repo => repo.GetAllProductsAsync())
+            .ReturnsAsync(products);
+
+        // Act
+        var result = await _controller.AllProducts("Apple", "Fruits");
+
+        // Assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        var model = Assert.IsAssignableFrom<List<Product>>(viewResult.Model);
+
+        Assert.Single(model);
+        Assert.Equal("Apple", model.First().Name);
+    }
+
+    [Fact]
+    public async Task NewProduct_Get_ReturnsProducersAndDropdowns()
+    {
+        // Arrange
+        var producers = new List<Producer>
+        {
+            new Producer { ProducerId = 1, Name = "Producer 1", OwnerId = "test@test.com" },
+            new Producer { ProducerId = 2, Name = "Producer 2", OwnerId = "test@test.com" }
+        };
+
+        _mockProducerRepo.Setup(repo => repo.GetAllProducersAsync())
+            .ReturnsAsync(producers);
+
+        // Act
+        var result = await _controller.NewProduct();
+
+        // Assert
+        var viewResult = Assert.IsType<ViewResult>(result);
+        Assert.NotNull(viewResult.ViewData["Producers"]);
+    }
   }
 }
