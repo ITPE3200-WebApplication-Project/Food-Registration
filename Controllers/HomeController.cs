@@ -2,6 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
 using Microsoft.EntityFrameworkCore;
+using Food_Registration.DAL;
 
 namespace Food_Registration.Controllers;
 

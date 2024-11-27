@@ -1,7 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Food_Registration.Models;
 
-namespace Food_Registration.Models;
+namespace Food_Registration.DAL;
 
 public class ProductDbContext : IdentityDbContext
 {

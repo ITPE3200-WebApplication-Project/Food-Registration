@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Food_Registration.Models;
 using Microsoft.AspNetCore.Identity;
+using Food_Registration.DAL;
 
 
 var builder = WebApplication.CreateBuilder(args);
