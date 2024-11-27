@@ -44,6 +44,7 @@ namespace Food_Registration.Tests.Controllers
       );
     }
 
+    ///Unit Test 1
     [Fact]
     public async Task NewProduct_Get_ReturnsViewWithProducerList()
     {
@@ -67,6 +68,7 @@ namespace Food_Registration.Tests.Controllers
       Assert.Equal(2, producerList.Count());
     }
 
+    //Unit Test 2
     [Fact]
     public async Task NewProduct_Post_ValidProduct_RedirectsToTable()
     {
@@ -96,6 +98,7 @@ namespace Food_Registration.Tests.Controllers
       _mockProductRepo.Verify(repo => repo.AddProductAsync(product), Times.Once);
     }
 
+    //Unit Test 3
     [Fact]
     public async Task NewProduct_Post_InvalidModel_ReturnsViewWithError()
     {
@@ -120,6 +123,7 @@ namespace Food_Registration.Tests.Controllers
       Assert.False(_controller.ModelState.IsValid);
     }
 
+    //Unit Test 4
     [Fact]
     public async Task NewProduct_Post_UnauthorizedProducer_ReturnsUnauthorized()
     {
@@ -148,6 +152,7 @@ namespace Food_Registration.Tests.Controllers
       _mockProductRepo.Verify(repo => repo.AddProductAsync(It.IsAny<Product>()), Times.Never);
     }
 
+    //Unit Test 5
     [Fact]
     public async Task NewProduct_Post_NullProducer_ReturnsBadRequest()
     {
@@ -170,6 +175,7 @@ namespace Food_Registration.Tests.Controllers
       _mockProductRepo.Verify(repo => repo.AddProductAsync(It.IsAny<Product>()), Times.Never);
     }
 
+    //Unit test 6
     [Fact]
     public async Task AllProducts_ReturnsFilteredProducts()
     {
@@ -195,25 +201,21 @@ namespace Food_Registration.Tests.Controllers
         Assert.Equal("Apple", model.First().Name);
     }
 
+   
+    //Unit Test 8
     [Fact]
-    public async Task NewProduct_Get_ReturnsProducersAndDropdowns()
+    public async Task DeleteConfirmed_ProductAndProducerNotFound_ReturnsNotFound()
     {
         // Arrange
-        var producers = new List<Producer>
-        {
-            new Producer { ProducerId = 1, Name = "Producer 1", OwnerId = "test@test.com" },
-            new Producer { ProducerId = 2, Name = "Producer 2", OwnerId = "test@test.com" }
-        };
-
-        _mockProducerRepo.Setup(repo => repo.GetAllProducersAsync())
-            .ReturnsAsync(producers);
+        _mockProductRepo.Setup(repo => repo.GetProductByIdAsync(It.IsAny<int>()))
+            .ReturnsAsync((Product)null); // No product found
 
         // Act
-        var result = await _controller.NewProduct();
+        var result = await _controller.DeleteConfirmed(999);  // Using a non-existent product ID
 
         // Assert
-        var viewResult = Assert.IsType<ViewResult>(result);
-        Assert.NotNull(viewResult.ViewData["Producers"]);
+        var notFoundResult = Assert.IsType<NotFoundResult>(result);  // Expecting NotFound result
+        _mockProductRepo.Verify(repo => repo.DeleteProductAsync(It.IsAny<int>()), Times.Never);  // Verify DeleteProductAsync is not called
     }
   }
 }
