@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +24,7 @@ namespace Food_Registration.Controllers
       }
 
       var currentUserId = User.Identity?.Name;
-      Console.WriteLine(currentUserId);
+
       var producers = await _ProductDbContext.Producers
         .Where(p => p.OwnerId == currentUserId)
         .ToListAsync();

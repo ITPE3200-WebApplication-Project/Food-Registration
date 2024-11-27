@@ -3,7 +3,6 @@ using Food_Registration.Models;
 using Food_Registration.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Microsoft.EntityFrameworkCore;
 using Food_Registration.DAL;
 
 namespace Food_Registration.Controllers;
@@ -11,102 +10,68 @@ namespace Food_Registration.Controllers;
 
 public class ProductController : Controller
 {
-  private readonly ProductDbContext _ProductDbContext;
-
-  public ProductController(ProductDbContext ProductDbContext)
+  private readonly IProductRepository _productRepository;
+  private readonly IProducerRepository _producerRepository;
+  public ProductController(IProductRepository productRepository, IProducerRepository producerRepository)
   {
-    _ProductDbContext = ProductDbContext;
+    _productRepository = productRepository;
+    _producerRepository = producerRepository;
   }
 
   public async Task<IActionResult> AllProducts(string searching, string category)
   {
-    if (_ProductDbContext?.Products == null)
-    {
-      return Problem("Entity set 'ProductDbContext.Products' is null.");
-    }
-
-    var productQuery = _ProductDbContext.Products.AsQueryable();
+    var products = await _productRepository.GetAllProductsAsync();
 
     if (!string.IsNullOrEmpty(searching))
     {
-      // Use ToLower() to make the search case-insensitive
-      productQuery = productQuery.Where(x => x.Name.ToLower().Contains(searching.ToLower()) || x.ProductId.ToString().ToLower().Contains(searching.ToLower()));
+        products = products.Where(x => 
+            x.Name.ToLower().Contains(searching.ToLower()) || 
+            x.ProductId.ToString().Contains(searching.ToLower()));
     }
 
-    // Legg til kategorifiltrering hvis en kategori er spesifisert
     if (!string.IsNullOrEmpty(category))
     {
-      productQuery = productQuery.Where(x => x.Category != null && x.Category.ToLower() == category.ToLower());
+        products = products.Where(x => 
+            x.Category != null && x.Category.ToLower() == category.ToLower());
     }
 
-    var products = await productQuery.AsNoTracking().ToListAsync();
+    // Materialiser som en liste
+    var productList = products.ToList();
 
-    return View("~/Views/Product/AllProducts.cshtml", products);
+    return View("~/Views/Product/AllProducts.cshtml", productList);
   }
 
-  public async Task <IActionResult> ReadMore(int id)
+  public async Task<IActionResult> ReadMore(int id)
   {
-    if (_ProductDbContext?.Products == null)
-    {
-      return Problem("Entity set 'ProductDbContext.Products' is null.");
-    }
-
-    var product = await _ProductDbContext.Products
-      .Include(p => p.Producer)
-      .FirstOrDefaultAsync(p => p.ProductId == id);
+    var product = await _productRepository.GetProductByIdAsync(id);
 
     if (product == null)
     {
-      return NotFound();
+        return NotFound();
     }
 
     return View(product);
   }
 
   [Authorize]
-  public async Task <IActionResult> Table()
+  public async Task<IActionResult> Table()
   {
     var currentUserId = User.Identity?.Name;
+Console.WriteLine($"currentUserId: {currentUserId}");
 
     if (string.IsNullOrEmpty(currentUserId))
     {
-      return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
+        Console.WriteLine("Nr 1 blir kalt");
+        return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
     }
 
-    // Sjekk om Producers er null
-    if (_ProductDbContext.Producers == null)
-    {
-        return Problem("Entity set 'ProductDbContext.Producers' is null.");
-    }
+    // Hent alle produkter inkludert produsenter
+    var allProducts = await _productRepository.GetAllProductsAsync();
 
-    // Get all producers owned by current user
-    var userProducerIds = await _ProductDbContext.Producers
-        .Where(p => p.OwnerId == currentUserId)
-        .Select(p => p.ProducerId)
-        .ToListAsync();
+    // Filtrer produkter basert på OwnerId
+    var products = allProducts.Where(p => p.Producer?.OwnerId == currentUserId).ToList();
 
-    if (userProducerIds == null || !userProducerIds.Any())
-    {
-      return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
-    }
-
-    // Sjekk om Products er null
-    if (_ProductDbContext.Products == null)
-    {
-        return Problem("Entity set 'ProductDbContext.Products' is null.");
-    }
-
-    // Get all products that belong to the user's producers
-    var products = await _ProductDbContext.Products
-        .Include(p => p.Producer)
-        .Where(p => userProducerIds.Contains(p.ProducerId))
-        .ToListAsync();
-
-    
-    var viewModel = new ProductsViewModel(
-        products, // ?? new List<Product>(), Tror ikke denne er nødvendig etter å ha sjekket om null tidligere, derfor er new list kommentert ut
-        "Table"
-    );
+    var viewModel = new ProductsViewModel(products, "Table");
 
     return View(viewModel);
   }
@@ -115,19 +80,22 @@ public class ProductController : Controller
   public async Task <IActionResult> NewProduct()
   {
     var currentUserId = User.Identity?.Name;
+    Console.WriteLine($"currentUserId: {currentUserId}");
 
     if (string.IsNullOrEmpty(currentUserId))
     {
+      Console.WriteLine("Havner i nr2");
       return Redirect($"/Producer/Table?error={Uri.EscapeDataString("Please create a producer account first")}");
     }
 
     // Get producers owned by current user
-    var userProducers = await _ProductDbContext.Producers?
+    var userProducers = (await _producerRepository.GetAllProducersAsync())
         .Where(p => p.OwnerId == currentUserId)
-        .ToListAsync();
+        .ToList();
 
     if (userProducers == null || !userProducers.Any())
     {
+      Console.WriteLine("Havner i nr3");
       return Redirect($"/Producer/Table?error={Uri.EscapeDataString("Please create a producer account first")}");
     }
 
@@ -154,103 +122,59 @@ public class ProductController : Controller
 
   [Authorize]
   [HttpPost]
-  public async Task <IActionResult> NewProduct(Product Products)
-  {
-    if (ModelState.IsValid && _ProductDbContext != null)
-    {
-      _ProductDbContext?.Products?.Update(Products);
-      await _ProductDbContext?.SaveChangesAsync();
-      return RedirectToAction(nameof(Table));
-    }
-    return View(Products);
-  }
-
-
-  [HttpGet]
-  [Authorize]
-  public async Task <IActionResult> Edit(int id)
-  {
-    var product = await _ProductDbContext.Products?.FirstOrDefaultAsync(p => p.ProductId == id);
-    if (product == null)
-    {
-      return NotFound();
-    }
-
-    // Create SelectList for categories dropdown
-    var categories = new List<string>
-        {
-            "Fruits",
-            "Vegetables",
-            "Meat",
-            "Fish",
-            "Dairy",
-            "Grains",
-            "Beverages",
-            "Snacks",
-            "Other"
-        };
-    ViewBag.Categories = new SelectList(categories);
-
-    var currentUserId = User.Identity?.Name;
-
-    if (_ProductDbContext.Producers == null)
-    {
-      return Problem("Entity set 'ProductDbContext.Products' is null.");
-    }
-    ViewBag.ProducerList = new SelectList(
-        _ProductDbContext.Producers.Where(p => p.OwnerId == currentUserId),
-        "ProducerId",
-        "Name",
-        product.ProducerId
-    );
-
-    return View(product); // View Only product taht is choiced
-  }
-
-  [HttpPost]
-  [Authorize]
-  public async Task <IActionResult> Edit(Product product)
+  public async Task<IActionResult> NewProduct(Product product)
   {
     if (ModelState.IsValid)
     {
-      if (_ProductDbContext.Products == null)
-      {
-        return Problem("Entity set 'ProductDbContext.Products' is null.");
-      }
-
-      var existingProduct = await _ProductDbContext.Products.FindAsync(product.ProductId);
-      if (existingProduct == null)
-      {
-        return NotFound();
-      }
-
-      // Update the existing product's properties
-      _ProductDbContext.Entry(existingProduct).CurrentValues.SetValues(product);
-      await _ProductDbContext.SaveChangesAsync();
-
-      return RedirectWithMessage("Product", nameof(Table), "Product updated", "info");
-
+        await _productRepository.AddProductAsync(product);
+        return RedirectToAction(nameof(Table));
     }
+
     return View(product);
+  }
+
+
+  [Authorize]
+  [HttpGet]
+  public async Task<IActionResult> Edit(int id)
+  {
+    var product = await _productRepository.GetProductByIdAsync(id);
+
+    if (product == null)
+    {
+        return NotFound();
+    }
+
+    var producers = await _producerRepository.GetAllProducersAsync(); // Hent produsenter fra databasen
+
+    ViewBag.Categories = new SelectList(new List<string>
+    {
+        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
+    });
+
+    ViewBag.ProducerList = new SelectList(producers, "ProducerId", "Name", product.ProducerId);
+
+    return View(product);
+  }
+
+  [Authorize]
+  [HttpPost]
+  public async Task<IActionResult> Edit(Product product)
+  {
+    if (ModelState.IsValid)
+    {
+        await _productRepository.UpdateProductAsync(product);
+        return RedirectWithMessage("Product", nameof(Table), "Product updated", "info");
+    }
+
+  return View(product);
   }
 
   [HttpPost]
   [Authorize]
-  public async Task <IActionResult> DeleteConfirmed(int id)
+  public async Task<IActionResult> DeleteConfirmed(int id)
   {
-    if (_ProductDbContext.Products == null)
-    {
-      return Problem("Entity set 'ProductDbContext.Products' is null.");
-    }
-
-    var item = await _ProductDbContext.Products.FindAsync(id);
-    if (item == null)
-    {
-      return NotFound();
-    }
-    _ProductDbContext.Products.Remove(item);
-    await _ProductDbContext.SaveChangesAsync();
-
+    await _productRepository.DeleteProductAsync(id);
     return RedirectWithMessage("Product", "Table", "Product successfully deleted", "success");
   }
 

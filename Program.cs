@@ -16,6 +16,10 @@ builder.Services.AddDbContext<ProductDbContext>(options =>
       builder.Configuration["ConnectionStrings:ItemDbContextConnection"]);
 });
 
+// Registers services for DAL
+builder.Services.AddScoped<IProductRepository, ProductRepository>();
+builder.Services.AddScoped<IProducerRepository, ProducerRepository>();
+
 builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<ProductDbContext>();
 
 builder.Services.AddRazorPages();
