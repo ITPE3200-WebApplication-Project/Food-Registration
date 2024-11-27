@@ -4,6 +4,7 @@ using Food_Registration.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Food_Registration.DAL;
 
 namespace Food_Registration.Controllers;
 
@@ -17,7 +18,7 @@ public class ProductController : Controller
     _ProductDbContext = ProductDbContext;
   }
 
-  async public Task<IActionResult> AllProducts(string searching, string category)
+  public async Task<IActionResult> AllProducts(string searching, string category)
   {
     if (_ProductDbContext?.Products == null)
     {
@@ -43,16 +44,16 @@ public class ProductController : Controller
     return View("~/Views/Product/AllProducts.cshtml", products);
   }
 
-  public IActionResult ReadMore(int id)
+  public async Task <IActionResult> ReadMore(int id)
   {
     if (_ProductDbContext?.Products == null)
     {
       return Problem("Entity set 'ProductDbContext.Products' is null.");
     }
 
-    var product = _ProductDbContext.Products
+    var product = await _ProductDbContext.Products
       .Include(p => p.Producer)
-      .FirstOrDefault(p => p.ProductId == id);
+      .FirstOrDefaultAsync(p => p.ProductId == id);
 
     if (product == null)
     {
@@ -63,7 +64,7 @@ public class ProductController : Controller
   }
 
   [Authorize]
-  public IActionResult Table()
+  public async Task <IActionResult> Table()
   {
     var currentUserId = User.Identity?.Name;
 
@@ -72,25 +73,38 @@ public class ProductController : Controller
       return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
     }
 
+    // Sjekk om Producers er null
+    if (_ProductDbContext.Producers == null)
+    {
+        return Problem("Entity set 'ProductDbContext.Producers' is null.");
+    }
+
     // Get all producers owned by current user
-    var userProducerIds = _ProductDbContext.Producers?
+    var userProducerIds = await _ProductDbContext.Producers
         .Where(p => p.OwnerId == currentUserId)
         .Select(p => p.ProducerId)
-        .ToList();
+        .ToListAsync();
 
     if (userProducerIds == null || !userProducerIds.Any())
     {
       return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
     }
 
+    // Sjekk om Products er null
+    if (_ProductDbContext.Products == null)
+    {
+        return Problem("Entity set 'ProductDbContext.Products' is null.");
+    }
+
     // Get all products that belong to the user's producers
-    var products = _ProductDbContext.Products?
+    var products = await _ProductDbContext.Products
         .Include(p => p.Producer)
         .Where(p => userProducerIds.Contains(p.ProducerId))
-        .ToList();
+        .ToListAsync();
 
+    
     var viewModel = new ProductsViewModel(
-        products ?? new List<Product>(),
+        products, // ?? new List<Product>(), Tror ikke denne er nødvendig etter å ha sjekket om null tidligere, derfor er new list kommentert ut
         "Table"
     );
 
@@ -98,7 +112,7 @@ public class ProductController : Controller
   }
 
   [Authorize]
-  public IActionResult NewProduct()
+  public async Task <IActionResult> NewProduct()
   {
     var currentUserId = User.Identity?.Name;
 
@@ -108,9 +122,9 @@ public class ProductController : Controller
     }
 
     // Get producers owned by current user
-    var userProducers = _ProductDbContext.Producers?
+    var userProducers = await _ProductDbContext.Producers?
         .Where(p => p.OwnerId == currentUserId)
-        .ToList();
+        .ToListAsync();
 
     if (userProducers == null || !userProducers.Any())
     {
@@ -140,12 +154,12 @@ public class ProductController : Controller
 
   [Authorize]
   [HttpPost]
-  public IActionResult NewProduct(Product Products)
+  public async Task <IActionResult> NewProduct(Product Products)
   {
     if (ModelState.IsValid && _ProductDbContext != null)
     {
       _ProductDbContext?.Products?.Update(Products);
-      _ProductDbContext?.SaveChanges();
+      await _ProductDbContext?.SaveChangesAsync();
       return RedirectToAction(nameof(Table));
     }
     return View(Products);
@@ -154,9 +168,9 @@ public class ProductController : Controller
 
   [HttpGet]
   [Authorize]
-  public IActionResult Edit(int id)
+  public async Task <IActionResult> Edit(int id)
   {
-    var product = _ProductDbContext.Products?.FirstOrDefault(p => p.ProductId == id);
+    var product = await _ProductDbContext.Products?.FirstOrDefaultAsync(p => p.ProductId == id);
     if (product == null)
     {
       return NotFound();
@@ -195,7 +209,7 @@ public class ProductController : Controller
 
   [HttpPost]
   [Authorize]
-  public IActionResult Edit(Product product)
+  public async Task <IActionResult> Edit(Product product)
   {
     if (ModelState.IsValid)
     {
@@ -204,7 +218,7 @@ public class ProductController : Controller
         return Problem("Entity set 'ProductDbContext.Products' is null.");
       }
 
-      var existingProduct = _ProductDbContext.Products.Find(product.ProductId);
+      var existingProduct = await _ProductDbContext.Products.FindAsync(product.ProductId);
       if (existingProduct == null)
       {
         return NotFound();
@@ -212,7 +226,7 @@ public class ProductController : Controller
 
       // Update the existing product's properties
       _ProductDbContext.Entry(existingProduct).CurrentValues.SetValues(product);
-      _ProductDbContext.SaveChanges();
+      await _ProductDbContext.SaveChangesAsync();
 
       return RedirectWithMessage("Product", nameof(Table), "Product updated", "info");
 
@@ -222,20 +236,20 @@ public class ProductController : Controller
 
   [HttpPost]
   [Authorize]
-  public IActionResult DeleteConfirmed(int id)
+  public async Task <IActionResult> DeleteConfirmed(int id)
   {
     if (_ProductDbContext.Products == null)
     {
       return Problem("Entity set 'ProductDbContext.Products' is null.");
     }
 
-    var item = _ProductDbContext.Products.Find(id);
+    var item = await _ProductDbContext.Products.FindAsync(id);
     if (item == null)
     {
       return NotFound();
     }
     _ProductDbContext.Products.Remove(item);
-    _ProductDbContext.SaveChanges();
+    await _ProductDbContext.SaveChangesAsync();
 
     return RedirectWithMessage("Product", "Table", "Product successfully deleted", "success");
   }

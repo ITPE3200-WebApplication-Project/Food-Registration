@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
+using Microsoft.EntityFrameworkCore;
+using Food_Registration.DAL;
 
 namespace Food_Registration.Controllers
 {
@@ -15,7 +17,7 @@ namespace Food_Registration.Controllers
     }
 
     [Authorize]
-    public IActionResult Table()
+    public async Task <IActionResult> Table()
     {
       if (_ProductDbContext?.Producers == null)
       {
@@ -24,9 +26,9 @@ namespace Food_Registration.Controllers
 
       var currentUserId = User.Identity?.Name;
       Console.WriteLine(currentUserId);
-      var producers = _ProductDbContext.Producers
+      var producers = await _ProductDbContext.Producers
         .Where(p => p.OwnerId == currentUserId)
-        .ToList();
+        .ToListAsync();
 
       return View(producers);
     }
@@ -57,7 +59,7 @@ namespace Food_Registration.Controllers
     }
 
     [Authorize]
-    public IActionResult Edit(int id)
+    public async Task <IActionResult> Edit(int id)
     {
       if (_ProductDbContext?.Producers == null)
       {
@@ -65,7 +67,7 @@ namespace Food_Registration.Controllers
       }
 
       var currentUserId = User.Identity?.Name;
-      var producer = _ProductDbContext.Producers.FirstOrDefault(p => p.ProducerId == id);
+      var producer = await _ProductDbContext.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
 
       if (producer == null)
       {
@@ -84,7 +86,7 @@ namespace Food_Registration.Controllers
     [HttpPost]
     [Authorize]
     [ValidateAntiForgeryToken]
-    public IActionResult Edit(Producer producer)
+    public async Task <IActionResult> Edit(Producer producer)
     {
       if (!ModelState.IsValid)
       {
@@ -92,7 +94,7 @@ namespace Food_Registration.Controllers
       }
 
       var currentUserId = User.Identity?.Name;
-      var existingProducer = _ProductDbContext.Producers?.FirstOrDefault(p => p.ProducerId == producer.ProducerId);
+      var existingProducer = await _ProductDbContext.Producers?.FirstOrDefaultAsync(p => p.ProducerId == producer.ProducerId);
 
       if (existingProducer == null)
       {
@@ -111,21 +113,21 @@ namespace Food_Registration.Controllers
       existingProducer.ImageUrl = producer.ImageUrl;
       // Do not update OwnerId as it should remain unchanged
 
-      _ProductDbContext.SaveChanges();
+      await _ProductDbContext.SaveChangesAsync();
       return RedirectToAction(nameof(Table));
     }
 
     [HttpPost]
     [Authorize]
-    public IActionResult DeleteConfirmed(int id)
+    public async Task <IActionResult> DeleteConfirmed(int id)
     {
       if (_ProductDbContext?.Producers == null)
       {
         return Problem("Entity set 'ProductDbContext.Producers' is null.");
       }
 
-      var producer = _ProductDbContext.Producers
-        .FirstOrDefault(p => p.ProducerId == id);
+      var producer = await _ProductDbContext.Producers
+        .FirstOrDefaultAsync(p => p.ProducerId == id);
 
       if (producer == null)
       {
@@ -145,7 +147,7 @@ namespace Food_Registration.Controllers
         return Problem("Entity set 'ProductDbContext.Products' is null.");
       }
 
-      var hasProducts = _ProductDbContext.Products.Any(p => p.ProducerId == id);
+      var hasProducts = await _ProductDbContext.Products.AnyAsync(p => p.ProducerId == id);
       if (hasProducts)
       {
         return RedirectWithMessage("Producer", "Table",
@@ -155,7 +157,7 @@ namespace Food_Registration.Controllers
 
       // Delete the producer
       _ProductDbContext.Producers.Remove(producer);
-      _ProductDbContext.SaveChanges();
+      await _ProductDbContext.SaveChangesAsync();
 
       return RedirectWithMessage("Producer", "Table", "Producer successfully deleted", "success");
     }

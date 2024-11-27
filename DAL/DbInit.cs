@@ -1,5 +1,6 @@
 using Food_Registration.Models;
-namespace Food_Registration.Models;
+
+namespace Food_Registration.DAL;
 
 public static class DBInit
 {
