@@ -77,6 +77,11 @@ public class ProductController : Controller
       product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
     }
 
+    if (product.Producer.ImageUrl == null || product.Producer.ImageUrl == "")
+    {
+      product.Producer.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
+    }
+
     return View(product);
   }
 
