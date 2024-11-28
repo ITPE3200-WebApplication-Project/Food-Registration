@@ -162,9 +162,9 @@ public static class DBInit
             },
             new Product
             {
-                Name = "Greek Yogurt",
+                Name = "Turkish Yogurt",
                 Description = "Creamy Greek yogurt, high in protein",
-                ImageUrl = "https://images.unsplash.com/photo-1488477181946-6428a0291777?w=500&q=80&fit=crop",
+                ImageUrl = "./images/yogurt.jpg",/*images from https://yemek.com/tarif/evde-yogurt-yapimi/*/
                 Category = "Dairy",
                 ProducerId = producers[2].ProducerId,
                 Calories = 130m,
@@ -220,7 +220,7 @@ public static class DBInit
             {
                 Name = "Sparkling Water",
                 Description = "Natural sparkling mineral water",
-                ImageUrl = "https://images.unsplash.com/photo-1598343175492-9e7dc0e63cc6?w=500&q=80&fit=crop",
+                ImageUrl = "./images/water1.jpg",/*Bildet er tatt av <a href="https://pixabay.com/no/users/leopoldboettcher-10118366/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Leopold Böttcher</a> fra <a href="https://pixabay.com/no//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Pixabay</a>*/
                 Category = "Drinks",
                 ProducerId = producers[4].ProducerId,
                 Calories = 0m,
@@ -235,7 +235,7 @@ public static class DBInit
             {
                 Name = "Rainbow Candy Popcorn",
                 Description = "Colorful, sweet popcorn that will make your taste buds dance 🌈",
-                ImageUrl = "https://images.unsplash.com/photo-1613758235256-43a7bdc21d82?w=500&q=80&fit=crop",
+                ImageUrl = "./images/popcornRainbow.jpg",/*(images edited)images from https://www.istockphoto.com/photo/white-and-plain-popcorn-for-background-uses-gm1179252944-329907145 */
                 Category = "Other",
                 ProducerId = producers[4].ProducerId,
                 Calories = 387m,
@@ -248,7 +248,7 @@ public static class DBInit
             {
                 Name = "Chocolate Covered Pickles",
                 Description = "Yes, you read that right. Don't knock it till you try it! 🥒🍫",
-                ImageUrl = "https://images.unsplash.com/photo-1481931098730-318b6f776db0?w=500&q=80&fit=crop",
+                ImageUrl = "./images/chocolateCoveredPickles.jpg",/*images from:https://pixabay.com/no/photos/kake-stykke-tallerken-dessert-s%C3%B8t-1971552/*/
                 Category = "Other",
                 ProducerId = producers[0].ProducerId,
                 Calories = 150m,
