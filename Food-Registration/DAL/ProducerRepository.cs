@@ -7,40 +7,88 @@ public class ProducerRepository : IProducerRepository
 {
     private readonly ItemDbContext _db;
 
-    public ProducerRepository(ItemDbContext db)
+    private readonly ILogger<ProducerRepository> _logger;
+
+    public ProducerRepository(ItemDbContext db, ILogger<ProducerRepository> logger)
     {
         _db = db;
+        _logger = logger;
     }
 
     public async Task<IEnumerable<Producer>> GetAllProducersAsync()
     {
-        return await _db.Producers.ToListAsync();
+        try
+        {
+            return await _db.Producers.ToListAsync();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProducerRepository] items ToListAsync() failed when GetAllProducersAsync() is called, error message: {e}", e.Message);
+            return null;
+        }
     }
 
     public async Task<Producer?> GetProducerByIdAsync(int id)
     {
-        return await _db.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
-    }
-
-    public async Task AddProducerAsync(Producer producer)
-    {
-        _db.Producers.Add(producer);
-        await _db.SaveChangesAsync();
-    }
-
-    public async Task UpdateProducerAsync(Producer producer)
-    {
-        _db.Producers.Update(producer);
-        await _db.SaveChangesAsync();
-    }
-
-    public async Task DeleteProducerAsync(int id)
-    {
-        var producer = await _db.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
-        if (producer != null)
+        try
         {
+            return await _db.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProducerRepository] items FirstOrDefaultAsync() failed when GetProducerByIdAsync() is called, error message: {e}", e.Message);
+            return null;
+        }
+    }
+
+    public async Task<bool> AddProducerAsync(Producer producer)
+    {
+        try
+        {
+            _db.Producers.Add(producer);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProducerRepository] items Add() failed when AddProducerAsync() is called, error message: {e}", e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> UpdateProducerAsync(Producer producer)
+    {
+        try
+        {
+            _db.Producers.Update(producer);
+            await _db.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProducerRepository] items Update() failed when UpdateProducerAsync() is called, error message: {e}", e.Message);
+            return false;
+        }
+    }
+
+    public async Task<bool> DeleteProducerAsync(int id)
+    {
+        try
+        {
+            var producer = await _db.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
+            if (producer == null)
+            {
+                _logger.LogError("[ProducerRepository] item not found for the ProducedId {ProducerId:0000}", id);
+                return false;
+            }
             _db.Producers.Remove(producer);
             await _db.SaveChangesAsync();
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProducerRepository] item deletion failed for the ItemId {ItemId:0000}, error message: {e}", id, e.Message);
+            return false;
         }
     }
 }
