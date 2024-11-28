@@ -7,6 +7,8 @@ using Food_Registration.Models;
 using Food_Registration.DAL;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Hosting;
 
 namespace Food_Registration.Tests.Controllers
 {
@@ -14,6 +16,8 @@ namespace Food_Registration.Tests.Controllers
   {
     private readonly Mock<IProductRepository> _mockProductRepo;
     private readonly Mock<IProducerRepository> _mockProducerRepo;
+    private readonly Mock<IWebHostEnvironment> _mockWebHostEnvironment;
+    private readonly Mock<ILogger<ProductController>> _mockLogger;
     private readonly ProductController _controller;
 
     public ProductControllerTests()
@@ -21,9 +25,16 @@ namespace Food_Registration.Tests.Controllers
       // Setup repositories
       _mockProductRepo = new Mock<IProductRepository>();
       _mockProducerRepo = new Mock<IProducerRepository>();
+      _mockWebHostEnvironment = new Mock<IWebHostEnvironment>();
+      _mockLogger = new Mock<ILogger<ProductController>>();
 
-      // Setup controller
-      _controller = new ProductController(_mockProductRepo.Object, _mockProducerRepo.Object);
+      // Setup controller with all required dependencies
+      _controller = new ProductController(
+          _mockProductRepo.Object,
+          _mockProducerRepo.Object,
+          _mockWebHostEnvironment.Object,
+          _mockLogger.Object
+      );
 
       // Setup mock user identity
       var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
@@ -179,43 +190,43 @@ namespace Food_Registration.Tests.Controllers
     [Fact]
     public async Task AllProducts_ReturnsFilteredProducts()
     {
-        // Arrange
-        var products = new List<Product>
+      // Arrange
+      var products = new List<Product>
         {
             new Product { ProductId = 1, Name = "Apple", Category = "Fruits" },
             new Product { ProductId = 2, Name = "Orange", Category = "Fruits" },
             new Product { ProductId = 3, Name = "Carrot", Category = "Vegetables" }
         };
 
-        _mockProductRepo.Setup(repo => repo.GetAllProductsAsync())
-            .ReturnsAsync(products);
+      _mockProductRepo.Setup(repo => repo.GetAllProductsAsync())
+          .ReturnsAsync(products);
 
-        // Act
-        var result = await _controller.AllProducts("Apple", "Fruits");
+      // Act
+      var result = await _controller.AllProducts("Apple", "Fruits");
 
-        // Assert
-        var viewResult = Assert.IsType<ViewResult>(result);
-        var model = Assert.IsAssignableFrom<List<Product>>(viewResult.Model);
+      // Assert
+      var viewResult = Assert.IsType<ViewResult>(result);
+      var model = Assert.IsAssignableFrom<List<Product>>(viewResult.Model);
 
-        Assert.Single(model);
-        Assert.Equal("Apple", model.First().Name);
+      Assert.Single(model);
+      Assert.Equal("Apple", model.First().Name);
     }
 
-   
+
     //Unit Test 8
     [Fact]
     public async Task DeleteConfirmed_ProductAndProducerNotFound_ReturnsNotFound()
     {
-        // Arrange
-        _mockProductRepo.Setup(repo => repo.GetProductByIdAsync(It.IsAny<int>()))
-            .ReturnsAsync((Product)null); // No product found
+      // Arrange
+      _mockProductRepo.Setup(repo => repo.GetProductByIdAsync(It.IsAny<int>()))
+          .ReturnsAsync((Product)null); // No product found
 
-        // Act
-        var result = await _controller.DeleteConfirmed(999);  // Using a non-existent product ID
+      // Act
+      var result = await _controller.DeleteConfirmed(999);  // Using a non-existent product ID
 
-        // Assert
-        var notFoundResult = Assert.IsType<NotFoundResult>(result);  // Expecting NotFound result
-        _mockProductRepo.Verify(repo => repo.DeleteProductAsync(It.IsAny<int>()), Times.Never);  // Verify DeleteProductAsync is not called
+      // Assert
+      var notFoundResult = Assert.IsType<NotFoundResult>(result);  // Expecting NotFound result
+      _mockProductRepo.Verify(repo => repo.DeleteProductAsync(It.IsAny<int>()), Times.Never);  // Verify DeleteProductAsync is not called
     }
   }
 }
