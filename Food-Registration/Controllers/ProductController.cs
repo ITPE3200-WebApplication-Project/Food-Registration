@@ -136,11 +136,9 @@ public class ProductController : Controller
             "Fruits",
             "Vegetables",
             "Meat",
-            "Fish",
+            "Bakery",
             "Dairy",
-            "Grains",
-            "Beverages",
-            "Snacks",
+            "Drinks",
             "Other"
         };
     ViewBag.Categories = new SelectList(categories);
