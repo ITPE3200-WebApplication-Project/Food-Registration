@@ -311,3 +311,7 @@ x .card-bottom {
   margin: 0;
   vertical-align: middle;
 }
+
+.text-nowrap {
+  white-space: nowrap;
+}
