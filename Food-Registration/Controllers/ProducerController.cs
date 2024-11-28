@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
 using Microsoft.EntityFrameworkCore;
 using Food_Registration.DAL;
+using Microsoft.Extensions.Logging; 
+
 
 namespace Food_Registration.Controllers
 {
@@ -10,10 +12,14 @@ namespace Food_Registration.Controllers
   {
     private readonly ItemDbContext _ItemDbContext;
 
-    public ProducerController(ItemDbContext ItemDbContext)
-    {
-      _ItemDbContext = ItemDbContext;
-    }
+     private readonly ILogger<ProducerController> _logger; 
+
+      public ProducerController(ItemDbContext ItemDbContext, ILogger<ProducerController> logger)
+        {
+            _ItemDbContext = ItemDbContext;
+            _logger = logger; 
+        }
+
 
     [Authorize]
     [HttpGet]
