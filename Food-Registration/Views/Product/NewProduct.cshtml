@@ -10,6 +10,9 @@
         <div class="col-12">
             <h1 class="text-center mb-4">Create New Product</h1>
 
+    
+    <!--Products form Information -->
+
             <form asp-action="NewProduct"  enctype="multipart/form-data"  method="post">
                 <div class="form-group mb-3">
                     <label asp-for="Name" class="form-label">Name</label><span class="text-danger">*</span>
@@ -46,7 +49,8 @@
                 </div>
 
 
-                <!-- Nutritional Information -->
+    <!-- Nutritional Information -->
+
                 <div class="mb-3">
                     <h5>Nutritional Values (per 100g)</h5>
                 </div>
@@ -88,6 +92,8 @@
                     </select>
                     <span asp-validation-for="NutritionScore" class="text-danger"></span>
                 </div>
+       
+     <!-- Button -->
 
                 <div class="form-group mt-4">
                     <button type="submit" class="btn btn-success">Create Product</button>

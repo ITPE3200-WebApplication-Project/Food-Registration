@@ -2,63 +2,31 @@
 
 <div class="container my-4">
   <h1 class="text-center mb-4">Edit Product</h1>
-  <div class="row justify-content-center">
-    <div class="col-md-8">
-      <form asp-action="Edit" asp-controller="Product" method="post">
+  
+  <!-- Row for the form and image -->
+  <div class="row">
+    <!-- Left Column: Image -->
+    <div class="col-md-6 text-center">
+      @if (!string.IsNullOrEmpty(Model.ImageUrl))
+      {
+        <img src="@Model.ImageUrl" alt="Product Image" class="img-fluid rounded" style="max-width: 100%; height: auto; max-height: 400px;" />
+      }
+      else
+      {
+        <p>No image available</p>
+      }
+    </div>
+
+    <!-- Right Column: Form -->
+    <div class="col-md-6">
+      <form asp-action="Edit" asp-controller="Product" method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="ProductId" />
 
-        <!--Products Information-->
+        <!-- Products Information -->
         <div class="form-group mb-3">
-          <label asp-for="Name" class="form-label"></label>
+          <label asp-for="Name" class="form-label">Name</label>
           <input asp-for="Name" class="form-control" />
           <span asp-validation-for="Name" class="text-danger"></span>
-        </div>
-
-        <label asp-for="Category" class="form-label"></label>
-        <select asp-for="Category" asp-items="ViewBag.Categories" class="form-select">
-          <option value="">-- Select a Category --</option>
-        </select>
-
-
-        <div class="form-group mb-3">
-          <label asp-for="Calories" class="form-label"></label>
-          <input asp-for="Calories" class="form-control" />
-          <span asp-validation-for="Calories" class="text-danger"></span>
-        </div>
-
-        <!-- 100g Değerleri Başlıkları -->
-        <h5 class="mt-4">Nutritional Values per 100g for Carbohydrates, Fat, Protein</h5>
-
-        <div class="form-group mb-3">
-          <label asp-for="Carbohydrates" class="form-label">Carbohydrates (mg)</label>
-          <input asp-for="Carbohydrates" class="form-control" />
-          <span asp-validation-for="Carbohydrates" class="text-danger"></span>
-        </div>
-
-        <div class="form-group mb-3">
-          <label asp-for="Fat" class="form-label">Fat (mg)</label>
-          <input asp-for="Fat" class="form-control" />
-          <span asp-validation-for="Fat" class="text-danger"></span>
-        </div>
-
-        <div class="form-group mb-3">
-          <label asp-for="Protein" class="form-label">Protein (mg)</label>
-          <input asp-for="Protein" class="form-control" />
-          <span asp-validation-for="Protein" class="text-danger"></span>
-        </div>
-
-        <div class="form-group mb-3">
-          <label asp-for="NutritionScore" class="form-label">Nutrition Score</label>
-          <select asp-for="NutritionScore" asp-items="ViewBag.NutritionScores" class="form-select">
-            <option value="">-- Select a Nutrition Score --</option>
-          </select>
-          <span asp-validation-for="NutritionScore" class="text-danger"></span>
-        </div>
-
-        <div class="form-group mb-3">
-          <label asp-for="Description" class="form-label"></label>
-          <textarea asp-for="Description" class="form-control"></textarea>
-          <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
         <div class="form-group mb-3">
@@ -69,23 +37,73 @@
           <span asp-validation-for="ProducerId" class="text-danger"></span>
         </div>
 
-        <!-- Image URL  -->
         <div class="form-group mb-3">
-          <label asp-for="ImageUrl" class="form-label"></label>
-          <input asp-for="ImageUrl" class="form-control" />
-          <span asp-validation-for="ImageUrl" class="text-danger"></span>
+          <label asp-for="Description" class="form-label">Description</label>
+          <textarea asp-for="Description" class="form-control"></textarea>
+          <span asp-validation-for="Description" class="text-danger"></span>
         </div>
 
-        <div class="alert alert-info" role="alert">
-          Note: Please use a comma for decimal numbers (e.g., 1,5 instead of 1.5).
+        <div class="form-group mb-3">
+          <label asp-for="Category" class="form-label">Category</label>
+          <select asp-for="Category" asp-items="ViewBag.Categories" class="form-select">
+            <option value="">-- Select a Category --</option>
+          </select>
+        </div>
+
+         <div class="form-group mb-3">
+            <label asp-for="ImageUrl" class="form-label">Change Image</label>
+            <input type="file" name="file" class="form-control" />
+            <span asp-validation-for="ImageUrl" class="text-danger"></span>
+        </div>
+        <br>
+        <!-- Nutritional Information -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label asp-for="Calories" class="form-label">Calories (kcal)</label>
+              <input asp-for="Calories" class="form-control" type="number" step="0.1" />
+              <span asp-validation-for="Calories" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label asp-for="Fat" class="form-label">Fat (g)</label>
+              <input asp-for="Fat" class="form-control" type="number" step="0.1" />
+              <span asp-validation-for="Fat" class="text-danger"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label asp-for="Protein" class="form-label">Protein (g)</label>
+              <input asp-for="Protein" class="form-control" type="number" step="0.1" />
+              <span asp-validation-for="Protein" class="text-danger"></span>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group mb-3">
+              <label asp-for="Carbohydrates" class="form-label">Carbohydrates (g)</label>
+              <input asp-for="Carbohydrates" class="form-control" type="number" step="0.1" />
+              <span asp-validation-for="Carbohydrates" class="text-danger"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group mb-3">
+          <label asp-for="NutritionScore" class="form-label">Nutrition Score</label>
+          <select asp-for="NutritionScore" asp-items="ViewBag.NutritionScores" class="form-select">
+            <option value="">-- Select a Nutrition Score --</option>
+          </select>
+          <span asp-validation-for="NutritionScore" class="text-danger"></span>
         </div>
 
         <!-- Button -->
         <div class="d-flex justify-content-end mt-3" style="margin: 20px;">
-          <button type="submit" class="btn btn-primary me-2">Save Changes</button>
+          <button type="submit" class="btn btn-primary me-2">Update</button>
           <a asp-action="Table" class="btn btn-secondary">Cancel</a>
         </div>
-
       </form>
     </div>
   </div>
