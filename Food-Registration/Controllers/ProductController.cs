@@ -4,6 +4,8 @@ using Food_Registration.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Food_Registration.DAL;
+using Microsoft.Extensions.Logging; 
+
 
 namespace Food_Registration.Controllers;
 
@@ -11,11 +13,18 @@ namespace Food_Registration.Controllers;
 public class ProductController : Controller
 {
   private readonly IProductRepository _productRepository;
+
   private readonly IProducerRepository _producerRepository;
-  public ProductController(IProductRepository productRepository, IProducerRepository producerRepository)
+
+  private readonly IWebHostEnvironment _webHostEnvironment;
+
+   private readonly ILogger<ProductController> _logger;
+  public ProductController(IProductRepository productRepository, IProducerRepository producerRepository, IWebHostEnvironment webHostEnvironment, ILogger<ProductController> logger)
   {
     _productRepository = productRepository;
     _producerRepository = producerRepository;
+    _webHostEnvironment = webHostEnvironment;
+     _logger = logger;
   }
 
   [HttpGet]
@@ -51,6 +60,7 @@ public class ProductController : Controller
 
     return View("~/Views/Product/AllProducts.cshtml", productList);
   }
+
 
   [HttpGet]
   public async Task<IActionResult> ReadMore(int id)
@@ -169,7 +179,6 @@ public class ProductController : Controller
     await _productRepository.AddProductAsync(product);
     return RedirectToAction(nameof(Table));
   }
-
 
   [Authorize]
   [HttpGet]

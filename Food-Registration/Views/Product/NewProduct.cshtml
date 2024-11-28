@@ -10,7 +10,7 @@
         <div class="col-12">
             <h1 class="text-center mb-4">Create New Product</h1>
 
-            <form asp-action="NewProduct" method="post">
+            <form asp-action="NewProduct"  enctype="multipart/form-data"  method="post">
                 <div class="form-group mb-3">
                     <label asp-for="Name" class="form-label">Name</label><span class="text-danger">*</span>
                     <input asp-for="Name" class="form-control" />
@@ -41,9 +41,10 @@
 
                 <div class="form-group mb-3">
                     <label asp-for="ImageUrl" class="form-label">Image URL</label><span class="text-danger">*</span>
-                    <input asp-for="ImageUrl" class="form-control" />
+                    <input type="file" name="file" class="form-control" />
                     <span asp-validation-for="ImageUrl" class="text-danger"></span>
                 </div>
+
 
                 <!-- Nutritional Information -->
                 <div class="mb-3">
