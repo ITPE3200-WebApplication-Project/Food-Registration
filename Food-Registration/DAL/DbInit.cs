@@ -164,7 +164,7 @@ public static class DBInit
             {
                 Name = "Turkish Yogurt",
                 Description = "Creamy Greek yogurt, high in protein",
-                ImageUrl = "./images/yogurt.jpg",/*images from https://yemek.com/tarif/evde-yogurt-yapimi/*/
+                ImageUrl = "~/images/yogurt.jpg",/*images from https://yemek.com/tarif/evde-yogurt-yapimi/*/
                 Category = "Dairy",
                 ProducerId = producers[2].ProducerId,
                 Calories = 130m,
@@ -220,7 +220,7 @@ public static class DBInit
             {
                 Name = "Sparkling Water",
                 Description = "Natural sparkling mineral water",
-                ImageUrl = "./images/water1.jpg",/*Bildet er tatt av <a href="https://pixabay.com/no/users/leopoldboettcher-10118366/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Leopold Böttcher</a> fra <a href="https://pixabay.com/no//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Pixabay</a>*/
+                ImageUrl = "~/images/water1.jpg",/*Bildet er tatt av <a href="https://pixabay.com/no/users/leopoldboettcher-10118366/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Leopold Böttcher</a> fra <a href="https://pixabay.com/no//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Pixabay</a>*/
                 Category = "Drinks",
                 ProducerId = producers[4].ProducerId,
                 Calories = 0m,
@@ -235,7 +235,7 @@ public static class DBInit
             {
                 Name = "Rainbow Candy Popcorn",
                 Description = "Colorful, sweet popcorn that will make your taste buds dance 🌈",
-                ImageUrl = "./images/popcornRainbow.jpg",/*(images Updateed)images from https://www.istockphoto.com/photo/white-and-plain-popcorn-for-background-uses-gm1179252944-329907145 */
+                ImageUrl = "~/images/popcornRainbow.jpg",/*(images Updateed)images from https://www.istockphoto.com/photo/white-and-plain-popcorn-for-background-uses-gm1179252944-329907145 */
                 Category = "Other",
                 ProducerId = producers[4].ProducerId,
                 Calories = 387m,
@@ -248,7 +248,7 @@ public static class DBInit
             {
                 Name = "Chocolate Covered Pickles",
                 Description = "Yes, you read that right. Don't knock it till you try it! 🥒🍫",
-                ImageUrl = "./images/chocolateCoveredPickles.jpg",/*images from:https://pixabay.com/no/photos/kake-stykke-tallerken-dessert-s%C3%B8t-1971552/*/
+                ImageUrl = "~/images/chocolateCoveredPickles.jpg",/*images from:https://pixabay.com/no/photos/kake-stykke-tallerken-dessert-s%C3%B8t-1971552/*/
                 Category = "Other",
                 ProducerId = producers[0].ProducerId,
                 Calories = 150m,
