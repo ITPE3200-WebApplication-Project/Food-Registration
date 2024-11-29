@@ -50,7 +50,7 @@ public class ProducerRepository : IProducerRepository
         }
     }
 
-    public async Task<bool> AddProducerAsync(Producer producer)
+    public async Task<bool> CreateProducerAsync(Producer producer)
     {
         try
         {
@@ -64,7 +64,7 @@ public class ProducerRepository : IProducerRepository
         }
         catch (Exception e)
         {
-            _logger.LogError("[ProducerRepository] items Add() failed when AddProducerAsync() is called, error message: {e}", e.Message);
+            _logger.LogError("[ProducerRepository] items Add() failed when CreateProducerAsync() is called, error message: {e}", e.Message);
             return false;
         }
     }

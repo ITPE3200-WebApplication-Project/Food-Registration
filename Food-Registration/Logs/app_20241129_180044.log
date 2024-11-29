@@ -1,0 +1,38 @@
+2024-11-29 18:00:44.750 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2024-11-29 18:00:44.856 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Producers" AS "p"
+2024-11-29 18:00:44.860 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Products" AS "p"
+2024-11-29 18:00:44.901 +01:00 [INF] User profile is available. Using '/Users/magnus/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-11-29 18:00:44.971 +01:00 [INF] Now listening on: http://localhost:5173
+2024-11-29 18:00:44.973 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-29 18:00:44.973 +01:00 [INF] Hosting environment: Development
+2024-11-29 18:00:44.973 +01:00 [INF] Content root path: /Users/magnus/Desktop/Food-Registration/Food-Registration
+2024-11-29 18:00:47.184 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2024-11-29 18:00:47.219 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Index (Food-Registration)'
+2024-11-29 18:00:47.229 +01:00 [INF] Route matched with {action = "Index", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:00:47.284 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 18:00:47.325 +01:00 [ERR] An exception occurred while iterating over the results of a query for context type 'Food_Registration.DAL.ItemDbContext'.
+System.InvalidOperationException: The data is NULL at ordinal 8. This method can't be called on NULL values. Check using IsDBNull before calling.
+   at Microsoft.Data.Sqlite.SqliteValueReader.GetString(Int32 ordinal)
+   at Microsoft.Data.Sqlite.SqliteDataReader.GetString(Int32 ordinal)
+   at lambda_method23(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+System.InvalidOperationException: The data is NULL at ordinal 8. This method can't be called on NULL values. Check using IsDBNull before calling.
+   at Microsoft.Data.Sqlite.SqliteValueReader.GetString(Int32 ordinal)
+   at Microsoft.Data.Sqlite.SqliteDataReader.GetString(Int32 ordinal)
+   at lambda_method23(Closure, QueryContext, DbDataReader, ResultContext, SingleQueryResultCoordinator)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+2024-11-29 18:00:47.328 +01:00 [ERR] [ProductRepository] GetAllProductsAsync failed: The data is NULL at ordinal 8. This method can't be called on NULL values. Check using IsDBNull before calling.
+2024-11-29 18:00:47.330 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/Index.cshtml.
+2024-11-29 18:00:47.377 +01:00 [INF] Executed ViewResult - view ~/Views/Product/Index.cshtml executed in 46.7961ms.
+2024-11-29 18:00:47.377 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Index (Food-Registration) in 148.345ms
+2024-11-29 18:00:47.378 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Index (Food-Registration)'
+2024-11-29 18:00:47.380 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 200 null text/html; charset=utf-8 197.5922ms
+2024-11-29 18:05:58.019 +01:00 [INF] Application is shutting down...

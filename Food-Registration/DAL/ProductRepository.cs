@@ -43,12 +43,12 @@ public class ProductRepository : IProductRepository
         }
         catch (Exception e)
         {
-            _logger.LogError($"[ProductRepository] Error getting product by id {id}: {e.Message}");
+            _logger.LogError("[ProductRepository] Error getting product by id {id}: {e}", id, e.Message);
             return null;
         }
     }
 
-    public async Task<bool> AddProductAsync(Product product)
+    public async Task<bool> CreateProductAsync(Product product)
     {
         try
         {
@@ -62,7 +62,7 @@ public class ProductRepository : IProductRepository
         }
         catch (Exception e)
         {
-            _logger.LogError("[ProductRepository] items Add() failed when AddProductAsync() is called, error message: {e}", e.Message);
+            _logger.LogError("[ProductRepository] items Add() failed when CreateProductAsync() is called, error message: {e}", e.Message);
             return false;
         }
         /*

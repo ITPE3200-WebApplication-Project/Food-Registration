@@ -6,7 +6,7 @@ public interface IProductRepository
 {
     Task<IEnumerable<Product>> GetAllProductsAsync();
     Task<Product?> GetProductByIdAsync(int id);
-    Task<bool> AddProductAsync(Product product);
+    Task<bool> CreateProductAsync(Product product);
     Task<bool> UpdateProductAsync(Product product);
     Task<bool> DeleteProductAsync(int id);
 }
@@ -19,7 +19,7 @@ public interface IProductRepository
 {
     Task<IEnumerable<Product>> GetAllProductsAsync();
     Task<Product?> GetProductByIdAsync(int id);
-    Task<bool> AddProductAsync(Product product);
+    Task<bool> CreateProductAsync(Product product);
     Task<bool> UpdateProductAsync(Product product);
     Task<bool> DeleteProductAsync(int id);
 }

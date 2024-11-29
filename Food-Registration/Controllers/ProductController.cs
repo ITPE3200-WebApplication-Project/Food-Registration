@@ -192,19 +192,30 @@ public class ProductController : Controller
   [HttpPost]
   public async Task<IActionResult> Create(Product product, IFormFile? file)
   {
-    if (!ModelState.IsValid)
+    // Get current user's producers first
+    var currentUserId = User.Identity?.Name;
+    var userProducers = (await _producerRepository.GetAllProducersAsync())
+        .Where(p => p.OwnerId == currentUserId)
+        .ToList();
+
+    // Populate ViewBag immediately
+    ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
+    ViewBag.Categories = new SelectList(new List<string>
     {
-        var userProducers = (await _producerRepository.GetAllProducersAsync())
-            .Where(p => p.OwnerId == User.Identity?.Name)
-            .ToList();
-            
-        ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
-        ViewBag.Categories = new SelectList(new List<string>
+        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
+    });
+    ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
+
+    if (!ModelState.IsValid || product.ProducerId == 0 || string.IsNullOrEmpty(product.NutritionScore))
+    {
+        if (product.ProducerId == 0)
         {
-            "Fruits", "Vegetables", "Meat", "Bakery", "Dairy", "Drinks", "Other"
-        });
-        ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
-        
+            ModelState.AddModelError("ProducerId", "Please select a producer");
+        }
+        if (string.IsNullOrEmpty(product.NutritionScore))
+        {
+            ModelState.AddModelError("NutritionScore", "Please select a nutrition score");
+        }
         return View(product);
     }
 
@@ -232,7 +243,6 @@ public class ProductController : Controller
         return View(product);
     }
 
-    var currentUserId = User.Identity?.Name;
     var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
     if (producer == null || producer.OwnerId != User.Identity?.Name)
     {
@@ -250,7 +260,7 @@ public class ProductController : Controller
     
     try
       {
-          await _productRepository.AddProductAsync(product);
+          await _productRepository.CreateProductAsync(product);
           return RedirectToAction(nameof(Table));
       }
       catch (Exception e)
@@ -293,15 +303,19 @@ public class ProductController : Controller
         product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
     }
 
-    // Get all producers
-    var producers = await _producerRepository.GetAllProducersAsync();
+    // Get only producers owned by current user
+    var currentUserId = User.Identity?.Name;
+    var userProducers = (await _producerRepository.GetAllProducersAsync())
+        .Where(p => p.OwnerId == currentUserId)
+        .ToList();
 
     ViewBag.Categories = new SelectList(new List<string>
     {
         "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
     });
 
-    ViewBag.ProducerList = new SelectList(producers, "ProducerId", "Name", product.ProducerId);
+    // Update producer list to only show user's producers
+    ViewBag.ProducerList = new SelectList(userProducers, "ProducerId", "Name", product.ProducerId);
     ViewBag.NutritionScores = new SelectList(new List<string>
     {
       "A", "B", "C", "D", "E"
@@ -315,13 +329,54 @@ public class ProductController : Controller
   [Authorize]
   public async Task<IActionResult> Update(Product product, IFormFile? file, bool removeImage = false)
   {
-    if (!ModelState.IsValid)
+    // Get current user's producers first
+    var currentUserId = User.Identity?.Name;
+    var producers = await _producerRepository.GetAllProducersAsync();
+    var userProducers = producers.Where(p => p.OwnerId == currentUserId).ToList();
+
+    // Populate ViewBag immediately
+    ViewBag.ProducerList = new SelectList(userProducers, "ProducerId", "Name");
+    ViewBag.Categories = new SelectList(new List<string>
     {
-        await PopulateDropdowns();
+        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
+    });
+    ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
+
+    if (!ModelState.IsValid || product.ProducerId == 0 || string.IsNullOrEmpty(product.NutritionScore))
+    {
+        // Get existing product details
+        var existingProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
+        if (existingProduct != null)
+        {
+            product.ImageUrl = existingProduct.ImageUrl;
+        }
+
+        // Ensure there's always an image URL
+        if (string.IsNullOrEmpty(product.ImageUrl))
+        {
+            product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
+        }
+
+        if (product.ProducerId == 0)
+        {
+            ModelState.AddModelError("ProducerId", "Please select a producer");
+        }
+
+        if (string.IsNullOrEmpty(product.NutritionScore))
+        {
+            ModelState.AddModelError("NutritionScore", "Please select a nutrition score");
+        }
+
         return View(product);
     }
 
-      try 
+    // Check if the selected producer belongs to the user
+    if (!userProducers.Select(p => p.ProducerId).Contains(product.ProducerId))
+    {
+        return RedirectWithMessage("Product", "Table", "Invalid producer selection", "error");
+    }
+
+    try 
       {
           // Get existing product with current image
           var existingProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
@@ -331,7 +386,6 @@ public class ProductController : Controller
           }
 
     // Verify ownership
-    var currentUserId = User.Identity?.Name;
     var producer = await _producerRepository.GetProducerByIdAsync(existingProduct.ProducerId);
     if (producer?.OwnerId != currentUserId)
     {
