@@ -19,17 +19,11 @@ public class ProductRepository : IProductRepository
     {
         try
         {
-            var products = await _db.Products
-                .Include(p => p.Producer)
-                .ToListAsync();
-
-            _logger.LogInformation($"[ProductRepository] Found {products.Count} products in database");
-            foreach (var p in products)
+            if (_db.Products != null)
             {
-                _logger.LogInformation($"Product: {p.Name}, ProducerId: {p.ProducerId}, Producer: {p.Producer?.Name}, OwnerId: {p.Producer?.OwnerId}");
+                return await _db.Products.Include(p => p.Producer).ToListAsync();
             }
-
-            return products;
+            return new List<Product>();
         }
         catch (Exception e)
         {
@@ -42,6 +36,7 @@ public class ProductRepository : IProductRepository
     {
         try
         {
+            if (_db.Products == null) return null;
             return await _db.Products
                 .Include(p => p.Producer)
                 .FirstOrDefaultAsync(p => p.ProductId == id);
@@ -57,9 +52,13 @@ public class ProductRepository : IProductRepository
     {
         try
         {
-            _db.Products.Add(product);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.Products != null)
+            {
+                _db.Products.Add(product);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
         catch (Exception e)
         {
@@ -89,33 +88,12 @@ public class ProductRepository : IProductRepository
     {
         try
         {
-            _logger.LogInformation($"[ProductRepository] Updating product {product.ProductId} with NutritionScore: {product.NutritionScore}");
-            
-            var existingProduct = await _db.Products
-                .Include(p => p.Producer)
-                .FirstOrDefaultAsync(p => p.ProductId == product.ProductId);
-
-            if (existingProduct == null)
+            if (_db.Products != null)
             {
-                _logger.LogError($"[ProductRepository] Product {product.ProductId} not found");
-                return false;
+                _db.Products.Update(product);
+                return await _db.SaveChangesAsync() > 0;
             }
-
-            // Update all fields
-            existingProduct.Name = product.Name;
-            existingProduct.Description = product.Description;
-            existingProduct.Category = product.Category;
-            existingProduct.NutritionScore = product.NutritionScore;
-            existingProduct.Calories = product.Calories;
-            existingProduct.Carbohydrates = product.Carbohydrates;
-            existingProduct.Fat = product.Fat;
-            existingProduct.Protein = product.Protein;
-            existingProduct.ProducerId = product.ProducerId;
-
-            await _db.SaveChangesAsync();
-            
-            _logger.LogInformation($"[ProductRepository] Successfully updated product {product.ProductId}");
-            return true;
+            return false;
         }
         catch (Exception e)
         {
@@ -128,15 +106,19 @@ public class ProductRepository : IProductRepository
     {
         try
         {
-            var product = await _db.Products.FirstOrDefaultAsync(p => p.ProductId == id);
-            if (product == null)
+            if (_db.Products != null)
             {
-                _logger.LogError("[ProductRepository] item not found for the ProductId {ProductId:0000}", id);  
-                return false;
+                var product = await _db.Products.FirstOrDefaultAsync(p => p.ProductId == id);
+                if (product == null)
+                {
+                    _logger.LogError("[ProductRepository] item not found for the ProductId {ProductId:0000}", id);  
+                    return false;
+                }
+                _db.Products.Remove(product);
+                await _db.SaveChangesAsync();
+                return true;
             }
-            _db.Products.Remove(product);
-            await _db.SaveChangesAsync();
-            return true;
+            return false;
         }
         catch (Exception e)
         {

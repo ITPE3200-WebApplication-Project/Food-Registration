@@ -19,12 +19,17 @@ public class ProducerRepository : IProducerRepository
     {
         try
         {
-            return await _db.Producers.ToListAsync();
+            if (_db.Producers != null)
+            {
+                return await _db.Producers.ToListAsync();
+            }
+            return new List<Producer>();
         }
         catch (Exception e)
         {
             _logger.LogError("[ProducerRepository] items ToListAsync() failed when GetAllProducersAsync() is called, error message: {e}", e.Message);
-            return null;
+            return new List<Producer>();
+            // return null;
         }
     }
 
@@ -32,7 +37,11 @@ public class ProducerRepository : IProducerRepository
     {
         try
         {
-            return await _db.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
+            if (_db.Producers != null)
+            {
+                return await _db.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
+            }
+            return null;
         }
         catch (Exception e)
         {
@@ -45,9 +54,13 @@ public class ProducerRepository : IProducerRepository
     {
         try
         {
-            _db.Producers.Add(producer);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.Producers != null)
+            {
+                _db.Producers.Add(producer);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
         catch (Exception e)
         {
@@ -60,9 +73,13 @@ public class ProducerRepository : IProducerRepository
     {
         try
         {
-            _db.Producers.Update(producer);
-            await _db.SaveChangesAsync();
-            return true;
+            if (_db.Producers != null)
+            {
+                _db.Producers.Update(producer);
+                await _db.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
         catch (Exception e)
         {
@@ -75,15 +92,19 @@ public class ProducerRepository : IProducerRepository
     {
         try
         {
-            var producer = await _db.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
-            if (producer == null)
+            if (_db.Producers != null)
             {
-                _logger.LogError("[ProducerRepository] item not found for the ProducedId {ProducerId:0000}", id);
-                return false;
+                var producer = await _db.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
+                if (producer == null)
+                {
+                    _logger.LogError("[ProducerRepository] item not found for the ProducedId {ProducerId:0000}", id);
+                    return false;
+                }
+                _db.Producers.Remove(producer);
+                await _db.SaveChangesAsync();
+                return true;
             }
-            _db.Producers.Remove(producer);
-            await _db.SaveChangesAsync();
-            return true;
+            return false;
         }
         catch (Exception e)
         {

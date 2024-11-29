@@ -1,0 +1,14 @@
+2024-11-29 10:17:20.020 +01:00 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2024-11-29 10:17:20.118 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Producers" AS "p"
+2024-11-29 10:17:20.121 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Products" AS "p"
+2024-11-29 10:17:20.149 +01:00 [INF] User profile is available. Using '/Users/magnus/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-11-29 10:17:20.227 +01:00 [INF] Now listening on: http://localhost:5173
+2024-11-29 10:17:20.229 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-29 10:17:20.229 +01:00 [INF] Hosting environment: Development
+2024-11-29 10:17:20.229 +01:00 [INF] Content root path: /Users/magnus/Desktop/Food-Registration/Food-Registration
+2024-11-29 10:29:06.232 +01:00 [INF] Application is shutting down...
