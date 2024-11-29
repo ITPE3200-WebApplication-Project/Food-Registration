@@ -194,15 +194,25 @@ public class ProductController : Controller
   [HttpPost]
   public async Task<IActionResult> Create(Product product, IFormFile? file)
   {
-    // Get current user's producers first
-    var currentUserId = User.Identity?.Name;
-    var userProducers = (await _producerRepository.GetAllProducersAsync())
-        .Where(p => p.OwnerId == currentUserId)
-        .ToList();
 
-    // Populate ViewBag immediately
-    ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
-    ViewBag.Categories = new SelectList(new List<string>
+    // Check for negative values
+    if (product.Calories < 0 || product.Protein < 0 || product.Carbohydrates < 0 || product.Fat < 0)
+    {
+        ModelState.AddModelError(string.Empty, "Calories, Protein, Carbohydrates, and Fat values cannot be negative.");
+
+        // Reload dropdown data
+        await PopulateDropdowns();
+        return View(product); // Return the form
+    }
+
+    if (!ModelState.IsValid)
+    {
+        // Reload dropdowns
+        await PopulateDropdowns();
+        return View(product);
+    }
+
+    if (!ModelState.IsValid)
     {
         "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
     });
@@ -329,14 +339,25 @@ public class ProductController : Controller
   [HttpPost]
   public async Task<IActionResult> Edit(Product product, IFormFile? file)
   {
-    // Get current user's producers first
-    var currentUserId = User.Identity?.Name;
-    var producers = await _producerRepository.GetAllProducersAsync();
-    var userProducers = producers.Where(p => p.OwnerId == currentUserId).ToList();
 
-    // Populate ViewBag immediately
-    ViewBag.ProducerList = new SelectList(userProducers, "ProducerId", "Name");
-    ViewBag.Categories = new SelectList(new List<string>
+    // Negative value check
+    if (product.Calories < 0 || product.Protein < 0 || product.Carbohydrates < 0 || product.Fat < 0)
+    {
+        ModelState.AddModelError(string.Empty, "Calories, Protein, Carbohydrates, and Fat values cannot be negative.");
+        
+        // Reload dropdowns
+        await PopulateDropdowns();
+        return View(product); // Return the form
+    }
+
+    if (!ModelState.IsValid)
+    {
+        // Reload dropdowns in case of invalid state
+        await PopulateDropdowns();
+        return View(product);
+    }
+
+    if (!ModelState.IsValid)
     {
         "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
     });
