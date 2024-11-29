@@ -325,87 +325,91 @@ public class ProductController : Controller
 
   [Authorize]
   [HttpPost]
-  [Authorize]
-  public async Task<IActionResult> Update(Product product, IFormFile? file, bool removeImage = false)
+  public async Task<IActionResult> Edit(Product product, IFormFile? file)
   {
-    if (!ModelState.IsValid)
-    {
-        await PopulateDropDowns();
-        return View(product);
-    }
+      if (!ModelState.IsValid)
+      {
+          await PopulateDropdowns();
+          return View(product);
+      }
 
-    var originalProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
-    if (originalProduct == null)
-    {
-        return NotFound();
-    }
+      try 
+      {
+          // Get existing product with current image
+          var existingProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
+          if (existingProduct == null)
+          {
+              return RedirectWithMessage("Product", "Table", "Product not found", "error");
+          }
 
-    try
-    {
-        return RedirectWithMessage("Product", "Table", "You can only Update your own products", "error");
-    }
-    
-    if (removeImage)
-    {
-        string wwwRootPath = _webHostEnvironment.WebRootPath;
-        if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
-        {
-            string oldImagePath = Path.Combine(wwwRootPath, existingProduct.ImageUrl.TrimStart('/'));
-            if (System.IO.File.Exists(oldImagePath))
-            {
-                System.IO.File.Delete(oldImagePath);
-            }
-        }
-        existingProduct.ImageUrl = null;
-    }
-    else if (file != null && file.Length > 0)
-    {
-        string wwwRootPath = _webHostEnvironment.WebRootPath;
+          // Verify ownership
+          var currentUserId = User.Identity?.Name;
+          var producer = await _producerRepository.GetProducerByIdAsync(existingProduct.ProducerId);
+          if (producer?.OwnerId != currentUserId)
+          {
+              return RedirectWithMessage("Product", "Table", "You can only edit your own products", "error");
+          }
+
+          // IMPORTANT: Always preserve the existing image URL unless a new file is uploaded
+          product.ImageUrl = existingProduct.ImageUrl;
+
+          // Handle new image upload if provided
+          if (file != null)
+          {
+              string wwwRootPath = _webHostEnvironment.WebRootPath;
+              string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+              string productPath = Path.Combine(wwwRootPath, "images", "product");
+
+              // Ensure directory exists
+              Directory.CreateDirectory(productPath);
+
+              // Delete old image if exists and different from default
+              if (!string.IsNullOrEmpty(existingProduct.ImageUrl) && 
+                  !existingProduct.ImageUrl.Contains("image-placeholder"))
+              {
+                  string oldImagePath = Path.Combine(wwwRootPath, existingProduct.ImageUrl.TrimStart('/'));
+                  if (System.IO.File.Exists(oldImagePath))
+                  {
+                      System.IO.File.Delete(oldImagePath);
+                  }
+              }
+
+              // Save new image
+              string filePath = Path.Combine(productPath, fileName);
+              using (var stream = new FileStream(filePath, FileMode.Create))
+              {
+                  await file.CopyToAsync(stream);
+              }
+
+              product.ImageUrl = "/images/product/" + fileName;
+          }
+
         
-        // Delete old image if exists
-        if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
-        {
-            string oldImagePath = Path.Combine(wwwRootPath, existingProduct.ImageUrl.TrimStart('/'));
-            if (System.IO.File.Exists(oldImagePath))
-            {
-                System.IO.File.Delete(oldImagePath);
-            }
-        }
+          existingProduct.Name = product.Name;
+          existingProduct.Description = product.Description;
+          existingProduct.Category = product.Category;
+          existingProduct.NutritionScore = product.NutritionScore;
+          existingProduct.Calories = product.Calories;
+          existingProduct.Carbohydrates = product.Carbohydrates;
+          existingProduct.Fat = product.Fat;
+          existingProduct.Protein = product.Protein;
+          existingProduct.ProducerId = product.ProducerId;
+          existingProduct.ImageUrl = product.ImageUrl; 
 
-        // Save new image
-        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        string productPath = Path.Combine(wwwRootPath, "images", "product");
-        
-        Directory.CreateDirectory(productPath);
-        string filePath = Path.Combine(productPath, fileName);
-        
-        using (var stream = new FileStream(filePath, FileMode.Create))
-        {
-            await file.CopyToAsync(stream);
-        }
-        
-        existingProduct.ImageUrl = "/images/product/" + fileName;
-    }
+          var success = await _productRepository.UpdateProductAsync(existingProduct);
+          if (!success)
+          {
+              _logger.LogError("Failed to update product");
+              return RedirectWithMessage("Product", "Table", "Failed to update product", "error");
+          }
 
-    // Update all fields
-    existingProduct.Name = product.Name;
-    existingProduct.Description = product.Description;
-    existingProduct.Category = product.Category;
-    existingProduct.NutritionScore = product.NutritionScore;
-    existingProduct.Calories = product.Calories;
-    existingProduct.Carbohydrates = product.Carbohydrates;
-    existingProduct.Fat = product.Fat;
-    existingProduct.Protein = product.Protein;
-    existingProduct.ProducerId = product.ProducerId;
-
-        return RedirectToAction("Edit", new { id = product.ProductId, message = "Product updated", messageType = "info" });
-    }
-    catch (Exception ex)
-    {
-        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", 
-        "Grains", "Beverages", "Snacks", "Other"
-    });
-    ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
+          return RedirectToAction(nameof(Table));
+      }
+      catch (Exception ex)
+      {
+          _logger.LogError(ex, "Error updating product");
+          return RedirectWithMessage("Product", "Edit", "Error updating product", "error");
+      }
   }
 
   [HttpPost]
