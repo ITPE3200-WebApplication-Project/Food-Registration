@@ -57,7 +57,7 @@ namespace Food_Registration.Tests.Controllers
 
     ///Unit Test 1
     [Fact]
-    public async Task NewProduct_Get_ReturnsViewWithProducerList()
+    public async Task Create_Get_ReturnsViewWithProducerList()
     {
       // Arrange
       var producers = new List<Producer>
@@ -70,7 +70,7 @@ namespace Food_Registration.Tests.Controllers
           .ReturnsAsync(producers);
 
       // Act
-      var result = await _controller.NewProduct();
+      var result = await _controller.Create();
 
       // Assert
       var viewResult = Assert.IsType<ViewResult>(result);
@@ -81,7 +81,7 @@ namespace Food_Registration.Tests.Controllers
 
     //Unit Test 2
     [Fact]
-    public async Task NewProduct_Post_ValidProduct_RedirectsToTable()
+    public async Task Create_Post_ValidProduct_RedirectsToTable()
     {
       // Arrange
       var product = new Product
@@ -101,7 +101,7 @@ namespace Food_Registration.Tests.Controllers
           .ReturnsAsync(producer);
 
       // Act
-      var result = await _controller.NewProduct(product);
+      var result = await _controller.Create(product);
 
       // Assert
       var redirectResult = Assert.IsType<RedirectToActionResult>(result);
@@ -111,7 +111,7 @@ namespace Food_Registration.Tests.Controllers
 
     //Unit Test 3
     [Fact]
-    public async Task NewProduct_Post_InvalidModel_ReturnsViewWithError()
+    public async Task Create_Post_InvalidModel_ReturnsViewWithError()
     {
       // Arrange
       var product = new Product(); // Empty product
@@ -126,7 +126,7 @@ namespace Food_Registration.Tests.Controllers
           .ReturnsAsync(producers);
 
       // Act
-      var result = await _controller.NewProduct(product);
+      var result = await _controller.Create(product);
 
       // Assert
       var viewResult = Assert.IsType<ViewResult>(result);
@@ -136,7 +136,7 @@ namespace Food_Registration.Tests.Controllers
 
     //Unit Test 4
     [Fact]
-    public async Task NewProduct_Post_UnauthorizedProducer_ReturnsUnauthorized()
+    public async Task Create_Post_UnauthorizedProducer_ReturnsUnauthorized()
     {
       // Arrange
       var product = new Product
@@ -156,7 +156,7 @@ namespace Food_Registration.Tests.Controllers
           .ReturnsAsync(producer);
 
       // Act
-      var result = await _controller.NewProduct(product);
+      var result = await _controller.Create(product);
 
       // Assert
       Assert.IsType<RedirectResult>(result);
@@ -165,7 +165,7 @@ namespace Food_Registration.Tests.Controllers
 
     //Unit Test 5
     [Fact]
-    public async Task NewProduct_Post_NullProducer_ReturnsBadRequest()
+    public async Task Create_Post_NullProducer_ReturnsBadRequest()
     {
       // Arrange
       var product = new Product
@@ -179,7 +179,7 @@ namespace Food_Registration.Tests.Controllers
           .ReturnsAsync((Producer)null);
 
       // Act
-      var result = await _controller.NewProduct(product);
+      var result = await _controller.Create(product);
 
       // Assert
       Assert.IsType<RedirectResult>(result);
@@ -188,7 +188,7 @@ namespace Food_Registration.Tests.Controllers
 
     //Unit test 6
     [Fact]
-    public async Task AllProducts_ReturnsFilteredProducts()
+    public async Task Index_ReturnsFilteredProducts()
     {
       // Arrange
       var products = new List<Product>
@@ -201,8 +201,8 @@ namespace Food_Registration.Tests.Controllers
       _mockProductRepo.Setup(repo => repo.GetAllProductsAsync())
           .ReturnsAsync(products);
 
-      // Act
-      var result = await _controller.AllProducts("Apple", "Fruits");
+        // Act
+        var result = await _controller.Index("Apple", "Fruits");
 
       // Assert
       var viewResult = Assert.IsType<ViewResult>(result);
@@ -215,14 +215,14 @@ namespace Food_Registration.Tests.Controllers
 
     //Unit Test 8
     [Fact]
-    public async Task DeleteConfirmed_ProductAndProducerNotFound_ReturnsNotFound()
+    public async Task Delete_ProductAndProducerNotFound_ReturnsNotFound()
     {
       // Arrange
       _mockProductRepo.Setup(repo => repo.GetProductByIdAsync(It.IsAny<int>()))
           .ReturnsAsync((Product)null); // No product found
 
-      // Act
-      var result = await _controller.DeleteConfirmed(999);  // Using a non-existent product ID
+        // Act
+        var result = await _controller.Delete(999);  // Using a non-existent product ID
 
       // Assert
       var notFoundResult = Assert.IsType<NotFoundResult>(result);  // Expecting NotFound result

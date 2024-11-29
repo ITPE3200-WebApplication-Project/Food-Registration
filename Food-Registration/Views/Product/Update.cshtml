@@ -1,26 +1,23 @@
 @model Food_Registration.Models.Product
 
 <div class="container my-4">
-  <h1 class="text-center mb-4">Edit Product</h1>
+  <h1 class="text-center mb-4">Update Product</h1>
   
   <!-- Row for the form and image -->
   <div class="row">
     <!-- Left Column: Image -->
     <div class="col-md-6 text-center">
-      @if (!string.IsNullOrEmpty(Model.ImageUrl))
-      {
-        <img src="@Model.ImageUrl" alt="Product Image" class="img-fluid rounded" style="max-width: 100%; height: auto; max-height: 400px;" />
-      }
-      else
-      {
-        <p>No image available</p>
-      }
+      <img id="imagePreview" 
+           src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "/images/placeholder.jpg" : Model.ImageUrl)" 
+           alt="Product Image" class="img-fluid rounded mb-3" 
+           style="max-width: 100%; height: auto; max-height: 400px;" />
     </div>
 
     <!-- Right Column: Form -->
     <div class="col-md-6">
-      <form asp-action="Edit" asp-controller="Product" method="post" enctype="multipart/form-data">
+      <form asp-action="Update" method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="ProductId" />
+        <input type="hidden" id="removeImageFlag" name="removeImage" value="false" />
 
         <!-- Products Information -->
         <div class="form-group mb-3">
@@ -97,12 +94,18 @@
           </select>
         </div>
 
-         <div class="form-group mb-3">
+        <!-- Image input group -->
+        <div class="form-group mb-3">
             <label asp-for="ImageUrl" class="form-label">Change Image</label>
-            <input type="file" name="file" class="form-control" />
+            <div class="input-group">
+                <input type="file" name="file" id="imageInput" class="form-control" accept="image/*" onchange="previewImage(event)" />
+                <button type="button" class="btn btn-danger" id="removeImageBtn">
+                    <i class="bi bi-trash"></i> Remove Image
+                </button>
+            </div>
             <span asp-validation-for="ImageUrl" class="text-danger"></span>
         </div>
-        <br>
+
         <!-- Nutritional Information -->
         <div class="row">
           <div class="col-md-6">
@@ -147,7 +150,7 @@
         </div>
 
         <!-- Button -->
-        <div class="d-flex justify-content-end mt-3" style="margin: 20px;">
+        <div class="d-flex justify-content-end mt-3">
           <button type="submit" class="btn btn-primary me-2">Update</button>
           <a asp-action="Table" class="btn btn-secondary">Cancel</a>
         </div>
@@ -155,3 +158,31 @@
     </div>
   </div>
 </div>
+
+@section Scripts {
+  <script>
+    // Add event listener when document is ready
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('removeImageBtn').addEventListener('click', function() {
+        // Clear the file input
+        document.getElementById('imageInput').value = '';
+        // Set preview to placeholder - using the full URL
+        document.getElementById('imagePreview').src = 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg';
+        // Set the remove flag
+        document.getElementById('removeImageFlag').value = 'true';
+        console.log('removeImageFlag value:', document.getElementById('removeImageFlag').value);
+      });
+    });
+
+    function previewImage(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          document.getElementById('imagePreview').src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+}

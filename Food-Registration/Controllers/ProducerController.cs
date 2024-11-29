@@ -48,14 +48,14 @@ namespace Food_Registration.Controllers
 
     [Authorize]
     [HttpGet]
-    public IActionResult NewProducer()
+    public IActionResult Create()
     {
       return View();
     }
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> NewProducer(Producer producer, IFormFile file)
+    public async Task<IActionResult> Create(Producer producer, IFormFile file)
     {
         if (!ModelState.IsValid)
         {
@@ -90,13 +90,13 @@ namespace Food_Registration.Controllers
         catch (Exception ex)
         {
             _logger.LogError(ex, "Error creating producer");
-            return RedirectWithMessage("Producer", "NewProducer", "Error creating producer", "danger");
+            return RedirectWithMessage("Producer", "Create", "Error creating producer", "danger");
         }
     }
 
     [Authorize]
     [HttpGet]
-    public async Task<IActionResult> Edit(int id)
+    public async Task<IActionResult> Update(int id)
     {
       var producer = await _producerRepository.GetProducerByIdAsync(id);
       if (producer == null)
@@ -118,7 +118,7 @@ namespace Food_Registration.Controllers
       var currentUserId = User.Identity?.Name;
       if (producer.OwnerId != currentUserId)
       {
-        return RedirectWithMessage("Producer", "Table", "You can only edit your own producers", "danger");
+        return RedirectWithMessage("Producer", "Table", "You can only Update your own producers", "danger");
       }
 
       return View(producer);
@@ -126,54 +126,66 @@ namespace Food_Registration.Controllers
 
     [HttpPost]
     [Authorize]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(Producer producer)
+    public async Task<IActionResult> Update(Producer producer, IFormFile? file)
     {
-      if (ModelState.IsValid)
-      {
-        bool returnOk = await _producerRepository.UpdateProducerAsync(producer);
-        if (returnOk)
+        if (!ModelState.IsValid)
         {
-          return RedirectToAction(nameof(Table));
+            return View(producer);
         }
-      }
-      _logger.LogWarning("[ProducerController] Producer update failed while executing Edit()");
 
-      // Fetch the existing producer
-      var existingProducer = await _producerRepository.GetProducerByIdAsync(producer.ProducerId);
-      if (existingProducer == null)
-      {
-        return NotFound();
-      }
+        try
+        {
+            // Handle image upload
+            if (file != null && file.Length > 0)
+            {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                
+                // Delete old image if exists
+                if (!string.IsNullOrEmpty(producer.ImageUrl))
+                {
+                    string oldImagePath = Path.Combine(wwwRootPath, producer.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
 
-      /*
-      var existingProducer = await _ItemDbContext.Producers.FirstOrDefaultAsync(p => p.ProducerId == producer.ProducerId);
-      if (existingProducer == null)
-      {
-        return NotFound();
-      }
-      */
+                // Save new image
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string producerPath = Path.Combine(wwwRootPath, "images", "producer");
+                
+                // Ensure directory exists
+                Directory.CreateDirectory(producerPath);
+                string filePath = Path.Combine(producerPath, fileName);
+                
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                
+                producer.ImageUrl = "/images/producer/" + fileName;
+            }
 
-      // Verify ownership before allowing edit
-      var currentUserId = User.Identity?.Name;
-      if (existingProducer.OwnerId != currentUserId)
-      {
-        return RedirectWithMessage("Producer", "Table", "You can only edit your own producers", "danger");
-      }
-
-      // Update all fields except OwnerId (which should remain unchanged)
-      existingProducer.Name = producer.Name;
-      existingProducer.Description = producer.Description;
-      existingProducer.ImageUrl = producer.ImageUrl;
-
-      //await _ItemDbContext.SaveChangesAsync();
-      await _producerRepository.UpdateProducerAsync(existingProducer);
-      return RedirectToAction(nameof(Table));
+            var success = await _producerRepository.UpdateProducerAsync(producer);
+            if (success)
+            {
+                return RedirectWithMessage("Producer", "Table", "Producer successfully updated", "success");
+            }
+            else
+            {
+                return RedirectWithMessage("Producer", "Table", "Failed to update producer", "error");
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Error updating producer: {ex.Message}");
+            return RedirectWithMessage("Producer", "Table", "Error updating producer", "error");
+        }
     }
 
     [HttpPost]
     [Authorize]
-    public async Task<IActionResult> DeleteConfirmed(int id)
+    public async Task<IActionResult> Delete(int id)
     {
       var producer = await _producerRepository.GetProducerByIdAsync(id);
       if (producer == null)
@@ -218,7 +230,7 @@ namespace Food_Registration.Controllers
       bool returnOk = await _producerRepository.DeleteProducerAsync(id);
       if (!returnOk)
       {
-        _logger.LogError("[ProducerController] Producer deletion failed while executing DeleteConfirmed()");
+        _logger.LogError("[ProducerController] Producer deletion failed while executing Delete()");
         return BadRequest("Producer deletion failed");
       }
       // Delete the producer

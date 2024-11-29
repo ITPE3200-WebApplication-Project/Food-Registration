@@ -28,7 +28,7 @@ public class ProductController : Controller
   }
 
   [HttpGet]
-  public async Task<IActionResult> AllProducts(string searching, string category)
+  public async Task<IActionResult> Index(string searching, string category)
   {
     var products = await _productRepository.GetAllProductsAsync();
 
@@ -65,7 +65,7 @@ public class ProductController : Controller
     // Convert the filtered products to a list
     var productList = products.ToList();
 
-    return View("~/Views/Product/AllProducts.cshtml", productList);
+    return View("~/Views/Product/Index.cshtml", productList);
   }
 
 
@@ -119,10 +119,10 @@ public class ProductController : Controller
     {
         _logger.LogInformation("Getting all products for the user");
 
-        var allProducts = await _productRepository.GetAllProductsAsync();
-        _logger.LogInformation($"[ProductController] Total products found: {allProducts?.Count() ?? 0}");
+        var Index = await _productRepository.GetAllProductsAsync();
+        _logger.LogInformation($"[ProductController] Total products found: {Index?.Count() ?? 0}");
 
-        var filteredProducts = allProducts?
+        var filteredProducts = Index?
             .Where(p => p.Producer?.OwnerId == currentUserId)
             .ToList();
         _logger.LogInformation($"[ProductController] Filtered products for user: {filteredProducts?.Count ?? 0}");
@@ -140,7 +140,7 @@ public class ProductController : Controller
 
   [Authorize]
   [HttpGet]
-  public async Task<IActionResult> NewProduct()
+  public async Task<IActionResult> Create()
   {
     var currentUserId = User.Identity?.Name;
 
@@ -192,9 +192,57 @@ public class ProductController : Controller
 
   [Authorize]
   [HttpPost]
-  public async Task<IActionResult> NewProduct(Product product, IFormFile file)
+  public async Task<IActionResult> Create(Product product, IFormFile? file)
   {
-      if (!ModelState.IsValid)
+    if (!ModelState.IsValid)
+    {
+        var currentUserId = User.Identity?.Name;
+        var userProducers = (await _producerRepository.GetAllProducersAsync())
+            .Where(p => p.OwnerId == currentUserId)
+            .ToList();
+            
+        ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
+        ViewBag.Categories = new SelectList(new List<string>
+        {
+            "Fruits", "Vegetables", "Meat", "Bakery", "Dairy", "Drinks", "Other"
+        });
+        ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
+        
+        return View(product);
+    }
+
+    // Handle image upload only if a file was provided
+    if (file != null && file.Length > 0)
+    {
+        string wwwRootPath = _webHostEnvironment.WebRootPath;
+        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        string productPath = Path.Combine(wwwRootPath, "images", "product");
+        
+        Directory.CreateDirectory(productPath);
+        string filePath = Path.Combine(productPath, fileName);
+        
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+        
+        product.ImageUrl = "/images/product/" + fileName;
+    }
+
+    var currentUserId = User.Identity?.Name;
+    
+    if (!ModelState.IsValid)
+    {
+      // Repopulate all dropdown data before returning the view
+      await PopulateDropdowns();
+      // Repopulate producers dropdown
+      var userProducers = (await _producerRepository.GetAllProducersAsync())
+          .Where(p => p.OwnerId == currentUserId)
+          .ToList();
+      ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
+
+      // Repopulate categories dropdown
+      var categories = new List<string>
       {
           await PopulateDropdowns();
           return View(product);
@@ -204,28 +252,18 @@ public class ProductController : Controller
       if (producer == null || producer.OwnerId != User.Identity?.Name)
       {
           await PopulateDropdowns();
-          return RedirectWithMessage("Product", "NewProduct", "Invalid producer selection", "warning");
+          return RedirectWithMessage("Product", "Create", "Invalid producer selection", "warning");
       }
 
-      try
+    // Check if user owns the producer
+    if (producer.OwnerId != currentUserId)
+    {
+      _logger.LogError("[ProductController] producer does not belong to current user while executing _producerRepository.GetProducerByIdAsync()");
+      return RedirectWithMessage("Product", "Create", "You are not the owner of this producer", "warning");
+    }
+    
+    try
       {
-          if (file != null)
-          {
-              string wwwRootPath = _webHostEnvironment.WebRootPath;
-              string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-              string productPath = Path.Combine(wwwRootPath, "images", "product");
-              
-              Directory.CreateDirectory(productPath);
-              string filePath = Path.Combine(productPath, fileName);
-              
-              using (var stream = new FileStream(filePath, FileMode.Create))
-              {
-                  await file.CopyToAsync(stream);
-              }
-              
-              product.ImageUrl = "/images/product/" + fileName;
-          }
-
           await _productRepository.AddProductAsync(product);
           return RedirectToAction(nameof(Table));
       }
@@ -233,7 +271,7 @@ public class ProductController : Controller
       {
           _logger.LogError(ex, "Error creating product");
           await PopulateDropdowns();
-          return RedirectWithMessage("Product", "NewProduct", "Error uploading image", "danger");
+          return RedirectWithMessage("Product", "Create", "Error uploading image", "danger");
       }
   }
 
@@ -252,7 +290,7 @@ public class ProductController : Controller
  
   [Authorize]
   [HttpGet]
-  public async Task<IActionResult> Edit(int id)
+  public async Task<IActionResult> Update(int id)
   {
     var product = await _productRepository.GetProductByIdAsync(id);
 
@@ -260,6 +298,12 @@ public class ProductController : Controller
     {
       _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
       return BadRequest("Product not found");
+    }
+
+    // Add default image if none exists
+    if (string.IsNullOrEmpty(product.ImageUrl))
+    {
+        product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
     }
 
     // Get all producers
@@ -280,12 +324,13 @@ public class ProductController : Controller
   }
 
   [Authorize]
-[HttpPost]
-public async Task<IActionResult> Edit(Product product, IFormFile file)
-{
+  [HttpPost]
+  [Authorize]
+  public async Task<IActionResult> Update(Product product, IFormFile? file, bool removeImage = false)
+  {
     if (!ModelState.IsValid)
     {
-        await PopulateDropdowns();
+        await PopulateDropDowns();
         return View(product);
     }
 
@@ -297,39 +342,61 @@ public async Task<IActionResult> Edit(Product product, IFormFile file)
 
     try
     {
-        // If a new image file is uploaded
-        if (file != null)
+        return RedirectWithMessage("Product", "Table", "You can only Update your own products", "error");
+    }
+    
+    if (removeImage)
+    {
+        string wwwRootPath = _webHostEnvironment.WebRootPath;
+        if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
         {
-            string wwwRootPath = _webHostEnvironment.WebRootPath;
-            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-            string productPath = Path.Combine(wwwRootPath, "images", "product");
-
-            // Ensure the directory exists
-            Directory.CreateDirectory(productPath);
-
-            string filePath = Path.Combine(productPath, fileName);
-
-            // Log image saving
-            _logger.LogInformation($"Saving image to: {filePath}");
-
-            // Save the uploaded image
-            using (var stream = new FileStream(filePath, FileMode.Create))
+            string oldImagePath = Path.Combine(wwwRootPath, existingProduct.ImageUrl.TrimStart('/'));
+            if (System.IO.File.Exists(oldImagePath))
             {
-                await file.CopyToAsync(stream);
+                System.IO.File.Delete(oldImagePath);
             }
-
-            // Update the ImageUrl to the new image
-            product.ImageUrl = "/images/product/" + fileName;
-            _logger.LogInformation($"Saving product with ImageUrl: {product.ImageUrl}");
         }
-        else
+        existingProduct.ImageUrl = null;
+    }
+    else if (file != null && file.Length > 0)
+    {
+        string wwwRootPath = _webHostEnvironment.WebRootPath;
+        
+        // Delete old image if exists
+        if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
         {
-            // If no new file is uploaded, retain the original ImageUrl
-            product.ImageUrl = existingProduct.ImageUrl;
+            string oldImagePath = Path.Combine(wwwRootPath, existingProduct.ImageUrl.TrimStart('/'));
+            if (System.IO.File.Exists(oldImagePath))
+            {
+                System.IO.File.Delete(oldImagePath);
+            }
         }
 
-        // Update the product in the database
-        await _productRepository.UpdateProductAsync(product);
+        // Save new image
+        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+        string productPath = Path.Combine(wwwRootPath, "images", "product");
+        
+        Directory.CreateDirectory(productPath);
+        string filePath = Path.Combine(productPath, fileName);
+        
+        using (var stream = new FileStream(filePath, FileMode.Create))
+        {
+            await file.CopyToAsync(stream);
+        }
+        
+        existingProduct.ImageUrl = "/images/product/" + fileName;
+    }
+
+    // Update all fields
+    existingProduct.Name = product.Name;
+    existingProduct.Description = product.Description;
+    existingProduct.Category = product.Category;
+    existingProduct.NutritionScore = product.NutritionScore;
+    existingProduct.Calories = product.Calories;
+    existingProduct.Carbohydrates = product.Carbohydrates;
+    existingProduct.Fat = product.Fat;
+    existingProduct.Protein = product.Protein;
+    existingProduct.ProducerId = product.ProducerId;
 
         return RedirectToAction("Edit", new { id = product.ProductId, message = "Product updated", messageType = "info" });
     }
@@ -343,11 +410,12 @@ public async Task<IActionResult> Edit(Product product, IFormFile file)
 
   [HttpPost]
   [Authorize]
-  public async Task<IActionResult> DeleteConfirmed(int id)
+  public async Task<IActionResult> Delete(int id)
   {
     var product = await _productRepository.GetProductByIdAsync(id);
     if (product == null)
     {
+    
         _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
         return NotFound();
     }
