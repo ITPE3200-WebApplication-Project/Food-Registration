@@ -193,6 +193,25 @@ public class ProductController : Controller
   public async Task<IActionResult> NewProduct(Product product, IFormFile file)
   {
     var currentUserId = User.Identity?.Name;
+
+    // Check for negative values
+    if (product.Calories < 0 || product.Protein < 0 || product.Carbohydrates < 0 || product.Fat < 0)
+    {
+        ModelState.AddModelError(string.Empty, "Values for Calories, Protein, Carbohydrates, and Fat cannot be negative.");
+        
+        // Reload dropdowns
+        await PopulateDropdowns();
+
+        return View(product); // Return the form with error message
+    }
+
+    if (!ModelState.IsValid)
+    {
+        // Same logic for populating dropdowns
+        await PopulateDropdowns();
+        return View(product);
+    }
+
     
     if (!ModelState.IsValid)
     {
@@ -207,8 +226,8 @@ public class ProductController : Controller
       // Repopulate categories dropdown
       var categories = new List<string>
       {
-          "Fruits", "Vegetables", "Meat", "Fish", "Dairy", 
-          "Grains", "Beverages", "Snacks", "Other"
+          "Fruits", "Vegetables", "Meat", "Bakery", 
+          "Dairy", "Drinkss", "Other"
       };
       ViewBag.Categories = new SelectList(categories);
 
@@ -273,7 +292,7 @@ public class ProductController : Controller
           .ToList();
           
       ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
-      ViewBag.Categories = new SelectList(new[] { "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other" });
+      ViewBag.Categories = new SelectList(new[] { "Fruits", "Vegetables", "Meat", "Bakery", "Dairy", "Drinks", "Other" });
       ViewBag.NutritionScores = new SelectList(new[] { "A", "B", "C", "D", "E" });
   }
 
@@ -283,6 +302,8 @@ public class ProductController : Controller
   public async Task<IActionResult> Edit(int id)
   {
     var product = await _productRepository.GetProductByIdAsync(id);
+
+
 
     if (product == null)
     {
@@ -295,7 +316,7 @@ public class ProductController : Controller
 
     ViewBag.Categories = new SelectList(new List<string>
     {
-        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
+        "Fruits", "Vegetables", "Meat", "Bakery", "Dairy", "Drinks", "Other"
     });
 
     ViewBag.ProducerList = new SelectList(producers, "ProducerId", "Name", product.ProducerId);
@@ -311,6 +332,24 @@ public class ProductController : Controller
   [HttpPost]
   public async Task<IActionResult> Edit(Product product, IFormFile? file)
   {
+
+    // Negative value check
+    if (product.Calories < 0 || product.Protein < 0 || product.Carbohydrates < 0 || product.Fat < 0)
+    {
+        ModelState.AddModelError(string.Empty, "Calories, Protein, Carbohydrates, and Fat values cannot be negative.");
+        
+        // Reload dropdowns
+        await PopulateDropdowns();
+        return View(product); // Return the form
+    }
+
+    if (!ModelState.IsValid)
+    {
+        // Reload dropdowns in case of invalid state
+        await PopulateDropdowns();
+        return View(product);
+    }
+    
       if (!ModelState.IsValid)
       {
           await PopulateDropdowns();
