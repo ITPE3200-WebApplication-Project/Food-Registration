@@ -13,13 +13,16 @@ namespace Food_Registration.Controllers
   {
     private readonly IProducerRepository _producerRepository;
 
+    private readonly IProductRepository _productRepository;
+
     private readonly ILogger<ProducerController> _logger; 
 
-    public ProducerController(IProducerRepository producerRepository, ILogger<ProducerController> logger)
-      {
-          _producerRepository = producerRepository;
-          _logger = logger; 
-        }
+    public ProducerController(IProducerRepository producerRepository, IProductRepository productRepository, ILogger<ProducerController> logger)
+    {
+      _producerRepository = producerRepository;
+      _productRepository = productRepository;
+      _logger = logger; 
+    }
 
 
     [Authorize]
@@ -181,20 +184,23 @@ namespace Food_Registration.Controllers
         return RedirectWithMessage("Producer", "Table", "You can only delete your own producers", "danger");
       }
 
-/*
+      var products = await _productRepository.GetAllProductsAsync();
+      /*
       // Check if producer has any associated products
       if (_ItemDbContext.Products == null)
       {
         return Problem("Entity set 'ItemDbContext.Products' is null.");
       }
-      var hasProducts = await _ItemDbContext.Products.AnyAsync(p => p.ProducerId == id);
+      */
+      var hasProducts = products.Any(p => p.ProducerId == id);
       if (hasProducts)
       {
+        _logger.LogWarning("[ProducerController] Cannot delete producer that has associated products");
         return RedirectWithMessage("Producer", "Table",
           "Cannot delete producer that has associated products. Please delete all products first.",
           "warning");
       }
-      */
+      
       bool returnOk = await _producerRepository.DeleteProducerAsync(id);
       if (!returnOk)
       {

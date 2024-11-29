@@ -1,0 +1,410 @@
+2024-11-29 07:29:58.375 +01:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2024-11-29 07:29:58.521 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Producers" AS "p"
+2024-11-29 07:29:58.527 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Products" AS "p"
+2024-11-29 07:29:58.576 +01:00 [INF] User profile is available. Using '/Users/magnus/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-11-29 07:29:58.644 +01:00 [INF] Now listening on: http://localhost:5173
+2024-11-29 07:29:58.646 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-29 07:29:58.646 +01:00 [INF] Hosting environment: Development
+2024-11-29 07:29:58.646 +01:00 [INF] Content root path: /Users/magnus/Desktop/Food-Registration/Food-Registration
+2024-11-29 07:30:01.896 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2024-11-29 07:30:01.912 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:01.921 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:01.992 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:02.039 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:02.039 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:02.042 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:02.108 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 66.1532ms.
+2024-11-29 07:30:02.109 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 188.0899ms
+2024-11-29 07:30:02.109 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:02.112 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 200 null text/html; charset=utf-8 217.1071ms
+2024-11-29 07:30:02.482 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/css/_Layout.css - null null
+2024-11-29 07:30:02.482 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/logo.png - null null
+2024-11-29 07:30:02.482 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/basket.png - null null
+2024-11-29 07:30:02.485 +01:00 [INF] The file /images/icons/basket.png was not modified
+2024-11-29 07:30:02.485 +01:00 [INF] The file /images/logo.png was not modified
+2024-11-29 07:30:02.485 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/basket.png - 304 null image/png 3.3191ms
+2024-11-29 07:30:02.486 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/logo.png - 304 null image/png 3.5014ms
+2024-11-29 07:30:02.490 +01:00 [INF] Sending file. Request path: '/css/_Layout.css'. Physical path: '/Users/magnus/Desktop/Food-Registration/Food-Registration/wwwroot/css/_Layout.css'
+2024-11-29 07:30:02.490 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/css/_Layout.css - 200 5316 text/css 8.0706ms
+2024-11-29 07:30:02.516 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/vegetable.png - null null
+2024-11-29 07:30:02.521 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/proteins.png - null null
+2024-11-29 07:30:02.521 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/breads.png - null null
+2024-11-29 07:30:02.522 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/daily-products.png - null null
+2024-11-29 07:30:02.522 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/soft-drink.png - null null
+2024-11-29 07:30:02.526 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/fast-food.png - null null
+2024-11-29 07:30:02.526 +01:00 [INF] The file /images/icons/proteins.png was not modified
+2024-11-29 07:30:02.526 +01:00 [INF] The file /images/icons/vegetable.png was not modified
+2024-11-29 07:30:02.527 +01:00 [INF] The file /images/icons/soft-drink.png was not modified
+2024-11-29 07:30:02.527 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/vegetable.png - 304 null image/png 10.6008ms
+2024-11-29 07:30:02.526 +01:00 [INF] The file /images/icons/fast-food.png was not modified
+2024-11-29 07:30:02.527 +01:00 [INF] The file /images/icons/daily-products.png was not modified
+2024-11-29 07:30:02.526 +01:00 [INF] The file /images/icons/breads.png was not modified
+2024-11-29 07:30:02.527 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/fast-food.png - 304 null image/png 1.6253ms
+2024-11-29 07:30:02.527 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/soft-drink.png - 304 null image/png 4.504ms
+2024-11-29 07:30:02.527 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/proteins.png - 304 null image/png 6.113ms
+2024-11-29 07:30:02.527 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/breads.png - 304 null image/png 6.422ms
+2024-11-29 07:30:02.527 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/daily-products.png - 304 null image/png 5.6834ms
+2024-11-29 07:30:02.530 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-A.svg.png - null null
+2024-11-29 07:30:02.530 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-B.svg.png - null null
+2024-11-29 07:30:02.530 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/yogurt.jpg - null null
+2024-11-29 07:30:02.530 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-D.svg.png - null null
+2024-11-29 07:30:02.530 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/water1.jpg - null null
+2024-11-29 07:30:02.530 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-C.svg.png - null null
+2024-11-29 07:30:02.530 +01:00 [INF] The file /images/yogurt.jpg was not modified
+2024-11-29 07:30:02.530 +01:00 [INF] The file /images/Nutri/Nutri-score-A.svg.png was not modified
+2024-11-29 07:30:02.530 +01:00 [INF] The file /images/Nutri/Nutri-score-D.svg.png was not modified
+2024-11-29 07:30:02.530 +01:00 [INF] The file /images/water1.jpg was not modified
+2024-11-29 07:30:02.530 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-A.svg.png - 304 null image/png 0.6066ms
+2024-11-29 07:30:02.530 +01:00 [INF] The file /images/Nutri/Nutri-score-C.svg.png was not modified
+2024-11-29 07:30:02.530 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/water1.jpg - 304 null image/jpeg 0.2885ms
+2024-11-29 07:30:02.530 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/yogurt.jpg - 304 null image/jpeg 0.565ms
+2024-11-29 07:30:02.530 +01:00 [INF] The file /images/Nutri/Nutri-score-B.svg.png was not modified
+2024-11-29 07:30:02.530 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-D.svg.png - 304 null image/png 0.3991ms
+2024-11-29 07:30:02.531 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-C.svg.png - 304 null image/png 0.5129ms
+2024-11-29 07:30:02.531 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-B.svg.png - 304 null image/png 0.884ms
+2024-11-29 07:30:02.533 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/popcornRainbow.jpg - null null
+2024-11-29 07:30:02.533 +01:00 [INF] The file /images/popcornRainbow.jpg was not modified
+2024-11-29 07:30:02.533 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/popcornRainbow.jpg - 304 null image/jpeg 0.4578ms
+2024-11-29 07:30:02.533 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-E.svg.png - null null
+2024-11-29 07:30:02.533 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/chocolateCoveredPickles.jpg - null null
+2024-11-29 07:30:02.534 +01:00 [INF] The file /images/Nutri/Nutri-score-E.svg.png was not modified
+2024-11-29 07:30:02.534 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-E.svg.png - 304 null image/png 0.2118ms
+2024-11-29 07:30:02.534 +01:00 [INF] The file /images/chocolateCoveredPickles.jpg was not modified
+2024-11-29 07:30:02.534 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/chocolateCoveredPickles.jpg - 304 null image/jpeg 0.4539ms
+2024-11-29 07:30:07.657 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/?category=Fruits - null null
+2024-11-29 07:30:07.658 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:07.658 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:07.713 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:07.714 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:07.714 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:07.715 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:07.715 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:07.715 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:07.715 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:07.724 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:07.728 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 3.9906ms.
+2024-11-29 07:30:07.728 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 69.99ms
+2024-11-29 07:30:07.728 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:07.728 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/?category=Fruits - 200 null text/html; charset=utf-8 71.5034ms
+2024-11-29 07:30:08.253 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/?category=Vegetables - null null
+2024-11-29 07:30:08.253 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:08.253 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:08.256 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:08.258 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:08.258 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:08.258 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:08.265 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 6.5595ms.
+2024-11-29 07:30:08.265 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 11.2759ms
+2024-11-29 07:30:08.265 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:08.265 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/?category=Vegetables - 200 null text/html; charset=utf-8 11.8675ms
+2024-11-29 07:30:08.864 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/?category=Meats - null null
+2024-11-29 07:30:08.864 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:08.864 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:08.866 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:08.866 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:08.866 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.866 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.866 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.866 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.866 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:08.867 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:08.867 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:08.868 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 1.029ms.
+2024-11-29 07:30:08.868 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 3.8937ms
+2024-11-29 07:30:08.868 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:08.868 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/?category=Meats - 200 null text/html; charset=utf-8 4.391ms
+2024-11-29 07:30:09.381 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/?category=Bakery%20Foods - null null
+2024-11-29 07:30:09.381 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:09.381 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:09.384 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:09.385 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:09.385 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:09.386 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:09.386 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:09.387 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 1.4373ms.
+2024-11-29 07:30:09.387 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 6.1952ms
+2024-11-29 07:30:09.387 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:09.388 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/?category=Bakery%20Foods - 200 null text/html; charset=utf-8 6.9791ms
+2024-11-29 07:30:10.203 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/?category=Dairy - null null
+2024-11-29 07:30:10.203 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:10.203 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:10.205 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:10.205 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:10.205 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:10.206 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:10.206 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:10.206 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:10.207 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 1.0126ms.
+2024-11-29 07:30:10.207 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 3.6902ms
+2024-11-29 07:30:10.207 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:10.207 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/?category=Dairy - 200 null text/html; charset=utf-8 4.3381ms
+2024-11-29 07:30:21.791 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/ReadMore/8 - null null
+2024-11-29 07:30:21.795 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.ReadMore (Food-Registration)'
+2024-11-29 07:30:21.805 +01:00 [INF] Route matched with {action = "ReadMore", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ReadMore(Int32) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:21.843 +01:00 [INF] Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-29 07:30:21.845 +01:00 [INF] Executing ViewResult, running view ReadMore.
+2024-11-29 07:30:21.850 +01:00 [INF] Executed ViewResult - view ReadMore executed in 6.3555ms.
+2024-11-29 07:30:21.850 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.ReadMore (Food-Registration) in 44.6607ms
+2024-11-29 07:30:21.850 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.ReadMore (Food-Registration)'
+2024-11-29 07:30:21.850 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/ReadMore/8 - 200 null text/html; charset=utf-8 59.4778ms
+2024-11-29 07:30:21.867 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/ReadMore/images/yogurt.jpg - null null
+2024-11-29 07:30:21.871 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/ReadMore/images/yogurt.jpg - 404 0 null 3.799ms
+2024-11-29 07:30:21.871 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/Product/ReadMore/images/yogurt.jpg, Response status code: 404
+2024-11-29 07:30:25.838 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2024-11-29 07:30:25.838 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:25.838 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:25.840 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:25.841 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:25.841 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:25.842 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:25.842 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:25.844 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 1.794ms.
+2024-11-29 07:30:25.844 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 5.6115ms
+2024-11-29 07:30:25.844 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:25.844 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 200 null text/html; charset=utf-8 6.2976ms
+2024-11-29 07:30:43.755 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/ReadMore/2 - null null
+2024-11-29 07:30:43.757 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.ReadMore (Food-Registration)'
+2024-11-29 07:30:43.758 +01:00 [INF] Route matched with {action = "ReadMore", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ReadMore(Int32) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:43.770 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-29 07:30:43.771 +01:00 [INF] Executing ViewResult, running view ReadMore.
+2024-11-29 07:30:43.773 +01:00 [INF] Executed ViewResult - view ReadMore executed in 2.3ms.
+2024-11-29 07:30:43.773 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.ReadMore (Food-Registration) in 14.6389ms
+2024-11-29 07:30:43.773 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.ReadMore (Food-Registration)'
+2024-11-29 07:30:43.773 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/ReadMore/2 - 200 null text/html; charset=utf-8 18.8009ms
+2024-11-29 07:30:45.521 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2024-11-29 07:30:45.521 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:45.522 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:45.524 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:45.524 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:45.524 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:45.525 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:45.526 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 1.4222ms.
+2024-11-29 07:30:45.526 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 4.5176ms
+2024-11-29 07:30:45.526 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:45.526 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 200 null text/html; charset=utf-8 5.2934ms
+2024-11-29 07:30:47.861 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/ReadMore/20 - null null
+2024-11-29 07:30:47.861 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.ReadMore (Food-Registration)'
+2024-11-29 07:30:47.861 +01:00 [INF] Route matched with {action = "ReadMore", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ReadMore(Int32) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:47.863 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-29 07:30:47.864 +01:00 [INF] Executing ViewResult, running view ReadMore.
+2024-11-29 07:30:47.865 +01:00 [INF] Executed ViewResult - view ReadMore executed in 1.8157ms.
+2024-11-29 07:30:47.866 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.ReadMore (Food-Registration) in 4.0945ms
+2024-11-29 07:30:47.866 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.ReadMore (Food-Registration)'
+2024-11-29 07:30:47.866 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/ReadMore/20 - 200 null text/html; charset=utf-8 4.9748ms
+2024-11-29 07:30:49.386 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2024-11-29 07:30:49.386 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:49.386 +01:00 [INF] Route matched with {action = "AllProducts", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] AllProducts(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 07:30:49.388 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 07:30:49.389 +01:00 [INF] [ProductRepository] Found 20 products in database
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Organic Apples, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Fresh Bananas, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Organic Carrots, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Fresh Spinach, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Premium Beef Steak, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Chicken Breast, ProducerId: 2, Producer: Quality Meats, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Fresh Milk, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Turkish Yogurt, ProducerId: 3, Producer: Daily Dairy, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Sourdough Bread, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Croissants, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Fresh Orange Juice, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Sparkling Water, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Rainbow Candy Popcorn, ProducerId: 5, Producer: Beverage Co, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Chocolate Covered Pickles, ProducerId: 1, Producer: Fresh Farms, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Birthday Cake Sushi Roll, ProducerId: 4, Producer: Artisan Bakery, OwnerId: admin@test.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: Grøt, ProducerId: 6, Producer: Orkla1, OwnerId: magnus@bkla.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: cad, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: fsafdfsgaewfsfdsf, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: asJAJA, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:49.389 +01:00 [INF] Product: AvoShake, ProducerId: 9, Producer: as, OwnerId: dasfhsa@fasfas.com
+2024-11-29 07:30:49.389 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/AllProducts.cshtml.
+2024-11-29 07:30:49.391 +01:00 [INF] Executed ViewResult - view ~/Views/Product/AllProducts.cshtml executed in 1.2618ms.
+2024-11-29 07:30:49.391 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.AllProducts (Food-Registration) in 4.6198ms
+2024-11-29 07:30:49.391 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.AllProducts (Food-Registration)'
+2024-11-29 07:30:49.391 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 200 null text/html; charset=utf-8 5.3813ms
+2024-11-29 07:30:52.943 +01:00 [INF] Application is shutting down...
