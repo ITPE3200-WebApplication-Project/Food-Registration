@@ -2,7 +2,7 @@
 
 <h2>Create New Producer</h2>
 
-<form asp-action="NewProducer" method="post">
+<form asp-action="NewProducer" method="post" enctype="multipart/form-data">
   <div class="form-group">
     <label asp-for="Name"></label><span class="text-danger">*</span>
     <input asp-for="Name" class="form-control" />
@@ -19,6 +19,11 @@
     <label asp-for="ImageUrl"></label>
     <input asp-for="ImageUrl" class="form-control" />
     <span asp-validation-for="ImageUrl" class="text-danger"></span>
+  </div>
+
+  <div class="form-group">
+    <label>Upload Image</label>
+    <input type="file" name="file" class="form-control" accept="image/*" />
   </div>
 
   <button type="submit" class="btn btn-success">Create Producer</button>

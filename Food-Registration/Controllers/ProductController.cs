@@ -111,24 +111,29 @@ public class ProductController : Controller
 
     if (string.IsNullOrEmpty(currentUserId))
     {
-
-      _logger.LogWarning("User does not have a producer account.");
-      return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
+        _logger.LogWarning("User does not have a producer account.");
+        return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
     }
 
-   try{
-    _logger.LogInformation("Getting all products for the user");
+    try
+    {
+        _logger.LogInformation("Getting all products for the user");
 
-     // Get all products including producers
-    var allProducts = await _productRepository.GetAllProductsAsync();
-    _logger.LogInformation($"[ProductController] Total products found: {allProducts?.Count() ?? 0}");
+        var allProducts = await _productRepository.GetAllProductsAsync();
+        _logger.LogInformation($"[ProductController] Total products found: {allProducts?.Count() ?? 0}");
 
-    var filteredProducts = allProducts?
-        .Where(p => p.Producer?.OwnerId == currentUserId)
-        .ToList();
-    _logger.LogInformation($"[ProductController] Filtered products for user: {filteredProducts?.Count ?? 0}");
+        var filteredProducts = allProducts?
+            .Where(p => p.Producer?.OwnerId == currentUserId)
+            .ToList();
+        _logger.LogInformation($"[ProductController] Filtered products for user: {filteredProducts?.Count ?? 0}");
 
-    return View(filteredProducts);
+        return View(filteredProducts);
+    }
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error retrieving products");
+        return RedirectWithMessage("Product", "Table", "Error retrieving products", "error");
+    }
   }
 
 
@@ -357,7 +362,7 @@ public class ProductController : Controller
         else
         {
             // If no new file is uploaded, retain the original ImageUrl
-            product.ImageUrl = originalProduct.ImageUrl;
+            product.ImageUrl = existingProduct.ImageUrl;
         }
 
     // Update all fields
@@ -401,21 +406,33 @@ public class ProductController : Controller
   [Authorize]
   public async Task<IActionResult> DeleteConfirmed(int id)
   {
-    // Get the product
     var product = await _productRepository.GetProductByIdAsync(id);
     if (product == null)
     {
-      _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
-      return NotFound();
+        _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
+        return NotFound();
     }
 
-    // Get the producer that owns the product
     var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
     if (producer == null)
     {
-      _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");
-      return NotFound();
+        _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");
+        return NotFound();
     }
+
+    // Verify the current user owns the producer
+    if (producer.OwnerId != User.Identity?.Name)
+    {
+        return RedirectWithMessage("Product", "Table", "You can only delete your own products", "error");
+    }
+
+    var success = await _productRepository.DeleteProductAsync(id);
+    if (!success)
+    {
+        return RedirectWithMessage("Product", "Table", "Failed to delete product", "error");
+    }
+
+    return RedirectToAction(nameof(Table));
   }
 
 
