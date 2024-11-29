@@ -1,5 +1,5 @@
-namespace Food_Registration.Models
 using System.ComponentModel.DataAnnotations;
+namespace Food_Registration.Models
 
 {
   public class Product
