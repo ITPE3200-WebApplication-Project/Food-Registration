@@ -298,7 +298,7 @@ public class ProductController : Controller
           .ToList();
           
       ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
-      ViewBag.Categories = new SelectList(new[] { "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other" });
+      ViewBag.Categories = new SelectList(new[] { "Fruits", "Vegetables", "Meat", "Bakery", "Dairy", "Drinks", "Other" });
       ViewBag.NutritionScores = new SelectList(new[] { "A", "B", "C", "D", "E" });
   }
 
@@ -329,7 +329,7 @@ public class ProductController : Controller
 
     ViewBag.Categories = new SelectList(new List<string>
     {
-        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
+        "Fruits", "Vegetables", "Meat", "Bakery", "Dairy", "Drinks", "Other"
     });
 
     // Update producer list to only show user's producers
