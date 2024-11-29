@@ -111,33 +111,29 @@ public class ProductController : Controller
 
     if (string.IsNullOrEmpty(currentUserId))
     {
-      _logger.LogWarning("User does not have a producer account.");
-      return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
+        _logger.LogWarning("User does not have a producer account.");
+        return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
     }
 
-   try{
-    _logger.LogInformation("Getting all products for the user");
+    try
+    {
+        _logger.LogInformation("Getting all products for the user");
 
-     // Get all products including producers
-    var allProducts = await _productRepository.GetAllProductsAsync();
-    _logger.LogInformation($"[ProductController] Total products found: {allProducts?.Count() ?? 0}");
+        var allProducts = await _productRepository.GetAllProductsAsync();
+        _logger.LogInformation($"[ProductController] Total products found: {allProducts?.Count() ?? 0}");
 
-    var filteredProducts = allProducts?
-        .Where(p => p.Producer?.OwnerId == currentUserId)
-        .ToList();
-    _logger.LogInformation($"[ProductController] Filtered products for user: {filteredProducts?.Count ?? 0}");
+        var filteredProducts = allProducts?
+            .Where(p => p.Producer?.OwnerId == currentUserId)
+            .ToList();
+        _logger.LogInformation($"[ProductController] Filtered products for user: {filteredProducts?.Count ?? 0}");
 
-    var viewModel = new ProductsViewModel(products, "Table");
-
-    return View(viewModel);
-    
-   }
-    catch{
-      _logger.LogError("[ProductController] Product not found for the user.");
-      return RedirectWithMessage("Error", "Table", "An error occurred while processing your request.", "danger");
+        return View(filteredProducts);
     }
-
-    
+    catch (Exception ex)
+    {
+        _logger.LogError(ex, "Error retrieving products");
+        return RedirectWithMessage("Product", "Table", "Error retrieving products", "error");
+    }
   }
 
 
@@ -329,7 +325,7 @@ public async Task<IActionResult> Edit(Product product, IFormFile file)
         else
         {
             // If no new file is uploaded, retain the original ImageUrl
-            product.ImageUrl = originalProduct.ImageUrl;
+            product.ImageUrl = existingProduct.ImageUrl;
         }
 
         // Update the product in the database
@@ -339,11 +335,44 @@ public async Task<IActionResult> Edit(Product product, IFormFile file)
     }
     catch (Exception ex)
     {
-        _logger.LogError(ex, "Error updating product");
-        await PopulateDropdowns();
-        return RedirectWithMessage("Product", "Edit", "Error updating product", "danger");
+        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", 
+        "Grains", "Beverages", "Snacks", "Other"
+    });
+    ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
+  }
+
+  [HttpPost]
+  [Authorize]
+  public async Task<IActionResult> DeleteConfirmed(int id)
+  {
+    var product = await _productRepository.GetProductByIdAsync(id);
+    if (product == null)
+    {
+        _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
+        return NotFound();
     }
-}
+
+    var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
+    if (producer == null)
+    {
+        _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");
+        return NotFound();
+    }
+
+    // Verify the current user owns the producer
+    if (producer.OwnerId != User.Identity?.Name)
+    {
+        return RedirectWithMessage("Product", "Table", "You can only delete your own products", "error");
+    }
+
+    var success = await _productRepository.DeleteProductAsync(id);
+    if (!success)
+    {
+        return RedirectWithMessage("Product", "Table", "Failed to delete product", "error");
+    }
+
+    return RedirectToAction(nameof(Table));
+  }
 
 
 

@@ -5,7 +5,8 @@ using Microsoft.EntityFrameworkCore;
 using Food_Registration.DAL;
 using Microsoft.Extensions.Logging; 
 using Food_Registration.ViewModels;
-
+using Microsoft.AspNetCore.Http;
+using System.IO;
 
 namespace Food_Registration.Controllers
 {
@@ -17,11 +18,14 @@ namespace Food_Registration.Controllers
 
     private readonly ILogger<ProducerController> _logger; 
 
-    public ProducerController(IProducerRepository producerRepository, IProductRepository productRepository, ILogger<ProducerController> logger)
+    private readonly IWebHostEnvironment _webHostEnvironment;
+
+    public ProducerController(IProducerRepository producerRepository, IProductRepository productRepository, ILogger<ProducerController> logger, IWebHostEnvironment webHostEnvironment)
     {
       _producerRepository = producerRepository;
       _productRepository = productRepository;
       _logger = logger; 
+      _webHostEnvironment = webHostEnvironment;
     }
 
 
@@ -53,31 +57,43 @@ namespace Food_Registration.Controllers
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> NewProducer(Producer producer)
+    public async Task<IActionResult> NewProducer(Producer producer, IFormFile file)
     {
-        // Make sure the user is logged in
-        if (User.Identity == null || User.Identity.Name == null)
+        if (!ModelState.IsValid)
         {
-            return RedirectWithMessage("Producer", "NewProducer", "You must be logged in to create a producer", "danger");
+            return View(producer);
         }
 
-        if (ModelState.IsValid)
+        try
         {
-            // Set the owner to the current user
-            producer.OwnerId = User.Identity.Name;
-
-            bool returnOk = await _producerRepository.AddProducerAsync(producer);
-            if (returnOk)
+            // Handle image upload
+            if (file != null)
             {
-                return RedirectToAction(nameof(Table));
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string producerPath = Path.Combine(wwwRootPath, "images", "producer");
+                
+                // Ensure directory exists
+                Directory.CreateDirectory(producerPath);
+                string filePath = Path.Combine(producerPath, fileName);
+                
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(stream);
+                }
+                
+                producer.ImageUrl = "/images/producer/" + fileName;
             }
-            
-            _logger.LogError("[ProducerController] Failed to add producer while executing NewProducer()");
-            return RedirectWithMessage("Producer", "NewProducer", "Failed to create producer", "danger");
-        }
 
-        _logger.LogWarning("[ProducerController] Producer is not valid while executing NewProducer()");
-        return View(producer);
+            producer.OwnerId = User.Identity?.Name;
+            await _producerRepository.AddProducerAsync(producer);
+            return RedirectToAction(nameof(Table));
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating producer");
+            return RedirectWithMessage("Producer", "NewProducer", "Error creating producer", "danger");
+        }
     }
 
     [Authorize]
@@ -218,6 +234,26 @@ namespace Food_Registration.Controllers
     private IActionResult RedirectWithMessage(string controller, string action, string message, string messageType = "info")
     {
       return Redirect($"/{controller}/{action}?message={Uri.EscapeDataString(message)}&messageType={messageType}");
+    }
+
+    [Authorize]
+    [HttpGet]
+    public async Task<IActionResult> ReadMore(int id)
+    {
+        var producer = await _producerRepository.GetProducerByIdAsync(id);
+        
+        if (producer == null)
+        {
+            return NotFound();
+        }
+
+        // Legg til default bilde hvis ingen finnes
+        if (string.IsNullOrEmpty(producer.ImageUrl))
+        {
+            producer.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
+        }
+
+        return View(producer);
     }
   }
 }
