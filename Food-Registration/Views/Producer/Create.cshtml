@@ -2,7 +2,7 @@
 
 <h2>Create New Producer</h2>
 
-<form asp-action="NewProducer" method="post" enctype="multipart/form-data">
+<form asp-action="Create" method="post" enctype="multipart/form-data">
   <div class="form-group">
     <label asp-for="Name"></label><span class="text-danger">*</span>
     <input asp-for="Name" class="form-control" />
@@ -27,5 +27,5 @@
   </div>
 
   <button type="submit" class="btn btn-success">Create Producer</button>
-  <a asp-action="AllProducts" asp-controller="Product" class="btn btn-secondary">Cancel</a>
+  <a asp-action="Index" asp-controller="Product" class="btn btn-secondary">Cancel</a>
 </form>

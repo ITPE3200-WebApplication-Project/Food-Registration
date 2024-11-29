@@ -1,5 +1,5 @@
 ﻿@{
-    ViewData["Title"] = "NewProduct";
+    ViewData["Title"] = "Create";
 }
 
 
@@ -13,7 +13,7 @@
     
     <!--Products form Information -->
 
-            <form asp-action="NewProduct"  enctype="multipart/form-data"  method="post">
+            <form asp-action="Create"  enctype="multipart/form-data"  method="post">
                 <div class="form-group mb-3">
                     <label asp-for="Name" class="form-label">Name</label><span class="text-danger">*</span>
                     <input asp-for="Name" class="form-control" />
@@ -43,9 +43,8 @@
                 </div>
 
                 <div class="form-group mb-3">
-                    <label asp-for="ImageUrl" class="form-label">Image URL</label><span class="text-danger">*</span>
-                    <input type="file" name="file" class="form-control" />
-                    <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                    <label class="form-label">Product Image</label>
+                    <input type="file" name="file" class="form-control" accept="image/*" />
                 </div>
 
 
@@ -97,7 +96,7 @@
 
                 <div class="form-group mt-4">
                     <button type="submit" class="btn btn-success">Create Product</button>
-                    <a asp-action="AllProducts" asp-controller="Product" class="btn btn-secondary">Cancel</a>
+                    <a asp-action="Index" asp-controller="Product" class="btn btn-secondary">Cancel</a>
                 </div>
             </form>
         </div>

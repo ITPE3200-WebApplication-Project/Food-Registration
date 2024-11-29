@@ -235,7 +235,7 @@ public static class DBInit
             {
                 Name = "Rainbow Candy Popcorn",
                 Description = "Colorful, sweet popcorn that will make your taste buds dance 🌈",
-                ImageUrl = "./images/popcornRainbow.jpg",/*(images edited)images from https://www.istockphoto.com/photo/white-and-plain-popcorn-for-background-uses-gm1179252944-329907145 */
+                ImageUrl = "./images/popcornRainbow.jpg",/*(images Updateed)images from https://www.istockphoto.com/photo/white-and-plain-popcorn-for-background-uses-gm1179252944-329907145 */
                 Category = "Other",
                 ProducerId = producers[4].ProducerId,
                 Calories = 387m,
