@@ -7,7 +7,7 @@
   <div class="row">
     <!-- Left Column: Image -->
     <div class="col-md-6 text-center">
-      <img id="imagePreview" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "/images/placeholder.jpg" : Model.ImageUrl)" 
+      <img id="imagePreview" src="@(string.IsNullOrEmpty(Model.ImageUrl) ? "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg" : Model.ImageUrl)" 
            alt="Producer Image" class="img-fluid rounded" 
            style="max-width: 100%; height: auto; max-height: 400px;" />
     </div>
@@ -17,6 +17,7 @@
       <form asp-action="Update" asp-controller="Producer" method="post" enctype="multipart/form-data">
         <input type="hidden" asp-for="ProducerId" />
         <input type="hidden" asp-for="OwnerId" />
+        <input type="hidden" id="removeImageFlag" name="removeImage" value="false" />
 
         <div class="form-group mb-3">
           <label asp-for="Name" class="form-label">Name</label><span class="text-danger">*</span>
@@ -32,7 +33,12 @@
 
         <div class="form-group mb-3">
           <label asp-for="ImageUrl" class="form-label">Change Image</label>
-          <input type="file" name="file" id="imageInput" class="form-control" accept="image/*" onchange="previewImage(event)" />
+          <div class="input-group">
+            <input type="file" name="file" id="imageInput" class="form-control" accept="image/*" onchange="previewImage(event)" />
+            <button type="button" class="btn btn-danger" id="removeImageBtn">
+              <i class="bi bi-trash"></i> Remove Image
+            </button>
+          </div>
           <span asp-validation-for="ImageUrl" class="text-danger"></span>
         </div>
 
@@ -48,6 +54,14 @@
 
 @section Scripts {
   <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      document.getElementById('removeImageBtn').addEventListener('click', function() {
+        document.getElementById('imageInput').value = '';
+        document.getElementById('imagePreview').src = 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg';
+        document.getElementById('removeImageFlag').value = 'true';
+      });
+    });
+
     function previewImage(event) {
       const file = event.target.files[0];
       if (file) {

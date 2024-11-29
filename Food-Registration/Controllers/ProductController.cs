@@ -194,9 +194,8 @@ public class ProductController : Controller
   {
     if (!ModelState.IsValid)
     {
-        var currentUserId = User.Identity?.Name;
         var userProducers = (await _producerRepository.GetAllProducersAsync())
-            .Where(p => p.OwnerId == currentUserId)
+            .Where(p => p.OwnerId == User.Identity?.Name)
             .ToList();
             
         ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
@@ -227,46 +226,26 @@ public class ProductController : Controller
         product.ImageUrl = "/images/product/" + fileName;
     }
 
-    var currentUserId = User.Identity?.Name;
-    
     if (!ModelState.IsValid)
     {
-      // Repopulate all dropdown data before returning the view
-      await PopulateDropdowns();
-      // Repopulate producers dropdown
-      var userProducers = (await _producerRepository.GetAllProducersAsync())
-          .Where(p => p.OwnerId == currentUserId)
-          .ToList();
-      ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
-
-      // Repopulate categories dropdown
-      var categories = new List<string>
-      {
-          "Fruits", "Vegetables", "Meat", "Fish", "Dairy", 
-          "Grains", "Beverages", "Snacks", "Other"
-      };
-      ViewBag.Categories = new SelectList(categories);
-
-      // Repopulate nutrition scores dropdown
-      var nutritionScores = new List<string> { "A", "B", "C", "D", "E" };
-      ViewBag.NutritionScores = new SelectList(nutritionScores);
-
-      return View(product);
+        await PopulateDropdowns();
+        return View(product);
     }
 
+    var currentUserId = User.Identity?.Name;
     var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
-      if (producer == null || producer.OwnerId != User.Identity?.Name)
-      {
-          _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");   
-          await PopulateDropdowns();
-          return RedirectWithMessage("Product", "Create", "Invalid producer selection", "warning");
-      }
+    if (producer == null || producer.OwnerId != User.Identity?.Name)
+    {
+        _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");   
+        await PopulateDropdowns();
+        return RedirectWithMessage("Product", "Create", "Invalid producer selection", "warning");
+    }
 
     // Check if user owns the producer
     if (producer.OwnerId != currentUserId)
     {
-      _logger.LogError("[ProductController] producer does not belong to current user while executing _producerRepository.GetProducerByIdAsync()");
-      return RedirectWithMessage("Product", "Create", "You are not the owner of this producer", "warning");
+        _logger.LogError("[ProductController] producer does not belong to current user while executing _producerRepository.GetProducerByIdAsync()");
+        return RedirectWithMessage("Product", "Create", "You are not the owner of this producer", "warning");
     }
     
     try
@@ -338,7 +317,7 @@ public class ProductController : Controller
   {
     if (!ModelState.IsValid)
     {
-        await PopulateDropDowns();
+        await PopulateDropdowns();
         return View(product);
     }
 

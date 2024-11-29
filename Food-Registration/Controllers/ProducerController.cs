@@ -135,15 +135,34 @@ namespace Food_Registration.Controllers
 
         try
         {
-            // Handle image upload
+            // Get existing producer to check ownership and current image
+            var existingProducer = await _producerRepository.GetProducerByIdAsync(producer.ProducerId);
+            if (existingProducer == null)
+            {
+                return NotFound();
+            }
+
+            // Check ownership
+            var currentUserId = User.Identity?.Name;
+            if (existingProducer.OwnerId != currentUserId)
+            {
+                return RedirectWithMessage("Producer", "Table", "You can only update your own producers", "danger");
+            }
+
+            // Copy over the existing image URL unless a new file is being uploaded
+            if (file == null || file.Length == 0)
+            {
+                producer.ImageUrl = existingProducer.ImageUrl;
+            }
+
+            // Handle image upload if there's a new file
             if (file != null && file.Length > 0)
             {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                
                 // Delete old image if exists
-                if (!string.IsNullOrEmpty(producer.ImageUrl))
+                if (!string.IsNullOrEmpty(existingProducer.ImageUrl))
                 {
-                    string oldImagePath = Path.Combine(wwwRootPath, producer.ImageUrl.TrimStart('/'));
+                    string wwwRootPath = _webHostEnvironment.WebRootPath;
+                    string oldImagePath = Path.Combine(wwwRootPath, existingProducer.ImageUrl.TrimStart('/'));
                     if (System.IO.File.Exists(oldImagePath))
                     {
                         System.IO.File.Delete(oldImagePath);
@@ -152,9 +171,8 @@ namespace Food_Registration.Controllers
 
                 // Save new image
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                string producerPath = Path.Combine(wwwRootPath, "images", "producer");
+                string producerPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "producer");
                 
-                // Ensure directory exists
                 Directory.CreateDirectory(producerPath);
                 string filePath = Path.Combine(producerPath, fileName);
                 
@@ -264,6 +282,38 @@ namespace Food_Registration.Controllers
         }
 
         return View(producer);
+    }
+
+    [HttpPost]
+    [Authorize]
+    public async Task<IActionResult> RemoveImage(int id)
+    {
+        var producer = await _producerRepository.GetProducerByIdAsync(id);
+        if (producer == null)
+        {
+            return NotFound();
+        }
+
+        // Check if the current user owns this producer
+        var currentUserId = User.Identity?.Name;
+        if (producer.OwnerId != currentUserId)
+        {
+            return RedirectWithMessage("Producer", "Table", "You can only update your own producers", "danger");
+        }
+
+        if (!string.IsNullOrEmpty(producer.ImageUrl))
+        {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            string imagePath = Path.Combine(wwwRootPath, producer.ImageUrl.TrimStart('/'));
+            if (System.IO.File.Exists(imagePath))
+            {
+                System.IO.File.Delete(imagePath);
+            }
+            producer.ImageUrl = null;
+            await _producerRepository.UpdateProducerAsync(producer);
+        }
+
+        return RedirectToAction(nameof(Update), new { id });
     }
   }
 }
