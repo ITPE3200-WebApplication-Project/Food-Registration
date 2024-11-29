@@ -1,0 +1,228 @@
+2024-11-29 18:06:05.168 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2024-11-29 18:06:05.269 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Producers" AS "p"
+2024-11-29 18:06:05.272 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Products" AS "p"
+2024-11-29 18:06:05.316 +01:00 [INF] User profile is available. Using '/Users/magnus/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-11-29 18:06:05.388 +01:00 [INF] Now listening on: http://localhost:5173
+2024-11-29 18:06:05.390 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-29 18:06:05.390 +01:00 [INF] Hosting environment: Development
+2024-11-29 18:06:05.390 +01:00 [INF] Content root path: /Users/magnus/Desktop/Food-Registration/Food-Registration
+2024-11-29 18:06:14.959 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2024-11-29 18:06:14.990 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Index (Food-Registration)'
+2024-11-29 18:06:15.000 +01:00 [INF] Route matched with {action = "Index", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index(System.String, System.String) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:06:15.054 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 18:06:15.091 +01:00 [INF] Executing ViewResult, running view ~/Views/Product/Index.cshtml.
+2024-11-29 18:06:15.141 +01:00 [INF] Executed ViewResult - view ~/Views/Product/Index.cshtml executed in 50.4894ms.
+2024-11-29 18:06:15.142 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Index (Food-Registration) in 142.078ms
+2024-11-29 18:06:15.142 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Index (Food-Registration)'
+2024-11-29 18:06:15.144 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 200 null text/html; charset=utf-8 186.4524ms
+2024-11-29 18:06:15.164 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/basket.png - null null
+2024-11-29 18:06:15.164 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/css/_Layout.css - null null
+2024-11-29 18:06:15.164 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/logo.png - null null
+2024-11-29 18:06:15.174 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/breads.png - null null
+2024-11-29 18:06:15.174 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/vegetable.png - null null
+2024-11-29 18:06:15.174 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/proteins.png - null null
+2024-11-29 18:06:15.175 +01:00 [INF] The file /images/logo.png was not modified
+2024-11-29 18:06:15.175 +01:00 [INF] The file /images/icons/basket.png was not modified
+2024-11-29 18:06:15.175 +01:00 [INF] The file /css/_Layout.css was not modified
+2024-11-29 18:06:15.176 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/css/_Layout.css - 304 null text/css 12.1792ms
+2024-11-29 18:06:15.177 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/logo.png - 304 null image/png 12.176ms
+2024-11-29 18:06:15.177 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/basket.png - 304 null image/png 12.1163ms
+2024-11-29 18:06:15.178 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/daily-products.png - null null
+2024-11-29 18:06:15.178 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/soft-drink.png - null null
+2024-11-29 18:06:15.178 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/icons/fast-food.png - null null
+2024-11-29 18:06:15.184 +01:00 [INF] The file /images/icons/proteins.png was not modified
+2024-11-29 18:06:15.184 +01:00 [INF] The file /images/icons/breads.png was not modified
+2024-11-29 18:06:15.184 +01:00 [INF] The file /images/icons/soft-drink.png was not modified
+2024-11-29 18:06:15.184 +01:00 [INF] The file /images/icons/daily-products.png was not modified
+2024-11-29 18:06:15.184 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/breads.png - 304 null image/png 10.1992ms
+2024-11-29 18:06:15.184 +01:00 [INF] The file /images/icons/fast-food.png was not modified
+2024-11-29 18:06:15.184 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/daily-products.png - 304 null image/png 6.1065ms
+2024-11-29 18:06:15.184 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/soft-drink.png - 304 null image/png 6.0341ms
+2024-11-29 18:06:15.184 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/fast-food.png - 304 null image/png 6.1949ms
+2024-11-29 18:06:15.184 +01:00 [INF] The file /images/icons/vegetable.png was not modified
+2024-11-29 18:06:15.184 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/proteins.png - 304 null image/png 10.1837ms
+2024-11-29 18:06:15.184 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/icons/vegetable.png - 304 null image/png 10.5238ms
+2024-11-29 18:06:15.189 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-C.svg.png - null null
+2024-11-29 18:06:15.189 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-B.svg.png - null null
+2024-11-29 18:06:15.189 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/yogurt.jpg - null null
+2024-11-29 18:06:15.189 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/water1.jpg - null null
+2024-11-29 18:06:15.189 +01:00 [INF] The file /images/Nutri/Nutri-score-C.svg.png was not modified
+2024-11-29 18:06:15.189 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/popcornRainbow.jpg - null null
+2024-11-29 18:06:15.189 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-C.svg.png - 304 null image/png 0.5703ms
+2024-11-29 18:06:15.189 +01:00 [INF] The file /images/water1.jpg was not modified
+2024-11-29 18:06:15.189 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-D.svg.png - null null
+2024-11-29 18:06:15.190 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/water1.jpg - 304 null image/jpeg 0.3115ms
+2024-11-29 18:06:15.190 +01:00 [INF] The file /images/Nutri/Nutri-score-D.svg.png was not modified
+2024-11-29 18:06:15.190 +01:00 [INF] The file /images/Nutri/Nutri-score-B.svg.png was not modified
+2024-11-29 18:06:15.191 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-D.svg.png - 304 null image/png 0.2922ms
+2024-11-29 18:06:15.191 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-B.svg.png - 304 null image/png 1.82ms
+2024-11-29 18:06:15.191 +01:00 [INF] The file /images/yogurt.jpg was not modified
+2024-11-29 18:06:15.191 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/yogurt.jpg - 304 null image/jpeg 2.1043ms
+2024-11-29 18:06:15.192 +01:00 [INF] The file /images/popcornRainbow.jpg was not modified
+2024-11-29 18:06:15.192 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/chocolateCoveredPickles.jpg - null null
+2024-11-29 18:06:15.192 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-E.svg.png - null null
+2024-11-29 18:06:15.192 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/product/f6d88ac5-a475-4db4-bbb0-fee90fbc3395.jpg - null null
+2024-11-29 18:06:15.192 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/popcornRainbow.jpg - 304 null image/jpeg 2.9518ms
+2024-11-29 18:06:15.193 +01:00 [INF] The file /images/Nutri/Nutri-score-E.svg.png was not modified
+2024-11-29 18:06:15.193 +01:00 [INF] The file /images/product/f6d88ac5-a475-4db4-bbb0-fee90fbc3395.jpg was not modified
+2024-11-29 18:06:15.193 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/product/36844484-1d73-46e6-a083-6a53c3df380f.png - null null
+2024-11-29 18:06:15.193 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-E.svg.png - 304 null image/png 1.0128ms
+2024-11-29 18:06:15.193 +01:00 [INF] The file /images/chocolateCoveredPickles.jpg was not modified
+2024-11-29 18:06:15.193 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/product/f6d88ac5-a475-4db4-bbb0-fee90fbc3395.jpg - 304 null image/jpeg 0.9137ms
+2024-11-29 18:06:15.194 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/chocolateCoveredPickles.jpg - 304 null image/jpeg 1.4259ms
+2024-11-29 18:06:15.195 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/product/d4952440-d4c0-4099-9988-ecd308032910.jpg - null null
+2024-11-29 18:06:15.196 +01:00 [INF] The file /images/product/36844484-1d73-46e6-a083-6a53c3df380f.png was not modified
+2024-11-29 18:06:15.196 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/product/dde89234-6f87-40b6-9a6e-9e04b7c8679d.jpg - null null
+2024-11-29 18:06:15.196 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/product/36844484-1d73-46e6-a083-6a53c3df380f.png - 304 null image/png 2.448ms
+2024-11-29 18:06:15.196 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/product/768d24f7-8350-433d-ba96-eee18eade679.jpg - null null
+2024-11-29 18:06:15.196 +01:00 [INF] The file /images/product/dde89234-6f87-40b6-9a6e-9e04b7c8679d.jpg was not modified
+2024-11-29 18:06:15.197 +01:00 [INF] The file /images/product/768d24f7-8350-433d-ba96-eee18eade679.jpg was not modified
+2024-11-29 18:06:15.197 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/product/768d24f7-8350-433d-ba96-eee18eade679.jpg - 304 null image/jpeg 0.5909ms
+2024-11-29 18:06:15.197 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/product/dde89234-6f87-40b6-9a6e-9e04b7c8679d.jpg - 304 null image/jpeg 0.8094ms
+2024-11-29 18:06:15.197 +01:00 [INF] The file /images/product/d4952440-d4c0-4099-9988-ecd308032910.jpg was not modified
+2024-11-29 18:06:15.197 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/product/d4952440-d4c0-4099-9988-ecd308032910.jpg - 304 null image/jpeg 1.3285ms
+2024-11-29 18:06:17.548 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Create - null null
+2024-11-29 18:06:17.555 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Create (Food-Registration)'
+2024-11-29 18:06:17.560 +01:00 [INF] Route matched with {action = "Create", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create() on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:06:17.608 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-29 18:06:17.613 +01:00 [INF] Executing ViewResult, running view Create.
+2024-11-29 18:06:17.648 +01:00 [INF] Executed ViewResult - view Create executed in 35.1576ms.
+2024-11-29 18:06:17.648 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Create (Food-Registration) in 87.5897ms
+2024-11-29 18:06:17.648 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Create (Food-Registration)'
+2024-11-29 18:06:17.648 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Create - 200 null text/html; charset=utf-8 100.8196ms
+2024-11-29 18:06:17.668 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/lib/jquery-validation/dist/jquery.validate.min.js - null null
+2024-11-29 18:06:17.668 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js - null null
+2024-11-29 18:06:17.670 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/lib/jquery-validation/dist/jquery.validate.min.js - 404 0 null 2.3ms
+2024-11-29 18:06:17.670 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js - 404 0 null 2.1994ms
+2024-11-29 18:06:17.672 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js, Response status code: 404
+2024-11-29 18:06:17.672 +01:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/lib/jquery-validation/dist/jquery.validate.min.js, Response status code: 404
+2024-11-29 18:06:24.977 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5173/Product/Create - multipart/form-data; boundary=----WebKitFormBoundaryrscYNKFAjJntWBKl 1791
+2024-11-29 18:06:24.984 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Create (Food-Registration)'
+2024-11-29 18:06:24.992 +01:00 [INF] Route matched with {action = "Create", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Create(Food_Registration.Models.Product, Microsoft.AspNetCore.Http.IFormFile) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:06:25.035 +01:00 [INF] Executed DbCommand (2ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+WHERE "p"."ProducerId" = @__id_0
+LIMIT 1
+2024-11-29 18:06:25.085 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = Decimal), @p2='?', @p3='?' (Size = 3), @p4='?' (DbType = Decimal), @p5='?', @p6='?' (Size = 3), @p7='?', @p8='?' (DbType = Int32), @p9='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Products" ("Calories", "Carbohydrates", "Category", "Description", "Fat", "ImageUrl", "Name", "NutritionScore", "ProducerId", "Protein")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2024-11-29 18:06:25.093 +01:00 [INF] Executing RedirectResult, redirecting to /Product/Table.
+2024-11-29 18:06:25.094 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Create (Food-Registration) in 100.9917ms
+2024-11-29 18:06:25.094 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Create (Food-Registration)'
+2024-11-29 18:06:25.094 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5173/Product/Create - 302 0 null 116.21ms
+2024-11-29 18:06:25.098 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Table - null null
+2024-11-29 18:06:25.099 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-29 18:06:25.100 +01:00 [INF] Route matched with {action = "Table", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:06:25.101 +01:00 [INF] [ProductController] Current user: dasas@test.com
+2024-11-29 18:06:25.101 +01:00 [INF] Getting all products for the user
+2024-11-29 18:06:25.103 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 18:06:25.104 +01:00 [INF] [ProductController] Total products found: 27
+2024-11-29 18:06:25.104 +01:00 [INF] [ProductController] Filtered products for user: 6
+2024-11-29 18:06:25.105 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-29 18:06:25.108 +01:00 [INF] Executed ViewResult - view Table executed in 3.8039ms.
+2024-11-29 18:06:25.108 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Table (Food-Registration) in 7.8072ms
+2024-11-29 18:06:25.108 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-29 18:06:25.108 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Table - 200 null text/html; charset=utf-8 10.2741ms
+2024-11-29 18:06:25.128 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-A.svg.png - null null
+2024-11-29 18:06:25.129 +01:00 [INF] The file /images/Nutri/Nutri-score-A.svg.png was not modified
+2024-11-29 18:06:25.129 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/images/Nutri/Nutri-score-A.svg.png - 304 null image/png 1.3649ms
+2024-11-29 18:06:53.479 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Update/30 - null null
+2024-11-29 18:06:53.485 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-29 18:06:53.496 +01:00 [INF] Route matched with {action = "Update", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(Int32) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:06:53.514 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-29 18:06:53.515 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-29 18:06:53.518 +01:00 [INF] Executing ViewResult, running view Update.
+2024-11-29 18:06:53.544 +01:00 [INF] Executed ViewResult - view Update executed in 27.0998ms.
+2024-11-29 18:06:53.544 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Update (Food-Registration) in 47.8337ms
+2024-11-29 18:06:53.544 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-29 18:06:53.544 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Update/30 - 200 null text/html; charset=utf-8 65.6186ms
+2024-11-29 18:06:57.994 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5173/Product/Update/30 - multipart/form-data; boundary=----WebKitFormBoundaryGNxTRbnE9zKkZW31 2020
+2024-11-29 18:06:57.994 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-29 18:06:57.998 +01:00 [INF] Route matched with {action = "Update", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(Food_Registration.Models.Product, Microsoft.AspNetCore.Http.IFormFile, Boolean) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:06:58.005 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-29 18:06:58.006 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-29 18:06:58.007 +01:00 [INF] Executing ViewResult, running view Update.
+2024-11-29 18:06:58.009 +01:00 [INF] Executed ViewResult - view Update executed in 2.6207ms.
+2024-11-29 18:06:58.009 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Update (Food-Registration) in 10.698ms
+2024-11-29 18:06:58.009 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-29 18:06:58.009 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5173/Product/Update/30 - 200 null text/html; charset=utf-8 15.7065ms
+2024-11-29 18:07:03.517 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5173/Product/Update/30 - multipart/form-data; boundary=----WebKitFormBoundarydZzLEkU3A01GOzZ8 2020
+2024-11-29 18:07:03.518 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-29 18:07:03.518 +01:00 [INF] Route matched with {action = "Update", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(Food_Registration.Models.Product, Microsoft.AspNetCore.Http.IFormFile, Boolean) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:07:03.521 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-29 18:07:03.523 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-29 18:07:03.524 +01:00 [INF] Executing ViewResult, running view Update.
+2024-11-29 18:07:03.527 +01:00 [INF] Executed ViewResult - view Update executed in 2.4482ms.
+2024-11-29 18:07:03.527 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Update (Food-Registration) in 8.3081ms
+2024-11-29 18:07:03.527 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-29 18:07:03.527 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5173/Product/Update/30 - 200 null text/html; charset=utf-8 10.3047ms
+2024-11-29 18:07:05.026 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Table - null null
+2024-11-29 18:07:05.027 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-29 18:07:05.027 +01:00 [INF] Route matched with {action = "Table", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:07:05.031 +01:00 [INF] [ProductController] Current user: dasas@test.com
+2024-11-29 18:07:05.031 +01:00 [INF] Getting all products for the user
+2024-11-29 18:07:05.033 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-29 18:07:05.035 +01:00 [INF] [ProductController] Total products found: 27
+2024-11-29 18:07:05.035 +01:00 [INF] [ProductController] Filtered products for user: 6
+2024-11-29 18:07:05.035 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-29 18:07:05.039 +01:00 [INF] Executed ViewResult - view Table executed in 3.5544ms.
+2024-11-29 18:07:05.039 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Table (Food-Registration) in 11.326ms
+2024-11-29 18:07:05.039 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-29 18:07:05.039 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Table - 200 null text/html; charset=utf-8 13.5375ms
+2024-11-29 18:07:08.928 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Update/30 - null null
+2024-11-29 18:07:08.930 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-29 18:07:08.930 +01:00 [INF] Route matched with {action = "Update", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(Int32) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-29 18:07:08.933 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-29 18:07:08.934 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-29 18:07:08.935 +01:00 [INF] Executing ViewResult, running view Update.
+2024-11-29 18:07:08.938 +01:00 [INF] Executed ViewResult - view Update executed in 3.7187ms.
+2024-11-29 18:07:08.938 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Update (Food-Registration) in 7.9312ms
+2024-11-29 18:07:08.938 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-29 18:07:08.938 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Update/30 - 200 null text/html; charset=utf-8 10.7732ms
+2024-11-29 18:08:13.414 +01:00 [INF] Application is shutting down...

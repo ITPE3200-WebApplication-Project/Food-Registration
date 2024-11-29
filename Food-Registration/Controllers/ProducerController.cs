@@ -55,7 +55,7 @@ namespace Food_Registration.Controllers
 
     [Authorize]
     [HttpPost]
-    public async Task<IActionResult> Create(Producer producer, IFormFile file)
+    public async Task<IActionResult> Create(Producer producer, IFormFile? file)
     {
         if (!ModelState.IsValid)
         {
@@ -64,8 +64,8 @@ namespace Food_Registration.Controllers
 
         try
         {
-            // Handle image upload
-            if (file != null)
+            // Handle image upload if a file was provided
+            if (file != null && file.Length > 0)
             {
                 string wwwRootPath = _webHostEnvironment.WebRootPath;
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
@@ -84,7 +84,7 @@ namespace Food_Registration.Controllers
             }
 
             producer.OwnerId = User.Identity?.Name ?? string.Empty;
-            await _producerRepository.AddProducerAsync(producer);
+            await _producerRepository.CreateProducerAsync(producer);
             return RedirectToAction(nameof(Table));
         }
         catch (Exception ex)
@@ -149,29 +149,26 @@ namespace Food_Registration.Controllers
                 return RedirectWithMessage("Producer", "Table", "You can only update your own producers", "danger");
             }
 
-            // Copy over the existing image URL unless a new file is being uploaded
-            if (file == null || file.Length == 0)
-            {
-                producer.ImageUrl = existingProducer.ImageUrl;
-            }
+            // Update properties on existing entity
+            existingProducer.Name = producer.Name;
+            existingProducer.Description = producer.Description;
 
-            // Handle image upload if there's a new file
+            // Handle image
             if (file != null && file.Length > 0)
             {
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string producerPath = Path.Combine(wwwRootPath, "images", "producer");
+                
                 // Delete old image if exists
                 if (!string.IsNullOrEmpty(existingProducer.ImageUrl))
                 {
-                    string wwwRootPath = _webHostEnvironment.WebRootPath;
                     string oldImagePath = Path.Combine(wwwRootPath, existingProducer.ImageUrl.TrimStart('/'));
                     if (System.IO.File.Exists(oldImagePath))
                     {
                         System.IO.File.Delete(oldImagePath);
                     }
                 }
-
-                // Save new image
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                string producerPath = Path.Combine(_webHostEnvironment.WebRootPath, "images", "producer");
                 
                 Directory.CreateDirectory(producerPath);
                 string filePath = Path.Combine(producerPath, fileName);
@@ -181,10 +178,11 @@ namespace Food_Registration.Controllers
                     await file.CopyToAsync(stream);
                 }
                 
-                producer.ImageUrl = "/images/producer/" + fileName;
+                existingProducer.ImageUrl = "/images/producer/" + fileName;
             }
 
-            var success = await _producerRepository.UpdateProducerAsync(producer);
+            // Update using the existing entity
+            var success = await _producerRepository.UpdateProducerAsync(existingProducer);
             if (success)
             {
                 return RedirectWithMessage("Producer", "Table", "Producer successfully updated", "success");
