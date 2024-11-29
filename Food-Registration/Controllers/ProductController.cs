@@ -192,6 +192,24 @@ public class ProductController : Controller
   [HttpPost]
   public async Task<IActionResult> Create(Product product, IFormFile? file)
   {
+
+    // Check for negative values
+    if (product.Calories < 0 || product.Protein < 0 || product.Carbohydrates < 0 || product.Fat < 0)
+    {
+        ModelState.AddModelError(string.Empty, "Calories, Protein, Carbohydrates, and Fat values cannot be negative.");
+
+        // Reload dropdown data
+        await PopulateDropdowns();
+        return View(product); // Return the form
+    }
+
+    if (!ModelState.IsValid)
+    {
+        // Reload dropdowns
+        await PopulateDropdowns();
+        return View(product);
+    }
+
     // Get current user's producers first
     var currentUserId = User.Identity?.Name;
     var userProducers = (await _producerRepository.GetAllProducersAsync())
@@ -329,6 +347,24 @@ public class ProductController : Controller
   [Authorize]
   public async Task<IActionResult> Update(Product product, IFormFile? file, bool removeImage = false)
   {
+
+    // Negative value check
+    if (product.Calories < 0 || product.Protein < 0 || product.Carbohydrates < 0 || product.Fat < 0)
+    {
+        ModelState.AddModelError(string.Empty, "Calories, Protein, Carbohydrates, and Fat values cannot be negative.");
+        
+        // Reload dropdowns
+        await PopulateDropdowns();
+        return View(product); // Return the form
+    }
+
+    if (!ModelState.IsValid)
+    {
+        // Reload dropdowns in case of invalid state
+        await PopulateDropdowns();
+        return View(product);
+    }
+
     // Get current user's producers first
     var currentUserId = User.Identity?.Name;
     var producers = await _producerRepository.GetAllProducersAsync();
