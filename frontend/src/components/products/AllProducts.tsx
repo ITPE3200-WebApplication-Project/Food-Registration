@@ -1,3 +1,104 @@
+interface ICategory {
+  name: string;
+  imageUrl: string;
+}
+interface IProduct {
+  id: number;
+  name: string;
+  description: string;
+  category: string;
+  imageUrl: string;
+  nutritionScore: string;
+  producer: string;
+}
+
+const categories: ICategory[] = [
+  {
+    name: "Fruits",
+    imageUrl: "/images/icons/basket.png",
+  },
+  {
+    name: "Vegetables",
+    imageUrl: "/images/icons/vegetable.png",
+  },
+  {
+    name: "Meats",
+    imageUrl: "/images/icons/proteins.png",
+  },
+  {
+    name: "Bakery Foods",
+    imageUrl: "/images/icons/breads.png",
+  },
+  {
+    name: "Dairy",
+    imageUrl: "/images/icons/daily-products.png",
+  },
+  {
+    name: "Drinks",
+    imageUrl: "/images/icons/soft-drink.png",
+  },
+  {
+    name: "Other",
+    imageUrl: "/images/icons/fast-food.png",
+  },
+];
+const products: IProduct[] = [
+  {
+    id: 1,
+    name: "Apple",
+    description: "Fresh red apples from local orchards",
+    category: "Fruits",
+    imageUrl: "/images/products/apple.jpg",
+    nutritionScore: "A",
+    producer: "Local Farms Co",
+  },
+  {
+    id: 2,
+    name: "Whole Wheat Bread",
+    description: "Freshly baked whole grain bread",
+    category: "Bakery Foods",
+    imageUrl: "/images/products/bread.jpg",
+    nutritionScore: "B",
+    producer: "Healthy Bakery",
+  },
+  {
+    id: 3,
+    name: "Milk",
+    description: "Fresh whole milk",
+    category: "Dairy",
+    imageUrl: "/images/products/milk.jpg",
+    nutritionScore: "A",
+    producer: "Happy Cows Dairy",
+  },
+  {
+    id: 4,
+    name: "Chicken Breast",
+    description: "Lean chicken breast fillets",
+    category: "Meats",
+    imageUrl: "/images/products/chicken.jpg",
+    nutritionScore: "A",
+    producer: "Quality Meats Inc",
+  },
+  {
+    id: 5,
+    name: "Carrot",
+    description: "Fresh organic carrots",
+    category: "Vegetables",
+    imageUrl: "/images/products/carrot.jpg",
+    nutritionScore: "A",
+    producer: "Organic Farms",
+  },
+  {
+    id: 6,
+    name: "Orange Juice",
+    description: "100% pure squeezed orange juice",
+    category: "Drinks",
+    imageUrl: "/images/products/juice.jpg",
+    nutritionScore: "C",
+    producer: "Fresh Juice Co",
+  },
+];
+
 export default function AllProducts() {
   return (
     <>
@@ -28,63 +129,7 @@ export default function AllProducts() {
         </div>
       </form>
 
-      <section id="categoryLinks">
-        <div className="row gap-2">
-          <a
-            href=""
-            className="col category-link text-center bg-white py-4 block"
-          >
-            <img src="" className="icon" alt="Fruits" />
-            <h5>Fruits</h5>
-          </a>
-          <a
-            href=""
-            className="col category-link text-center bg-white py-4 block"
-          >
-            <img src="" className="icon" alt="Vegetables" />
-            <h5>Vegetables</h5>
-          </a>
-          <a
-            href=""
-            className="col category-link text-center bg-white py-4 block"
-          >
-            <img src="" className="icon" alt="Meats" />
-            <h5>Meats</h5>
-          </a>
-          <a
-            href=""
-            className="col category-link text-center bg-white py-4 block"
-          >
-            <img
-              src="/images/icons/breads.png"
-              className="icon"
-              alt="Bakery Food"
-            />
-            <h5>Bakery Foods</h5>
-          </a>
-          <a
-            href=""
-            className="col category-link text-center bg-white py-4 block"
-          >
-            <img src="" className="icon" alt="Dairy" />
-            <h5>Dairy</h5>
-          </a>
-          <a
-            href=""
-            className="col category-link text-center bg-white py-4 block"
-          >
-            <img src="" className="icon" alt="Drinks" />
-            <h5>Drinks</h5>
-          </a>
-          <a
-            href=""
-            className="col category-link text-center bg-white py-4 block"
-          >
-            <img src="" className="icon" alt="Other" />
-            <h5>Other</h5>
-          </a>
-        </div>
-      </section>
+      <CategoryList categories={categories} />
 
       {/* <!--Table-->
 <div class="container-fluid mt-4">
@@ -109,34 +154,55 @@ export default function AllProducts() {
             }
         </div> */}
 
-      <ProductList products={[]} />
+      <ProductList products={products} />
     </>
   );
 }
 
-interface Product {
-  productId: number;
-  name: string;
-  imageUrl: string;
-  nutritionScore: string;
-}
+const CategoryList = ({ categories }: { categories: ICategory[] }) => {
+  return (
+    <section id="categoryLinks">
+      <div className="row gap-2">
+        {categories.map((c) => (
+          <Category category={c} key={c.name} />
+        ))}
+      </div>
+    </section>
+  );
+};
 
-const ProductList = ({ products }: { products: Product[] }) => {
+const Category = ({ category }: { category: ICategory }) => {
+  return (
+    <a
+      href={`/?category=${category.name}`}
+      className="col category-link text-center bg-white py-4 block"
+    >
+      <img src={category.imageUrl} className="icon" alt="Fruits" />
+      <h5>{category.name}</h5>
+    </a>
+  );
+};
+
+const ProductList = ({ products }: { products: IProduct[] }) => {
   return (
     <div className="row g-4">
       {products.map((product) => (
-        <ProductCard key={product.productId} product={product} />
+        <ProductCard key={product.id} product={product} />
       ))}
     </div>
   );
 };
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({ product }: { product: IProduct }) => {
   return (
     <>
       <div className="col-12 col-sm-6 col-md-4 col-lg-3">
         <div className="product-card">
-          <img className="product-image" src="" alt="@product.Name" />
+          <img
+            className="product-image"
+            src={product.imageUrl}
+            alt={product.name}
+          />
           <div className="product-content">
             <h5 className="product-title">{product.name}</h5>
             <div className="product-footer">
