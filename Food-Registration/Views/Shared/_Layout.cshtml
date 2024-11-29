@@ -28,14 +28,14 @@
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product"
-                                asp-action="AllProducts">All
+                                asp-action="Index">All
                                 Products</a>
                         </li>
                         <li class="nav-item">
                             @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Product"
-                                    asp-action="NewProduct">New
+                                    asp-action="Create">New
                                     Product</a>
                             }
                         </li>
