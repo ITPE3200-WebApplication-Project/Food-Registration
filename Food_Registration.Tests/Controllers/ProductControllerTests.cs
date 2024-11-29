@@ -95,7 +95,7 @@ namespace Food_Registration.Tests.Controllers
       // Assert
       var redirectResult = Assert.IsType<RedirectToActionResult>(result);
       Assert.Equal("Table", redirectResult.ActionName);
-      _mockProductRepo.Verify(repo => repo.AddProductAsync(product), Times.Once);
+      _mockProductRepo.Verify(repo => repo.CreateProductAsync(product), Times.Once);
     }
 
     //Unit Test 3
@@ -149,7 +149,7 @@ namespace Food_Registration.Tests.Controllers
 
       // Assert
       Assert.IsType<RedirectResult>(result);
-      _mockProductRepo.Verify(repo => repo.AddProductAsync(It.IsAny<Product>()), Times.Never);
+      _mockProductRepo.Verify(repo => repo.CreateProductAsync(It.IsAny<Product>()), Times.Never);
     }
 
     //Unit Test 5
@@ -172,7 +172,7 @@ namespace Food_Registration.Tests.Controllers
 
       // Assert
       Assert.IsType<RedirectResult>(result);
-      _mockProductRepo.Verify(repo => repo.AddProductAsync(It.IsAny<Product>()), Times.Never);
+      _mockProductRepo.Verify(repo => repo.CreateProductAsync(It.IsAny<Product>()), Times.Never);
     }
 
     //Unit test 6
