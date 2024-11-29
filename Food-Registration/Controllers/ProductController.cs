@@ -342,11 +342,14 @@ public class ProductController : Controller
         return View(product);
     }
 
-    var existingProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
-    if (existingProduct == null)
-    {
-        return RedirectWithMessage("Product", "Table", "Product not found", "error");
-    }
+      try 
+      {
+          // Get existing product with current image
+          var existingProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
+          if (existingProduct == null)
+          {
+              return RedirectWithMessage("Product", "Table", "Product not found", "error");
+          }
 
     // Verify ownership
     var currentUserId = User.Identity?.Name;
@@ -409,30 +412,20 @@ public class ProductController : Controller
     existingProduct.Protein = product.Protein;
     existingProduct.ProducerId = product.ProducerId;
 
-    var success = await _productRepository.UpdateProductAsync(existingProduct);
-    if (!success)
-    {
-        return RedirectWithMessage("Product", "Table", "Failed to update product", "error");
-    }
+          var success = await _productRepository.UpdateProductAsync(existingProduct);
+          if (!success)
+          {
+              _logger.LogError("Failed to update product");
+              return RedirectWithMessage("Product", "Table", "Failed to update product", "error");
+          }
 
-    return RedirectToAction(nameof(Table));
-  }
-
-
-  private async Task PopulateDropDowns()
-  {
-    var currentUserId = User.Identity?.Name;
-    var producers = (await _producerRepository.GetAllProducersAsync())
-        .Where(p => p.OwnerId == currentUserId)
-        .ToList();
-
-    ViewBag.ProducerList = new SelectList(producers, "ProducerId", "Name");
-    ViewBag.Categories = new SelectList(new List<string>
-    {
-        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", 
-        "Grains", "Beverages", "Snacks", "Other"
-    });
-    ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
+          return RedirectToAction(nameof(Table));
+      }
+      catch (Exception ex)
+      {
+          _logger.LogError(ex, "Error updating product");
+          return RedirectWithMessage("Product", "Edit", "Error updating product", "error");
+      }
   }
 
   [HttpPost]
