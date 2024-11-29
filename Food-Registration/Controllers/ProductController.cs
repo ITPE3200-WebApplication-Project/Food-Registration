@@ -32,6 +32,12 @@ public class ProductController : Controller
   {
     var products = await _productRepository.GetAllProductsAsync();
 
+    if (products == null)
+    {
+      _logger.LogError("[ProductController] products not found while executing _productRepository.GetAllProductsAsync()");
+      return NotFound("Products not found");
+    }
+
     // Default image
     foreach (var product in products)
     {
@@ -41,7 +47,7 @@ public class ProductController : Controller
       }
     }
 
-    // Filter products based on search and category
+    // Filter products based on search
     if (!string.IsNullOrEmpty(searching))
     {
       products = products.Where(x =>
@@ -49,6 +55,7 @@ public class ProductController : Controller
           x.ProductId.ToString().Contains(searching.ToLower()));
     }
 
+    // Filter products based on category
     if (!string.IsNullOrEmpty(category))
     {
       products = products.Where(x =>
@@ -66,20 +73,30 @@ public class ProductController : Controller
   public async Task<IActionResult> ReadMore(int id)
   {
     var product = await _productRepository.GetProductByIdAsync(id);
-
+    
     if (product == null)
     {
-      return RedirectWithMessage("Product", "AllProducts", "Product not found", "warning");
+        _logger.LogError($"[ProductController] Product with id {id} not found in ReadMore");
+        return RedirectWithMessage("Product", "Table", "Product not found", "error");
     }
 
-    if (product.ImageUrl == null || product.ImageUrl == "")
+    // Add default image if none exists
+    if (string.IsNullOrEmpty(product.ImageUrl))
     {
-      product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
+        product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
     }
 
-    if (product.Producer.ImageUrl == null || product.Producer.ImageUrl == "")
+    // Ensure Producer is loaded
+    if (product.Producer == null)
     {
-      product.Producer.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
+        _logger.LogError($"[ProductController] Producer not loaded for product {id} in ReadMore");
+        return RedirectWithMessage("Product", "Table", "Product details not available", "error");
+    }
+
+    // Add default producer image if none exists
+    if (string.IsNullOrEmpty(product.Producer.ImageUrl))
+    {
+        product.Producer.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
     }
 
     return View(product);
@@ -90,9 +107,11 @@ public class ProductController : Controller
   public async Task<IActionResult> Table()
   {
     var currentUserId = User.Identity?.Name;
+    _logger.LogInformation($"[ProductController] Current user: {currentUserId}");
 
     if (string.IsNullOrEmpty(currentUserId))
     {
+
       _logger.LogWarning("User does not have a producer account.");
       return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
     }
@@ -102,21 +121,14 @@ public class ProductController : Controller
 
      // Get all products including producers
     var allProducts = await _productRepository.GetAllProductsAsync();
+    _logger.LogInformation($"[ProductController] Total products found: {allProducts?.Count() ?? 0}");
 
-    // Only get products owned by current user
-    var products = allProducts.Where(p => p.Producer?.OwnerId == currentUserId).ToList();
+    var filteredProducts = allProducts?
+        .Where(p => p.Producer?.OwnerId == currentUserId)
+        .ToList();
+    _logger.LogInformation($"[ProductController] Filtered products for user: {filteredProducts?.Count ?? 0}");
 
-    var viewModel = new ProductsViewModel(products, "Table");
-
-    return View(viewModel);
-    
-   }
-    catch{
-      _logger.LogError("[ProductController] Product not found for the user.");
-      return RedirectWithMessage("Error", "Table", "An error occurred while processing your request.", "danger");
-    }
-
-    
+    return View(filteredProducts);
   }
 
 
@@ -175,20 +187,49 @@ public class ProductController : Controller
   [HttpPost]
   public async Task<IActionResult> NewProduct(Product product, IFormFile file)
   {
-      if (!ModelState.IsValid)
-      {
-          await PopulateDropdowns();
-          return View(product);
-      }
+    var currentUserId = User.Identity?.Name;
+    
+    if (!ModelState.IsValid)
+    {
+      // Repopulate all dropdown data before returning the view
+      await PopulateDropdowns();
+      // Repopulate producers dropdown
+      var userProducers = (await _producerRepository.GetAllProducersAsync())
+          .Where(p => p.OwnerId == currentUserId)
+          .ToList();
+      ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
 
-      var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
+      // Repopulate categories dropdown
+      var categories = new List<string>
+      {
+          "Fruits", "Vegetables", "Meat", "Fish", "Dairy", 
+          "Grains", "Beverages", "Snacks", "Other"
+      };
+      ViewBag.Categories = new SelectList(categories);
+
+      // Repopulate nutrition scores dropdown
+      var nutritionScores = new List<string> { "A", "B", "C", "D", "E" };
+      ViewBag.NutritionScores = new SelectList(nutritionScores);
+
+      return View(product);
+    }
+
+    var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
       if (producer == null || producer.OwnerId != User.Identity?.Name)
       {
+          _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");   
           await PopulateDropdowns();
           return RedirectWithMessage("Product", "NewProduct", "Invalid producer selection", "warning");
       }
 
-      try
+    // Check if user owns the producer
+    if (producer.OwnerId != currentUserId)
+    {
+      _logger.LogError("[ProductController] producer does not belong to current user while executing _producerRepository.GetProducerByIdAsync()");
+      return RedirectWithMessage("Product", "NewProduct", "You are not the owner of this producer", "warning");
+    }
+    
+    try
       {
           if (file != null)
           {
@@ -210,13 +251,14 @@ public class ProductController : Controller
           await _productRepository.AddProductAsync(product);
           return RedirectToAction(nameof(Table));
       }
-      catch (Exception ex)
+      catch (Exception e)
       {
-          _logger.LogError(ex, "Error creating product");
+          _logger.LogError(e, "Error creating product");
           await PopulateDropdowns();
           return RedirectWithMessage("Product", "NewProduct", "Error uploading image", "danger");
       }
-  }
+    }
+    
 
   private async Task PopulateDropdowns()
   {
@@ -239,7 +281,8 @@ public class ProductController : Controller
 
     if (product == null)
     {
-      return NotFound();
+      _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
+      return BadRequest("Product not found");
     }
 
     // Get all producers
@@ -260,24 +303,32 @@ public class ProductController : Controller
   }
 
   [Authorize]
-[HttpPost]
-public async Task<IActionResult> Edit(Product product, IFormFile file)
-{
+  [HttpPost]
+  public async Task<IActionResult> Edit(Product product, IFormFile file)
+  {
+    
     if (!ModelState.IsValid)
     {
-        await PopulateDropdowns();
+        // Repopulate dropdowns before returning
+        await PopulateDropDowns();
         return View(product);
     }
 
-    var originalProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
-    if (originalProduct == null)
+    var existingProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
+    if (existingProduct == null)
     {
-        return NotFound();
+        return RedirectWithMessage("Product", "Table", "Product not found", "error");
     }
 
-    try
+    // Verify ownership
+    var currentUserId = User.Identity?.Name;
+    var producer = await _producerRepository.GetProducerByIdAsync(existingProduct.ProducerId);
+    if (producer?.OwnerId != currentUserId)
     {
-        // If a new image file is uploaded
+        return RedirectWithMessage("Product", "Table", "You can only edit your own products", "error");
+    }
+    
+    // If a new image file is uploaded
         if (file != null)
         {
             string wwwRootPath = _webHostEnvironment.WebRootPath;
@@ -291,6 +342,7 @@ public async Task<IActionResult> Edit(Product product, IFormFile file)
 
             // Log image saving
             _logger.LogInformation($"Saving image to: {filePath}");
+
 
             // Save the uploaded image
             using (var stream = new FileStream(filePath, FileMode.Create))
@@ -308,18 +360,63 @@ public async Task<IActionResult> Edit(Product product, IFormFile file)
             product.ImageUrl = originalProduct.ImageUrl;
         }
 
-        // Update the product in the database
-        await _productRepository.UpdateProductAsync(product);
+    // Update all fields
+    existingProduct.Name = product.Name;
+    existingProduct.Description = product.Description;
+    existingProduct.Category = product.Category;
+    existingProduct.NutritionScore = product.NutritionScore;
+    existingProduct.Calories = product.Calories;
+    existingProduct.Carbohydrates = product.Carbohydrates;
+    existingProduct.Fat = product.Fat;
+    existingProduct.Protein = product.Protein;
+    existingProduct.ProducerId = product.ProducerId;
 
-        return RedirectToAction("Edit", new { id = product.ProductId, message = "Product updated", messageType = "info" });
-    }
-    catch (Exception ex)
+    var success = await _productRepository.UpdateProductAsync(existingProduct);
+    if (!success)
     {
-        _logger.LogError(ex, "Error updating product");
-        await PopulateDropdowns();
-        return RedirectWithMessage("Product", "Edit", "Error updating product", "danger");
+        return RedirectWithMessage("Product", "Table", "Failed to update product", "error");
     }
-}
+
+    return RedirectToAction(nameof(Table));
+  }
+
+
+  private async Task PopulateDropDowns()
+  {
+    var currentUserId = User.Identity?.Name;
+    var producers = (await _producerRepository.GetAllProducersAsync())
+        .Where(p => p.OwnerId == currentUserId)
+        .ToList();
+
+    ViewBag.ProducerList = new SelectList(producers, "ProducerId", "Name");
+    ViewBag.Categories = new SelectList(new List<string>
+    {
+        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", 
+        "Grains", "Beverages", "Snacks", "Other"
+    });
+    ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
+  }
+
+  [HttpPost]
+  [Authorize]
+  public async Task<IActionResult> DeleteConfirmed(int id)
+  {
+    // Get the product
+    var product = await _productRepository.GetProductByIdAsync(id);
+    if (product == null)
+    {
+      _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
+      return NotFound();
+    }
+
+    // Get the producer that owns the product
+    var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
+    if (producer == null)
+    {
+      _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");
+      return NotFound();
+    }
+  }
 
 
 

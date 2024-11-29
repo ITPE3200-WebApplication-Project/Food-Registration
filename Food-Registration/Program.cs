@@ -29,7 +29,7 @@ builder.Services.AddSession();
 // Logging configuration.
 var loggerConfiguration = new LoggerConfiguration()
     .MinimumLevel.Information()
-    .WriteTo.File($"Loggs/app_{DateTime.Now:yyyyMMdd_HHmmss}.log");
+    .WriteTo.File($"Logs/app_{DateTime.Now:yyyyMMdd_HHmmss}.log");
 
 // Creates logger.
 var logger = loggerConfiguration.CreateLogger();
