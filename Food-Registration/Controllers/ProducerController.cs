@@ -1,10 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
-using Microsoft.EntityFrameworkCore;
 using Food_Registration.DAL;
 using Microsoft.Extensions.Logging; 
-using Food_Registration.ViewModels;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 
@@ -85,7 +83,7 @@ namespace Food_Registration.Controllers
                 producer.ImageUrl = "/images/producer/" + fileName;
             }
 
-            producer.OwnerId = User.Identity?.Name;
+            producer.OwnerId = User.Identity?.Name ?? string.Empty;
             await _producerRepository.AddProducerAsync(producer);
             return RedirectToAction(nameof(Table));
         }
