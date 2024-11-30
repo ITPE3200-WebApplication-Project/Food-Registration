@@ -192,6 +192,88 @@ namespace Food_Registration.Tests.Controllers
             _mockProductRepo.Verify(repo => repo.CreateProductAsync(It.IsAny<Product>()), Times.Never); // Ürün oluşturma işlemi yapılmamalı
         }
 
+        //Unit test 6
+        [Fact]
+        public async Task Index_ReturnsFilteredProducts()
+        {
+            // Arrange
+            var products = new List<Product>
+            {
+                new Product { ProductId = 1, Name = "Apple", Category = "Fruits" },
+                new Product { ProductId = 2, Name = "Orange", Category = "Fruits" },
+                new Product { ProductId = 3, Name = "Carrot", Category = "Vegetables" }
+            };
+
+            _mockProductRepo.Setup(repo => repo.GetAllProductsAsync())
+                .ReturnsAsync(products);
+
+            // Act
+            var result = await _controller.Index("Apple", "Fruits");  // Burada iki string parametre var, bunlar nullable olmalı
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            var model = Assert.IsAssignableFrom<List<Product>>(viewResult.Model);
+
+            Assert.Single(model);
+            Assert.Equal("Apple", model.First().Name);
+        }
+
+        //Unit Test 7
+        [Fact]
+        public async Task Delete_ProductAndProducerNotFound_ReturnsNotFound()
+        {
+            // Arrange
+            _mockProductRepo.Setup(repo => repo.GetProductByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync((Product)null); // No product found
+
+            // Act
+            var result = await _controller.Delete(999);  // Using a non-existent product ID
+
+            // Assert
+            var notFoundResult = Assert.IsType<NotFoundResult>(result);  // Expecting NotFound result
+            _mockProductRepo.Verify(repo => repo.DeleteProductAsync(It.IsAny<int>()), Times.Never);  // Verify DeleteProductAsync is not called
+        }
+
+        //Unit Test 8
+        [Fact]
+        public async Task Create_Post_InvalidProduct_EmptyName_ReturnsBadRequest()
+        {
+            // Arrange
+            var product = new Product { Name = "", ProducerId = 1, NutritionScore = "A" };
+
+            // Producer repo mock'ı
+            var producer = new Producer { ProducerId = 1, OwnerId = "test@test.com" };
+            _mockProducerRepo.Setup(repo => repo.GetProducerByIdAsync(1))
+                .ReturnsAsync(producer);
+
+            var mockFile = CreateMockFile("image.jpg", "image/jpeg", "fake-image-content");
+
+            // ModelState'e hata ekliyoruz
+            _controller.ModelState.AddModelError("Name", "Product name is required");
+
+            // Act
+            var result = await _controller.Create(product, mockFile);
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(result);
+            Assert.False(_controller.ModelState.IsValid);
+        }
+
+        //Unit Test 9
+        [Fact]
+        public async Task Update_ProductNotFound_ReturnsBadRequest()
+        {
+            // Arrange: ProductRepository'nin GetProductByIdAsync metodunun null dönecek şekilde ayarlandığını doğruluyoruz
+            _mockProductRepo.Setup(repo => repo.GetProductByIdAsync(It.IsAny<int>()))
+                .ReturnsAsync((Product)null); // No product found
+
+            // Act: Update metodunu çağırıyoruz (var olmayan bir ID ile)
+            var result = await _controller.Update(999); // Arbitrary non-existing ID
+
+            // Assert: BadRequestObjectResult döneceğini bekliyoruz
+            var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
+            Assert.Equal("Product not found", badRequestResult.Value); // Opsiyonel olarak mesajı kontrol edebilirsiniz
+        }
 
     }
 }  
