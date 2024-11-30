@@ -108,5 +108,31 @@ namespace Food_Registration.Tests.Controllers
             Assert.Equal("Table", redirectResult.ActionName);
             _mockProductRepo.Verify(repo => repo.CreateProductAsync(product), Times.Once);
         }
+
+    ///Unit Test 1
+    [Fact]
+    public async Task Create_Get_ReturnsViewWithProducerList()
+    {
+      // Arrange
+      var producers = new List<Producer>
+            {
+                new Producer { ProducerId = 1, Name = "Producer 1", OwnerId = "test@test.com" },
+                new Producer { ProducerId = 2, Name = "Producer 2", OwnerId = "test@test.com" }
+            };
+
+      _mockProducerRepo.Setup(repo => repo.GetAllProducersAsync())
+          .ReturnsAsync(producers);
+
+      // Act
+      var result = await _controller.Create();
+
+      // Assert
+      var viewResult = Assert.IsType<ViewResult>(result);
+      Assert.NotNull(viewResult.ViewData["Producers"]);
+      var producerList = Assert.IsType<SelectList>(viewResult.ViewData["Producers"]);
+      Assert.Equal(2, producerList.Count());
+    }
+
+  
     }
 }  
