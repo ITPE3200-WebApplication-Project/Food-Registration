@@ -34,8 +34,7 @@ a {
   border-bottom: 1px solid #e5e5e5;
 }
 
-/*category Homepage
-   /* Icon Styles */
+
 .icon {
   width: 2.5rem;
   height: 2.5rem;
@@ -51,7 +50,6 @@ h5 {
   transition: color 0.2s, text-decoration 0.2s; /* Transition for color and underline */
 }
 
-/* Links to categories */
 .category-link {
   text-decoration: none; /* No underline by default */
   color: black;
@@ -87,7 +85,6 @@ button.accept-policy {
   line-height: inherit;
 }
 
-/*Logo*/
 .logo {
   border-radius: 50%;
   max-width: 9.4rrem;
@@ -95,7 +92,6 @@ button.accept-policy {
   object-fit: cover;
 }
 
-/* Footer */
 .footer {
   padding: 0.6rem;
   text-align: center;
@@ -127,7 +123,6 @@ button.accept-policy {
   object-fit: cover;
 }
 
-/* Card body styling */
 .card-body {
   text-align: left;
   display: flex;
@@ -153,23 +148,6 @@ x .card-bottom {
   padding: 2px;
 }
 
-/* .btn-primary{
-  position: absolute;
-  left: 170px;
-  white-space: nowrap;
-  top: 260px;
-}
-  */
-
-/* Styling for the Read More button 
-.btn-primary {
-  margin-right: 10px;
-  padding: 0.5rem 1rem;
-  font-size: 0.875rem;
-  background-color: #00805C ;
-  border-color: #00805C ;
-}
-*/
 .btn-primary a {
   color: white;
   text-decoration: none;
@@ -187,7 +165,6 @@ x .card-bottom {
   text-decoration: underline;
 }
 
-/* Title styling */
 .card-title {
   align-self: flex-start;
   font-size: 16px;
@@ -214,7 +191,6 @@ x .card-bottom {
   justify-content: flex-start;
 }
 
-/* Product Card Styling */
 .product-card {
   background: white;
   border-radius: 12px;
@@ -266,7 +242,6 @@ x .card-bottom {
   background-color: #006349;
 }
 
-/* Remove old card styles that might conflict */
 .card {
   width: auto;
   height: auto;

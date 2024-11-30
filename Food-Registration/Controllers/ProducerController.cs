@@ -2,14 +2,13 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
 using Food_Registration.DAL;
-using Microsoft.Extensions.Logging; 
-using Microsoft.AspNetCore.Http;
-using System.IO;
+using System.Security.Claims;
 
 namespace Food_Registration.Controllers
 {
   public class ProducerController : Controller
   {
+    
     private readonly IProducerRepository _producerRepository;
 
     private readonly IProductRepository _productRepository;
@@ -27,6 +26,7 @@ namespace Food_Registration.Controllers
     }
 
 
+    // Display list of producers for logged-in user
     [Authorize]
     [HttpGet]
     public async Task<IActionResult> Table()
@@ -46,6 +46,7 @@ namespace Food_Registration.Controllers
       return View(filteredProducers);
     }
 
+    // Show create producer page
     [Authorize]
     [HttpGet]
     public IActionResult Create()
@@ -53,6 +54,7 @@ namespace Food_Registration.Controllers
       return View();
     }
 
+    // Create a new producer
     [Authorize]
     [HttpPost]
     public async Task<IActionResult> Create(Producer producer, IFormFile? file)
@@ -94,6 +96,7 @@ namespace Food_Registration.Controllers
         }
     }
 
+    // Update a producer
     [Authorize]
     [HttpGet]
     public async Task<IActionResult> Update(int id)
@@ -105,15 +108,7 @@ namespace Food_Registration.Controllers
         return BadRequest("Producer not found for id: " + id);
       }
 
-/*
-      // Fetch the producer
-      var producer = await _ItemDbContext.Producers.FirstOrDefaultAsync(p => p.ProducerId == id);
 
-      if (producer == null)
-      {
-        return NotFound();
-      }
-*/
       // Check if the current user owns this producer
       var currentUserId = User.Identity?.Name;
       if (producer.OwnerId != currentUserId)
@@ -124,144 +119,102 @@ namespace Food_Registration.Controllers
       return View(producer);
     }
 
-    [HttpPost]
+    // Update a producer
     [Authorize]
-    public async Task<IActionResult> Update(Producer producer, IFormFile? file)
+    [HttpPost]
+    public async Task<IActionResult> Update(Producer producer, IFormFile? file, bool removeImage = false)
     {
-        if (!ModelState.IsValid)
-        {
-            return View(producer);
-        }
-
         try
         {
-            // Get existing producer to check ownership and current image
             var existingProducer = await _producerRepository.GetProducerByIdAsync(producer.ProducerId);
             if (existingProducer == null)
             {
                 return NotFound();
             }
-
-            // Check ownership
-            var currentUserId = User.Identity?.Name;
-            if (existingProducer.OwnerId != currentUserId)
+            // Check if the current user owns this producer
+            if (existingProducer.OwnerId != User.Identity?.Name)
             {
-                return RedirectWithMessage("Producer", "Table", "You can only update your own producers", "danger");
+                return RedirectWithMessage("Producer", "Table", "You can only update your own producers", "error");
             }
 
-            // Update properties on existing entity
+            // Handle image removal
+            if (removeImage && !string.IsNullOrEmpty(existingProducer.ImageUrl))
+            {
+                await _producerRepository.DeleteProducerImageAsync(existingProducer.ImageUrl, _webHostEnvironment.WebRootPath);
+                existingProducer.ImageUrl = null;
+            }
+            // Handle new image upload
+            else if (file != null && file.Length > 0)
+            {
+                var newImagePath = await _producerRepository.SaveProducerImageAsync(file, _webHostEnvironment.WebRootPath);
+                existingProducer.ImageUrl = newImagePath;
+            }
+
+            // Update other properties
             existingProducer.Name = producer.Name;
             existingProducer.Description = producer.Description;
 
-            // Handle image
-            if (file != null && file.Length > 0)
-            {
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                string producerPath = Path.Combine(wwwRootPath, "images", "producer");
-                
-                // Delete old image if exists
-                if (!string.IsNullOrEmpty(existingProducer.ImageUrl))
-                {
-                    string oldImagePath = Path.Combine(wwwRootPath, existingProducer.ImageUrl.TrimStart('/'));
-                    if (System.IO.File.Exists(oldImagePath))
-                    {
-                        System.IO.File.Delete(oldImagePath);
-                    }
-                }
-                
-                Directory.CreateDirectory(producerPath);
-                string filePath = Path.Combine(producerPath, fileName);
-                
-                using (var stream = new FileStream(filePath, FileMode.Create))
-                {
-                    await file.CopyToAsync(stream);
-                }
-                
-                existingProducer.ImageUrl = "/images/producer/" + fileName;
-            }
-
-            // Update using the existing entity
-            var success = await _producerRepository.UpdateProducerAsync(existingProducer);
-            if (success)
-            {
-                return RedirectWithMessage("Producer", "Table", "Producer successfully updated", "success");
-            }
-            else
-            {
-                return RedirectWithMessage("Producer", "Table", "Failed to update producer", "error");
-            }
+            await _producerRepository.UpdateProducerAsync(existingProducer);
+            return RedirectWithMessage("Producer", "Table", "Producer successfully updated", "success");
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            _logger.LogError($"Error updating producer: {ex.Message}");
-            return RedirectWithMessage("Producer", "Table", "Error updating producer", "error");
+            _logger.LogError($"Update failed: {e.Message}");
+            return RedirectWithMessage("Producer", "Table", "Failed to update producer", "error");
         }
     }
 
-    [HttpPost]
+    // Delete producer if no associated products exist
     [Authorize]
+    [HttpPost]
     public async Task<IActionResult> Delete(int id)
     {
-      var producer = await _producerRepository.GetProducerByIdAsync(id);
-      if (producer == null)
-      {
-        _logger.LogError("[ProducerController] Producer not found while executing GetProducerByIdAsync()");
-        return BadRequest("Producer not found for id: " + id);
-      }
-      /*
-      // Find the producer
-      var producer = await _ItemDbContext.Producers
-        .FirstOrDefaultAsync(p => p.ProducerId == id);
-      if (producer == null)
-      {
-        return NotFound();
-      }
-      */
+        try
+        {
+            var producer = await _producerRepository.GetProducerByIdAsync(id);
+            if (producer == null)
+            {
+                return NotFound();
+            }
 
-      // Verify ownership before allowing deletion
-      var currentUserId = User.Identity?.Name;
-      if (producer.OwnerId != currentUserId)
-      {
-        return RedirectWithMessage("Producer", "Table", "You can only delete your own producers", "danger");
-      }
+            // Check if the current user owns this producer
+            if (producer.OwnerId != User.Identity?.Name)
+            {
+                return RedirectWithMessage("Producer", "Table", "You can only delete your own producers", "error");
+            }
 
-      var products = await _productRepository.GetAllProductsAsync();
-      /*
-      // Check if producer has any associated products
-      if (_ItemDbContext.Products == null)
-      {
-        return Problem("Entity set 'ItemDbContext.Products' is null.");
-      }
-      */
-      var hasProducts = products.Any(p => p.ProducerId == id);
-      if (hasProducts)
-      {
-        _logger.LogWarning("[ProducerController] Cannot delete producer that has associated products");
-        return RedirectWithMessage("Producer", "Table",
-          "Cannot delete producer that has associated products. Please delete all products first.",
-          "warning");
-      }
-      
-      bool returnOk = await _producerRepository.DeleteProducerAsync(id);
-      if (!returnOk)
-      {
-        _logger.LogError("[ProducerController] Producer deletion failed while executing Delete()");
-        return BadRequest("Producer deletion failed");
-      }
-      // Delete the producer
-      //await _producerRepository.DeleteProducerAsync(producer);
-      //_ItemDbContext.Producers.Remove(producer);
-      //await _ItemDbContext.SaveChangesAsync();
+            // Check for associated products
+            var hasProducts = await _producerRepository.HasAssociatedProductsAsync(id);
+            if (hasProducts)
+            {
+                return RedirectWithMessage("Producer", "Table", 
+                    "Cannot delete producer that has associated products. Please delete all products first.", 
+                    "warning");
+            }
 
-      return RedirectWithMessage("Producer", "Table", "Producer successfully deleted", "success");
+            // Delete producer image if exists
+            if (!string.IsNullOrEmpty(producer.ImageUrl))
+            {
+                await _producerRepository.DeleteProducerImageAsync(producer.ImageUrl, _webHostEnvironment.WebRootPath);
+            }
+
+            await _producerRepository.DeleteProducerAsync(id);
+            return RedirectWithMessage("Producer", "Table", "Producer successfully deleted", "success");
+        }
+        catch (Exception e)
+        {
+            _logger.LogError($"Delete failed: {e.Message}");
+            return RedirectWithMessage("Producer", "Table", "Failed to delete producer", "error");
+        }
     }
 
+    // Redirecting with status messages
     private IActionResult RedirectWithMessage(string controller, string action, string message, string messageType = "info")
     {
       return Redirect($"/{controller}/{action}?message={Uri.EscapeDataString(message)}&messageType={messageType}");
     }
 
+    // Display detailed view of a producer
     [Authorize]
     [HttpGet]
     public async Task<IActionResult> ReadMore(int id)
@@ -273,7 +226,7 @@ namespace Food_Registration.Controllers
             return NotFound();
         }
 
-        // Legg til default bilde hvis ingen finnes
+        // Add default image if none exists
         if (string.IsNullOrEmpty(producer.ImageUrl))
         {
             producer.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
@@ -282,36 +235,53 @@ namespace Food_Registration.Controllers
         return View(producer);
     }
 
+    // Handle removal of producer image
     [HttpPost]
     [Authorize]
     public async Task<IActionResult> RemoveImage(int id)
     {
-        var producer = await _producerRepository.GetProducerByIdAsync(id);
-        if (producer == null)
+        try
         {
-            return NotFound();
-        }
-
-        // Check if the current user owns this producer
-        var currentUserId = User.Identity?.Name;
-        if (producer.OwnerId != currentUserId)
-        {
-            return RedirectWithMessage("Producer", "Table", "You can only update your own producers", "danger");
-        }
-
-        if (!string.IsNullOrEmpty(producer.ImageUrl))
-        {
-            string wwwRootPath = _webHostEnvironment.WebRootPath;
-            string imagePath = Path.Combine(wwwRootPath, producer.ImageUrl.TrimStart('/'));
-            if (System.IO.File.Exists(imagePath))
+            var producer = await _producerRepository.GetProducerByIdAsync(id);
+            if (producer == null)
             {
-                System.IO.File.Delete(imagePath);
+                _logger.LogWarning($"Producer not found with ID: {id}");
+                return NotFound();
             }
-            producer.ImageUrl = null;
-            await _producerRepository.UpdateProducerAsync(producer);
-        }
 
-        return RedirectToAction(nameof(Update), new { id });
+            // Only proceed if the producer has an image
+            if (!string.IsNullOrEmpty(producer.ImageUrl))
+            {
+                // Construct the full path to the image file
+                string wwwRootPath = _webHostEnvironment.WebRootPath;
+                string imagePath = Path.Combine(wwwRootPath, producer.ImageUrl.TrimStart('/'));
+                
+                // Delete the physical file if it exists
+                if (System.IO.File.Exists(imagePath))
+                {
+                    System.IO.File.Delete(imagePath);
+                }
+                else
+                {
+                    _logger.LogWarning($"File not found at path: {imagePath}");
+                }
+            }
+
+            // Clear the image URL in the database after successful file deletion
+            producer.ImageUrl = null;
+            var updateResult = await _producerRepository.UpdateProducerAsync(producer);
+            if (!updateResult)
+            {
+                return RedirectWithMessage("Producer", "Update", "Failed to remove image", "error");
+            }
+
+            return RedirectToAction("Update", new { id = producer.ProducerId });
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProducerController] RemoveImage action failed: {e}", e.Message);
+            return RedirectWithMessage("Producer", "Update", "An error occurred while removing the image", "error");
+        }
     }
   }
 }

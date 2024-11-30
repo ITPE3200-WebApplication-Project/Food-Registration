@@ -164,7 +164,7 @@ public static class DBInit
             {
                 Name = "Turkish Yogurt",
                 Description = "Creamy Greek yogurt, high in protein",
-                ImageUrl = "~/images/yogurt.jpg",/*images from https://yemek.com/tarif/evde-yogurt-yapimi/*/
+                ImageUrl = "https://yemek.com/tarif/evde-yogurt-yapimi",
                 Category = "Dairy",
                 ProducerId = producers[2].ProducerId,
                 Calories = 130m,
@@ -220,7 +220,7 @@ public static class DBInit
             {
                 Name = "Sparkling Water",
                 Description = "Natural sparkling mineral water",
-                ImageUrl = "https://pixabay.com/no/users/leopoldboettcher-10118366/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710",/*Bildet er tatt av <a href="https://pixabay.com/no/users/leopoldboettcher-10118366/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Leopold Böttcher</a> fra <a href="https://pixabay.com/no//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Pixabay</a>*/
+                ImageUrl = "https://pixabay.com/no/users/leopoldboettcher-10118366/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710",
                 Category = "Drinks",
                 ProducerId = producers[4].ProducerId,
                 Calories = 0m,

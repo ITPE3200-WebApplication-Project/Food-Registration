@@ -1,0 +1,233 @@
+2024-11-30 16:24:02.762 +01:00 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*) FROM "sqlite_master" WHERE "type" = 'table' AND "rootpage" IS NOT NULL;
+2024-11-30 16:24:02.868 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Producers" AS "p"
+2024-11-30 16:24:02.872 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT COUNT(*)
+FROM "Products" AS "p"
+2024-11-30 16:24:02.909 +01:00 [INF] User profile is available. Using '/Users/magnus/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2024-11-30 16:24:02.973 +01:00 [INF] Now listening on: http://localhost:5173
+2024-11-30 16:24:02.975 +01:00 [INF] Application started. Press Ctrl+C to shut down.
+2024-11-30 16:24:02.975 +01:00 [INF] Hosting environment: Development
+2024-11-30 16:24:02.975 +01:00 [INF] Content root path: /Users/magnus/Desktop/Food-Registration/Food-Registration
+2024-11-30 16:24:05.535 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Table - null null
+2024-11-30 16:24:05.567 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-30 16:24:05.576 +01:00 [INF] Route matched with {action = "Table", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-30 16:24:05.578 +01:00 [INF] [ProductController] Current user: fafa@fasas.com
+2024-11-30 16:24:05.578 +01:00 [INF] Getting all products for the user
+2024-11-30 16:24:05.627 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-30 16:24:05.660 +01:00 [INF] [ProductController] Total products found: 16
+2024-11-30 16:24:05.660 +01:00 [INF] [ProductController] Filtered products for user: 1
+2024-11-30 16:24:05.668 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:24:05.700 +01:00 [INF] Executed ViewResult - view Table executed in 32.5518ms.
+2024-11-30 16:24:05.700 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Table (Food-Registration) in 124.3896ms
+2024-11-30 16:24:05.700 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-30 16:24:05.703 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Table - 200 null text/html; charset=utf-8 169.8299ms
+2024-11-30 16:24:07.052 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Update/16 - null null
+2024-11-30 16:24:07.061 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-30 16:24:07.072 +01:00 [INF] Route matched with {action = "Update", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(Int32) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-30 16:24:07.134 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-30 16:24:07.137 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-30 16:24:07.150 +01:00 [INF] Executing ViewResult, running view Update.
+2024-11-30 16:24:07.185 +01:00 [INF] Executed ViewResult - view Update executed in 35.393ms.
+2024-11-30 16:24:07.185 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Update (Food-Registration) in 112.6647ms
+2024-11-30 16:24:07.185 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-30 16:24:07.185 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Update/16 - 200 null text/html; charset=utf-8 133.0109ms
+2024-11-30 16:24:10.721 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5173/Product/Update/16 - multipart/form-data; boundary=----WebKitFormBoundarypwu0VGWq5evarQRB 2031
+2024-11-30 16:24:10.737 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-30 16:24:10.744 +01:00 [INF] Route matched with {action = "Update", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(Food_Registration.Models.Product, Microsoft.AspNetCore.Http.IFormFile, Boolean) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-30 16:24:10.767 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-30 16:24:10.771 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+WHERE "p"."ProducerId" = @__id_0
+LIMIT 1
+2024-11-30 16:24:10.818 +01:00 [INF] Executed DbCommand (1ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Decimal), @p2='?' (Size = 5), @p3='?' (Size = 10), @p4='?' (DbType = Decimal), @p5='?', @p6='?' (Size = 10), @p7='?' (Size = 1), @p8='?' (DbType = Int32), @p9='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Products" SET "Calories" = @p0, "Carbohydrates" = @p1, "Category" = @p2, "Description" = @p3, "Fat" = @p4, "ImageUrl" = @p5, "Name" = @p6, "NutritionScore" = @p7, "ProducerId" = @p8, "Protein" = @p9
+WHERE "ProductId" = @p10
+RETURNING 1;
+2024-11-30 16:24:10.823 +01:00 [INF] Executing RedirectResult, redirecting to /Product/Table?message=Product%20successfully%20updated&messageType=success.
+2024-11-30 16:24:10.824 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Update (Food-Registration) in 79.5047ms
+2024-11-30 16:24:10.824 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-30 16:24:10.824 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5173/Product/Update/16 - 302 0 null 103.3235ms
+2024-11-30 16:24:10.828 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Table?message=Product%20successfully%20updated&messageType=success - null null
+2024-11-30 16:24:10.829 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-30 16:24:10.829 +01:00 [INF] Route matched with {action = "Table", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-30 16:24:10.829 +01:00 [INF] [ProductController] Current user: fafa@fasas.com
+2024-11-30 16:24:10.829 +01:00 [INF] Getting all products for the user
+2024-11-30 16:24:10.829 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-30 16:24:10.830 +01:00 [INF] [ProductController] Total products found: 16
+2024-11-30 16:24:10.830 +01:00 [INF] [ProductController] Filtered products for user: 1
+2024-11-30 16:24:10.830 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:24:10.839 +01:00 [INF] Executed ViewResult - view Table executed in 8.592ms.
+2024-11-30 16:24:10.839 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Table (Food-Registration) in 9.6952ms
+2024-11-30 16:24:10.839 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-30 16:24:10.839 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Table?message=Product%20successfully%20updated&messageType=success - 200 null text/html; charset=utf-8 10.3804ms
+2024-11-30 16:24:12.350 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Update/16 - null null
+2024-11-30 16:24:12.351 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-30 16:24:12.351 +01:00 [INF] Route matched with {action = "Update", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(Int32) on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-30 16:24:12.353 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+WHERE "p"."ProductId" = @__id_0
+LIMIT 1
+2024-11-30 16:24:12.354 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-30 16:24:12.354 +01:00 [INF] Executing ViewResult, running view Update.
+2024-11-30 16:24:12.361 +01:00 [INF] Executed ViewResult - view Update executed in 6.2423ms.
+2024-11-30 16:24:12.361 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Update (Food-Registration) in 9.4885ms
+2024-11-30 16:24:12.361 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Update (Food-Registration)'
+2024-11-30 16:24:12.361 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Update/16 - 200 null text/html; charset=utf-8 11.6713ms
+2024-11-30 16:24:16.737 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Producer/Table - null null
+2024-11-30 16:24:16.738 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:24:16.742 +01:00 [INF] Route matched with {action = "Table", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:24:16.745 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-30 16:24:16.747 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:24:16.759 +01:00 [INF] Executed ViewResult - view Table executed in 12.7838ms.
+2024-11-30 16:24:16.759 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Table (Food-Registration) in 17.108ms
+2024-11-30 16:24:16.760 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:24:16.760 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Producer/Table - 200 null text/html; charset=utf-8 22.5193ms
+2024-11-30 16:24:19.820 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5173/Producer/Delete - application/x-www-form-urlencoded 230
+2024-11-30 16:24:19.824 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Delete (Food-Registration)'
+2024-11-30 16:24:19.830 +01:00 [INF] Route matched with {action = "Delete", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Delete(Int32) on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:24:19.835 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+WHERE "p"."ProducerId" = @__id_0
+LIMIT 1
+2024-11-30 16:24:19.836 +01:00 [INF] Executing RedirectResult, redirecting to /Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error.
+2024-11-30 16:24:19.836 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Delete (Food-Registration) in 5.6949ms
+2024-11-30 16:24:19.836 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Delete (Food-Registration)'
+2024-11-30 16:24:19.836 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5173/Producer/Delete - 302 0 null 15.7798ms
+2024-11-30 16:24:19.840 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error - null null
+2024-11-30 16:24:19.841 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:24:19.841 +01:00 [INF] Route matched with {action = "Table", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:24:19.842 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-30 16:24:19.842 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:24:19.847 +01:00 [INF] Executed ViewResult - view Table executed in 4.7461ms.
+2024-11-30 16:24:19.847 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Table (Food-Registration) in 6.1473ms
+2024-11-30 16:24:19.847 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:24:19.848 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error - 200 null text/html; charset=utf-8 7.4041ms
+2024-11-30 16:24:23.192 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Producer/Update/6 - null null
+2024-11-30 16:24:23.199 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Update (Food-Registration)'
+2024-11-30 16:24:23.207 +01:00 [INF] Route matched with {action = "Update", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Update(Int32) on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:24:23.212 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+WHERE "p"."ProducerId" = @__id_0
+LIMIT 1
+2024-11-30 16:24:23.213 +01:00 [INF] Executing ViewResult, running view Update.
+2024-11-30 16:24:23.232 +01:00 [INF] Executed ViewResult - view Update executed in 19.8046ms.
+2024-11-30 16:24:23.232 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Update (Food-Registration) in 25.1543ms
+2024-11-30 16:24:23.232 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Update (Food-Registration)'
+2024-11-30 16:24:23.232 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Producer/Update/6 - 200 null text/html; charset=utf-8 40.6025ms
+2024-11-30 16:24:24.791 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Producer/Table - null null
+2024-11-30 16:24:24.792 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:24:24.792 +01:00 [INF] Route matched with {action = "Table", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:24:24.793 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-30 16:24:24.793 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:24:24.796 +01:00 [INF] Executed ViewResult - view Table executed in 2.4182ms.
+2024-11-30 16:24:24.796 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Table (Food-Registration) in 3.9348ms
+2024-11-30 16:24:24.796 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:24:24.796 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Producer/Table - 200 null text/html; charset=utf-8 5.4052ms
+2024-11-30 16:24:26.939 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5173/Producer/Delete - application/x-www-form-urlencoded 230
+2024-11-30 16:24:26.940 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Delete (Food-Registration)'
+2024-11-30 16:24:26.940 +01:00 [INF] Route matched with {action = "Delete", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Delete(Int32) on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:24:26.942 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+WHERE "p"."ProducerId" = @__id_0
+LIMIT 1
+2024-11-30 16:24:26.943 +01:00 [INF] Executing RedirectResult, redirecting to /Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error.
+2024-11-30 16:24:26.943 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Delete (Food-Registration) in 2.476ms
+2024-11-30 16:24:26.943 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Delete (Food-Registration)'
+2024-11-30 16:24:26.943 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5173/Producer/Delete - 302 0 null 4.3287ms
+2024-11-30 16:24:26.946 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error - null null
+2024-11-30 16:24:26.947 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:24:26.947 +01:00 [INF] Route matched with {action = "Table", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:24:26.948 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-30 16:24:26.949 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:24:26.950 +01:00 [INF] Executed ViewResult - view Table executed in 1.3099ms.
+2024-11-30 16:24:26.950 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Table (Food-Registration) in 2.5198ms
+2024-11-30 16:24:26.950 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:24:26.952 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error - 200 null text/html; charset=utf-8 5.6324ms
+2024-11-30 16:25:17.929 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Product/Table - null null
+2024-11-30 16:25:17.937 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-30 16:25:17.937 +01:00 [INF] Route matched with {action = "Table", controller = "Product", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProductController (Food-Registration).
+2024-11-30 16:25:17.938 +01:00 [INF] [ProductController] Current user: fafa@fasas.com
+2024-11-30 16:25:17.938 +01:00 [INF] Getting all products for the user
+2024-11-30 16:25:17.942 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProductId", "p"."Calories", "p"."Carbohydrates", "p"."Category", "p"."Description", "p"."Fat", "p"."ImageUrl", "p"."Name", "p"."NutritionScore", "p"."ProducerId", "p"."Protein", "p0"."ProducerId", "p0"."Description", "p0"."ImageUrl", "p0"."Name", "p0"."OwnerId"
+FROM "Products" AS "p"
+INNER JOIN "Producers" AS "p0" ON "p"."ProducerId" = "p0"."ProducerId"
+2024-11-30 16:25:17.945 +01:00 [INF] [ProductController] Total products found: 16
+2024-11-30 16:25:17.945 +01:00 [INF] [ProductController] Filtered products for user: 1
+2024-11-30 16:25:17.945 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:25:17.948 +01:00 [INF] Executed ViewResult - view Table executed in 3.3845ms.
+2024-11-30 16:25:17.949 +01:00 [INF] Executed action Food_Registration.Controllers.ProductController.Table (Food-Registration) in 11.3287ms
+2024-11-30 16:25:17.949 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProductController.Table (Food-Registration)'
+2024-11-30 16:25:17.949 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Product/Table - 200 null text/html; charset=utf-8 20.027ms
+2024-11-30 16:25:19.096 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Producer/Table - null null
+2024-11-30 16:25:19.097 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:25:19.097 +01:00 [INF] Route matched with {action = "Table", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:25:19.098 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-30 16:25:19.098 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:25:19.099 +01:00 [INF] Executed ViewResult - view Table executed in 0.8145ms.
+2024-11-30 16:25:19.099 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Table (Food-Registration) in 1.7513ms
+2024-11-30 16:25:19.099 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:25:19.099 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Producer/Table - 200 null text/html; charset=utf-8 2.6701ms
+2024-11-30 16:25:51.170 +01:00 [INF] Request starting HTTP/1.1 POST http://localhost:5173/Producer/Delete - application/x-www-form-urlencoded 230
+2024-11-30 16:25:51.180 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Delete (Food-Registration)'
+2024-11-30 16:25:51.181 +01:00 [INF] Route matched with {action = "Delete", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Delete(Int32) on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:25:51.188 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+WHERE "p"."ProducerId" = @__id_0
+LIMIT 1
+2024-11-30 16:25:51.190 +01:00 [INF] Executing RedirectResult, redirecting to /Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error.
+2024-11-30 16:25:51.190 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Delete (Food-Registration) in 8.9658ms
+2024-11-30 16:25:51.190 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Delete (Food-Registration)'
+2024-11-30 16:25:51.190 +01:00 [INF] Request finished HTTP/1.1 POST http://localhost:5173/Producer/Delete - 302 0 null 22.9353ms
+2024-11-30 16:25:51.198 +01:00 [INF] Request starting HTTP/1.1 GET http://localhost:5173/Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error - null null
+2024-11-30 16:25:51.201 +01:00 [INF] Executing endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:25:51.201 +01:00 [INF] Route matched with {action = "Table", controller = "Producer", page = "", area = ""}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Table() on controller Food_Registration.Controllers.ProducerController (Food-Registration).
+2024-11-30 16:25:51.204 +01:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "p"."ProducerId", "p"."Description", "p"."ImageUrl", "p"."Name", "p"."OwnerId"
+FROM "Producers" AS "p"
+2024-11-30 16:25:51.205 +01:00 [INF] Executing ViewResult, running view Table.
+2024-11-30 16:25:51.211 +01:00 [INF] Executed ViewResult - view Table executed in 6.575ms.
+2024-11-30 16:25:51.211 +01:00 [INF] Executed action Food_Registration.Controllers.ProducerController.Table (Food-Registration) in 10.2552ms
+2024-11-30 16:25:51.212 +01:00 [INF] Executed endpoint 'Food_Registration.Controllers.ProducerController.Table (Food-Registration)'
+2024-11-30 16:25:51.213 +01:00 [INF] Request finished HTTP/1.1 GET http://localhost:5173/Producer/Table?message=You%20can%20only%20delete%20your%20own%20producers&messageType=error - 200 null text/html; charset=utf-8 14.9884ms
+2024-11-30 16:26:35.651 +01:00 [INF] Application is shutting down...

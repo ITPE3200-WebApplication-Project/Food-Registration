@@ -65,23 +65,6 @@ public class ProductRepository : IProductRepository
             _logger.LogError("[ProductRepository] items Add() failed when CreateProductAsync() is called, error message: {e}", e.Message);
             return false;
         }
-        /*
-        // Check if the Products entity set is null
-        if (_db.Products == null)
-        {
-            return;
-        }
-
-        // Check if all required fields are filled
-        if (string.IsNullOrEmpty(product.Name) || product?.ProducerId == null || string.IsNullOrEmpty(product.NutritionScore))
-        {
-            return;
-        }
-
-        // Add the product to the database
-        _db.Products.Add(product);
-        await _db.SaveChangesAsync();
-        */
     }
 
     public async Task<bool> UpdateProductAsync(Product product)
@@ -97,7 +80,7 @@ public class ProductRepository : IProductRepository
         }
         catch (Exception e)
         {
-            _logger.LogError($"[ProductRepository] Failed to update product: {e.Message}");
+            _logger.LogError("[ProductRepository] Failed to update product: {e}", e.Message);
             return false;
         }
     }
@@ -111,7 +94,7 @@ public class ProductRepository : IProductRepository
                 var product = await _db.Products.FirstOrDefaultAsync(p => p.ProductId == id);
                 if (product == null)
                 {
-                    _logger.LogError("[ProductRepository] item not found for the ProductId {ProductId:0000}", id);  
+                    _logger.LogError("[ProductRepository] item not found for ProductId {id}", id);  
                     return false;
                 }
                 _db.Products.Remove(product);
@@ -125,18 +108,97 @@ public class ProductRepository : IProductRepository
             _logger.LogError("[ProductRepository] items Remove() failed when DeleteProductAsync() is called, error message: {e}", e.Message);
             return false;
         }
-        /*
-        // Check if the Products entity set is null
-        if (_db.Products == null)
+    }
+
+    public async Task<IEnumerable<Product>> GetFilteredProductsAsync(string? search, string? category)
+    {
+        try
         {
-            return;
+            var products = await GetAllProductsAsync();
+            
+            if (!string.IsNullOrEmpty(search))
+            {
+                products = products.Where(x =>
+                    x.Name.ToLower().Contains(search.ToLower()) ||
+                    x.ProductId.ToString().Contains(search.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(category))
+            {
+                products = products.Where(x =>
+                    x.Category != null && x.Category.ToLower() == category.ToLower());
+            }
+
+            return products;
         }
-        var product = await _db.Products.FirstOrDefaultAsync(p => p.ProductId == id);
-        if (product != null)
+        catch (Exception e)
         {
-            _db.Products.Remove(product);
-            await _db.SaveChangesAsync();
+            _logger.LogError("[ProductRepository] GetFilteredProductsAsync failed: {e}", e.Message);
+            return new List<Product>();
         }
-        */
+    }
+
+    public async Task<string?> SaveProductImageAsync(IFormFile file, string wwwRootPath)
+    {
+        try
+        {
+            if (file == null || file.Length == 0) return null;
+
+            string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+            string productPath = Path.Combine(wwwRootPath, "images", "product");
+            Directory.CreateDirectory(productPath);
+            
+            string filePath = Path.Combine(productPath, fileName);
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await file.CopyToAsync(stream);
+            }
+            
+            return "/images/product/" + fileName;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProductRepository] SaveProductImageAsync failed: {e}", e.Message);
+            return null;
+        }
+    }
+
+    public async Task<bool> DeleteProductImageAsync(string? imagePath, string wwwRootPath)
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(imagePath)) return true;
+
+            string fullPath = Path.Combine(wwwRootPath, imagePath.TrimStart('/'));
+            if (System.IO.File.Exists(fullPath))
+            {
+                await Task.Run(() => System.IO.File.Delete(fullPath));
+            }
+            return true;
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProductRepository] DeleteProductImageAsync failed: {e}", e.Message);
+            return false;
+        }
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsByProducerIdAsync(int producerId)
+    {
+        try
+        {
+            if (_db.Products != null)
+            {
+                return await _db.Products
+                    .Where(p => p.ProducerId == producerId)
+                    .ToListAsync();
+            }
+            return new List<Product>();
+        }
+        catch (Exception e)
+        {
+            _logger.LogError("[ProductRepository] GetProductsByProducerIdAsync failed: {e}", e.Message);
+            return new List<Product>();
+        }
     }
 }

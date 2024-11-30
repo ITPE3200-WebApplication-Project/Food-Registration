@@ -9,4 +9,7 @@ public interface IProducerRepository
     Task<bool> CreateProducerAsync(Producer producer);
     Task<bool> UpdateProducerAsync(Producer producer);
     Task<bool> DeleteProducerAsync(int id);
+    Task<bool> HasAssociatedProductsAsync(int producerId);
+    Task<string?> SaveProducerImageAsync(IFormFile file, string wwwRootPath);
+    Task<bool> DeleteProducerImageAsync(string? imagePath, string wwwRootPath);
 }
