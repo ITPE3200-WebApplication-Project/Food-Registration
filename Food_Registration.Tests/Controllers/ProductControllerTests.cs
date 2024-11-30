@@ -192,7 +192,7 @@ namespace Food_Registration.Tests.Controllers
     [Fact]
     public async Task Index_ReturnsFilteredProducts()
     {
-          // Arrange: Preparing a list of products
+        // Arrange: Preparing a list of products
         var products = new List<Product>
         {
             new Product { ProductId = 1, Name = "Apple", Category = "Fruits" },
@@ -200,18 +200,19 @@ namespace Food_Registration.Tests.Controllers
             new Product { ProductId = 3, Name = "Carrot", Category = "Vegetables" }
         };
 
-        _mockProductRepo.Setup(repo => repo.GetAllProductsAsync())
-            .ReturnsAsync(products);
+        // Mock the GetFilteredProductsAsync to return the filtered list
+        _mockProductRepo.Setup(repo => repo.GetFilteredProductsAsync("Apple", "Fruits"))
+            .ReturnsAsync(products.Where(p => p.Name == "Apple" && p.Category == "Fruits").ToList());
 
         // Act: Calling the Index method with filter parameters
-        var result = await _controller.Index("Apple", "Fruits"); 
+        var result = await _controller.Index("Apple", "Fruits");
 
         // Assert: Verifying the filtered result
         var viewResult = Assert.IsType<ViewResult>(result);
         var model = Assert.IsAssignableFrom<List<Product>>(viewResult.Model);
 
-        Assert.Single(model);
-        Assert.Equal("Apple", model.First().Name);
+        Assert.Single(model); // Ensure only one product is returned
+        Assert.Equal("Apple", model.First().Name); // Verify the correct product
     }
 
     // Test case 6: Testing Delete method when the product is not found
@@ -271,5 +272,7 @@ namespace Food_Registration.Tests.Controllers
         var badRequestResult = Assert.IsType<BadRequestObjectResult>(result);
         Assert.Equal("Product not found", badRequestResult.Value); 
     }
+
+    
   }
 }  
