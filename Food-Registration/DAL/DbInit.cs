@@ -163,7 +163,7 @@ public static class DBInit
             new Product
             {
                 Name = "Turkish Yogurt",
-                Description = "Creamy Greek yogurt, high in protein",
+                Description = "Handmade, fresh, healty Turkish yogurt and high in protein",
                 ImageUrl = "https://images.pexels.com/photos/373882/pexels-photo-373882.jpeg",
                 Category = "Dairy",
                 ProducerId = producers[2].ProducerId,
