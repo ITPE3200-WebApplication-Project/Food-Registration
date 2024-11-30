@@ -163,5 +163,35 @@ namespace Food_Registration.Tests.Controllers
             Assert.False(_controller.ModelState.IsValid);
         }
 
+        //Unit Test 4 skal edited productController har feil
+        
+        //Unit Test 5
+        [Fact]
+        public async Task Create_Post_NullProducer_ReturnsBadRequest()
+        {
+            // Arrange
+            var product = new Product
+            {
+                Name = "Test Product",
+                ProducerId = 999, // Non-existent producer
+                NutritionScore = "A"
+            };
+
+            // Producer repo null dönecek
+            _mockProducerRepo.Setup(repo => repo.GetProducerByIdAsync(999))
+                .ReturnsAsync((Producer)null);
+
+            // Null dosya gönderimi
+            IFormFile? nullFile = null;
+
+            // Act
+            var result = await _controller.Create(product, nullFile);
+
+            // Assert
+            Assert.IsType<RedirectResult>(result); // RedirectResult bekliyoruz
+            _mockProductRepo.Verify(repo => repo.CreateProductAsync(It.IsAny<Product>()), Times.Never); // Ürün oluşturma işlemi yapılmamalı
+        }
+
+
     }
 }  
