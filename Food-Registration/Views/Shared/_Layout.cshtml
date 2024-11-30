@@ -17,7 +17,7 @@
             <div class="container-fluid">
                 <!--Logo-->
                 <a class="navbar-brand" href="/">
-                    <img src="~/images/logo.png" alt="Logo" class="logo" style="height: 100px;" />
+                    <img src="~/images/logo.png" alt="Logo" class="logo" style="height: 100px;" title="Logo" />
                 </a>
 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
@@ -28,28 +28,28 @@
                     <ul class="navbar-nav mx-auto">
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Product"
-                                asp-action="Index">All
+                                asp-action="Index" title="All Products">All
                                 Products</a>
                         </li>
                         <li class="nav-item">
                             @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Product"
-                                    asp-action="Create">New
+                                    asp-action="Create" title="New Product">New
                                     Product</a>
                             }
                         </li>
                         <li class="nav-item">
                             @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Table">My
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="Table" title="My Products">My
                                     Products</a>
                             }
                         </li>
                         <li class="nav-item">
                             @if (User.Identity != null && User.Identity.IsAuthenticated)
                             {
-                                <a class="nav-link text-dark" asp-controller="Producer" asp-action="Table">My Producers</a>
+                                <a class="nav-link text-dark" asp-controller="Producer" asp-action="Table" title="My Producers">My Producers</a>
                             }
                         </li>
                     </ul>

@@ -114,16 +114,11 @@
 
 @section Scripts {
   <script>
-    // Add event listener when document is ready
     document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('removeImageBtn').addEventListener('click', function() {
-        // Clear the file input
         document.getElementById('imageInput').value = '';
-        // Set preview to placeholder - using the full URL
         document.getElementById('imagePreview').src = 'https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg';
-        // Set the remove flag
         document.getElementById('removeImageFlag').value = 'true';
-        console.log('removeImageFlag value:', document.getElementById('removeImageFlag').value);
       });
     });
 

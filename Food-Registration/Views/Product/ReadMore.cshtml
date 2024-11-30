@@ -4,7 +4,7 @@
   <div class="card shadow">
     <div class="row g-0">
       <div class="col-md-4">
-        <img src="@Url.Content(Model.ImageUrl)" class="img-fluid rounded-start h-100" alt="@Model.Name" style="object-fit: cover;">
+        <img src="@Url.Content(Model.ImageUrl)" class="img-fluid rounded-start h-100" alt="@Model.Name" style="object-fit: cover;" title="@Model.Name">
       </div>
       <div class="col-md-8">
         <div class="card-body">
@@ -19,7 +19,7 @@
                 {
                   <div class="col-auto">
                     <img src="@Model.Producer.ImageUrl" alt="@Model.Producer.Name" class="producer-logo rounded"
-                      style="width: 80px; height: 80px; object-fit: cover;">
+                      style="width: 80px; height: 80px; object-fit: cover;" title="@Model.Producer.Name">
                   </div>
                 }
                 <div class="col">
@@ -38,34 +38,50 @@
             <p class="card-text">@Model.Description</p>
           </div>
 
-          <div class="mb-4">
-            <h5>Category</h5>
-            <p class="card-text">@Model.Category</p>
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <h5>Category</h5>
+              <p class="card-text">@Model.Category</p>
+            </div>
+            <div class="col-md-6">
+              <h5>Nutrition Score</h5>
+              @if (!string.IsNullOrEmpty(Model.NutritionScore))
+              {
+                <img src="@Url.Content($"~/images/Nutri/Nutri-score-{Model.NutritionScore}.svg.png")"
+                     alt="Nutrition Score @Model.NutritionScore"
+                     class="nutrition-score"
+                     title="Nutrition Score @Model.NutritionScore" />
+              }
+              else
+              {
+                <p class="card-text">N/A</p>
+              }
+            </div>
           </div>
 
           <div class="nutrition-info mb-4">
             <h5>Nutritional Information (per 100g)</h5>
             <div class="row">
               <div class="col-md-3">
-                <div class="nutrition-item" style="min-width: 120px;">
+                <div class="nutrition-item" style="min-width: 100px;">
                   <strong>Calories</strong>
                   <p>@Model.Calories kcal</p>
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="nutrition-item" style="min-width: 120px;">
+                <div class="nutrition-item" style="min-width: 100px;">
                   <strong>Protein</strong>
                   <p>@Model.Protein g</p>
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="nutrition-item">
+                <div class="nutrition-item" style="min-width: 100px;">
                   <strong>Carbs</strong>
                   <p>@Model.Carbohydrates g</p>
                 </div>
               </div>
               <div class="col-md-3">
-                <div class="nutrition-item">
+                <div class="nutrition-item" style="min-width: 100px;">
                   <strong>Fats</strong>
                   <p>@Model.Fat g</p>
                 </div>
@@ -74,7 +90,7 @@
           </div>
 
           <div class="mt-4">
-            <a href="@Url.Action("Index", "Product")" class="btn btn-primary rounded-pill">
+            <a href="@Url.Action("Index", "Product")" class="btn btn-primary rounded-pill" title="Back to Products">
               <i class="bi bi-arrow-left"></i> Back to Products
             </a>
           </div>

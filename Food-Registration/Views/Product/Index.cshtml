@@ -6,54 +6,54 @@
 <form method="get" action="/" class="d-flex justify-content-center my-4">
     <div class="input-group" style="width: 700px; max-width: 100%;">
         <input type="text" name="searching" class="form-control" placeholder="Search products using product name or ID"
-            value="@ViewData["Getproductlist"]" style="border: none; border-radius: 15px 0 0 15px;">
+            value="@ViewData["Getproductlist"]" style="border: none; border-radius: 15px 0 0 15px;" title="Search products using product name or ID">
         <button value="search" class="btn btn-primary" type="submit"
-            style="border: none; border-radius: 0 15px 15px 0;">Search</button>
+            style="border: none; border-radius: 0 15px 15px 0;" title="Search">Search</button>
     </div>
 </form>
 
 <section id="categoryLinks">
     <div class="row gap-2">
-        <a href="@Url.Action("Index", "Product", new { category = "Fruits" })"
+        <a href="@Url.Action("Index", "Product", new { category = "Fruits" })" title="Fruits"
             class="col category-link text-center bg-white py-4 block">
             <!--Source of image/icon from "https://www.flaticon.com/free-icons/fruits" title="fruits icons" Fruits icons created by Eucalyp - Flaticon-->
-            <img src="@Url.Content("~/images/icons/basket.png")" class="icon" alt="Fruits">
+            <img src="@Url.Content("~/images/icons/basket.png")" class="icon" alt="Fruits" title="Fruits">
             <h5>Fruits</h5>
         </a>
-        <a href="@Url.Action("Index", "Product", new { category = "Vegetables" })"
+        <a href="@Url.Action("Index", "Product", new { category = "Vegetables" })" title="Vegetables"
             class="col category-link text-center bg-white py-4 block">
             <!--Source of image/icon from "https://www.flaticon.com/free-icons/vegetable" title="vegetable icons" Vegetable icons created by Icongeek26 - Flaticon-->
-            <img src="@Url.Content("~/images/icons/vegetable.png")" class="icon" alt="Vegetables">
+            <img src="@Url.Content("~/images/icons/vegetable.png")" class="icon" alt="Vegetables" title="Vegetables">
             <h5>Vegetables</h5>
         </a>
-        <a href="@Url.Action("Index", "Product", new { category = "Meats" })"
+        <a href="@Url.Action("Index", "Product", new { category = "Meats" })" title="Meats"
             class="col category-link text-center bg-white py-4 block">
             <!--Source of image/icon from "https://www.flaticon.com/free-icons/meat" title="meat icons">Meat icons created by Iconjam - Flaticon-->
-            <img src="@Url.Content("~/images/icons/proteins.png")" class="icon" alt="Meats">
+            <img src="@Url.Content("~/images/icons/proteins.png")" class="icon" alt="Meats" title="Meats">
             <h5>Meats</h5>
         </a>
-        <a href="@Url.Action("Index", "Product", new { category = "Bakery Foods" })"
+        <a href="@Url.Action("Index", "Product", new { category = "Bakery Foods" })" title="Bakery Food"
             class="col category-link text-center bg-white py-4 block">
             <!--Source of image/icon from "https://www.flaticon.com/free-icons/bakery" title="bakery icons">Bakery icons created by piksart - Flaticon-->
-            <img src="@Url.Content("~/images/icons/breads.png")" class="icon" alt="Bakery Food">
+            <img src="@Url.Content("~/images/icons/breads.png")" class="icon" alt="Bakery Food" title="Bakery Food">
             <h5>Bakery Foods</h5>
         </a>
-        <a href="@Url.Action("Index", "Product", new { category = "Dairy" })"
+        <a href="@Url.Action("Index", "Product", new { category = "Dairy" })" title="Dairy"
             class="col category-link text-center bg-white py-4 block">
             <!--Source of image/icon from "https://www.flaticon.com/free-icons/supermarket" title="supermarket icons">Supermarket icons created by Good Ware - Flaticon-->
-            <img src="@Url.Content("~/images/icons/daily-products.png")" class="icon" alt="Dairy">
+            <img src="@Url.Content("~/images/icons/daily-products.png")" class="icon" alt="Dairy" title="Dairy">
             <h5>Dairy</h5>
         </a>
-        <a href="@Url.Action("Index", "Product", new { category = "Drinks" })"
+        <a href="@Url.Action("Index", "Product", new { category = "Drinks" })" title="Drinks"
             class="col category-link text-center bg-white py-4 block">
             <!--Source of image/icon from "https://www.flaticon.com/free-icons/drink" title="drink icons">Drink icons created by Freepik - Flaticon-->
-            <img src="@Url.Content("~/images/icons/soft-drink.png")" class="icon" alt="Drinks">
+            <img src="@Url.Content("~/images/icons/soft-drink.png")" class="icon" alt="Drinks" title="Drinks">
             <h5>Drinks</h5>
         </a>
-        <a href="@Url.Action("Index", "Product", new { category = "Other" })"
+        <a href="@Url.Action("Index", "Product", new { category = "Other" })" title="Other"
             class="col category-link text-center bg-white py-4 block">
             <!--Source of image/icon from ="https://www.flaticon.com/free-icons/fast-food" title="fast food icons">Fast food icons created by Freepik - Flaticon-->
-            <img src="@Url.Content("~/images/icons/fast-food.png")" class="icon" alt="Other">
+            <img src="@Url.Content("~/images/icons/fast-food.png")" class="icon" alt="Other" title="Other">
             <h5>Other</h5>
         </a>
     </div>
@@ -91,7 +91,7 @@
             {
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3">
                     <div class="product-card">
-                        <img class="product-image" src="@Url.Content(product.ImageUrl)" alt="@product.Name">
+                        <img class="product-image" src="@Url.Content(product.ImageUrl)" alt="@product.Name" title="@product.Name">
                         <div class="product-content">
                             <h5 class="product-title">@product.Name</h5>
                             <div class="product-footer">
@@ -99,14 +99,15 @@
                                 {
                                     <img class="nutrition-score"
                                         src="@Url.Content($"~/images/Nutri/Nutri-score-{product.NutritionScore}.svg.png")"
-                                        alt="Nutrition Score @product.NutritionScore" />
+                                        alt="Nutrition Score @product.NutritionScore"
+                                        title="Nutrition Score @product.NutritionScore" />
                                 }
                                 else
                                 {
                                     <span>N/A</span>
                                 }
                                 <a href="@Url.Action("ReadMore", "Product", new { id = product.ProductId })"
-                                    class="btn btn-primary rounded-pill">
+                                    class="btn btn-primary rounded-pill" title="Read More">
                                     Read More
                                 </a>
                             </div>

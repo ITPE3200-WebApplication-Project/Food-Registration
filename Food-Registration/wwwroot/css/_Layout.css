@@ -90,7 +90,6 @@ button.accept-policy {
 /*Logo*/
 .logo {
   border-radius: 50%;
-  width: 100%;
   max-width: 9.4rrem;
   height: auto;
   object-fit: cover;
