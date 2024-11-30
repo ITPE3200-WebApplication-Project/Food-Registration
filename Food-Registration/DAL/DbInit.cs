@@ -164,7 +164,7 @@ public static class DBInit
             {
                 Name = "Turkish Yogurt",
                 Description = "Creamy Greek yogurt, high in protein",
-                ImageUrl = "https://yemek.com/tarif/evde-yogurt-yapimi",
+                ImageUrl = "https://images.pexels.com/photos/373882/pexels-photo-373882.jpeg",
                 Category = "Dairy",
                 ProducerId = producers[2].ProducerId,
                 Calories = 130m,
@@ -220,7 +220,7 @@ public static class DBInit
             {
                 Name = "Sparkling Water",
                 Description = "Natural sparkling mineral water",
-                ImageUrl = "https://pixabay.com/no/users/leopoldboettcher-10118366/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710",
+                ImageUrl = "https://cdn.pixabay.com/photo/2019/09/19/12/35/cup-4489199_1280.jpg",
                 Category = "Drinks",
                 ProducerId = producers[4].ProducerId,
                 Calories = 0m,
@@ -235,7 +235,7 @@ public static class DBInit
             {
                 Name = "Rainbow Candy Popcorn",
                 Description = "Colorful, sweet popcorn that will make your taste buds dance 🌈",
-                ImageUrl = "https://www.istockphoto.com/photo/white-and-plain-popcorn-for-background-uses-gm1179252944-329907145",
+                ImageUrl = "https://img.freepik.com/free-photo/candy-strip-popcorn_23-2147748059.jpg?t=st=1732989160~exp=1732992760~hmac=ff70eedcc8c45089dd77da0be1928bb0c1005f43f3058486860673fecb9699e5&w=1480",
                 Category = "Other",
                 ProducerId = producers[4].ProducerId,
                 Calories = 387m,
@@ -248,7 +248,7 @@ public static class DBInit
             {
                 Name = "Chocolate Covered Pickles",
                 Description = "Yes, you read that right. Don't knock it till you try it! 🥒🍫",
-                ImageUrl = "https://pixabay.com/no/photos/kake-stykke-tallerken-dessert-s%C3%B8t-1971552",
+                ImageUrl = "https://cdn.pixabay.com/photo/2017/01/11/11/33/cake-1971552_1280.jpg",
                 Category = "Other",
                 ProducerId = producers[0].ProducerId,
                 Calories = 150m,
