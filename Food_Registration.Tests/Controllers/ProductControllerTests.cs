@@ -109,30 +109,59 @@ namespace Food_Registration.Tests.Controllers
             _mockProductRepo.Verify(repo => repo.CreateProductAsync(product), Times.Once);
         }
 
-    ///Unit Test 1
-    [Fact]
-    public async Task Create_Get_ReturnsViewWithProducerList()
-    {
-      // Arrange
-      var producers = new List<Producer>
+        ///Unit Test 1
+        [Fact]
+        public async Task Create_Get_ReturnsViewWithProducerList()
+        {
+          // Arrange
+          var producers = new List<Producer>
+                {
+                    new Producer { ProducerId = 1, Name = "Producer 1", OwnerId = "test@test.com" },
+                    new Producer { ProducerId = 2, Name = "Producer 2", OwnerId = "test@test.com" }
+                };
+
+          _mockProducerRepo.Setup(repo => repo.GetAllProducersAsync())
+              .ReturnsAsync(producers);
+
+          // Act
+          var result = await _controller.Create();
+
+          // Assert
+          var viewResult = Assert.IsType<ViewResult>(result);
+          Assert.NotNull(viewResult.ViewData["Producers"]);
+          var producerList = Assert.IsType<SelectList>(viewResult.ViewData["Producers"]);
+          Assert.Equal(2, producerList.Count());
+        }
+
+        //Unit Test 3
+        [Fact]
+        public async Task Create_Post_InvalidModel_ReturnsViewWithError()
+        {
+            // Arrange: Geçersiz bir ürün (boş) oluşturuyoruz
+            var product = new Product(); // Empty product
+            _controller.ModelState.AddModelError("Name", "Name is required");
+
+            var producers = new List<Producer>
             {
-                new Producer { ProducerId = 1, Name = "Producer 1", OwnerId = "test@test.com" },
-                new Producer { ProducerId = 2, Name = "Producer 2", OwnerId = "test@test.com" }
+                new Producer { ProducerId = 1, Name = "Producer 1" }
             };
 
-      _mockProducerRepo.Setup(repo => repo.GetAllProducersAsync())
-          .ReturnsAsync(producers);
+            // Producer repository mock'ını ayarlıyoruz
+            _mockProducerRepo.Setup(repo => repo.GetAllProducersAsync())
+                .ReturnsAsync(producers);
 
-      // Act
-      var result = await _controller.Create();
+            // Geçici bir dosya mock'ı oluşturuyoruz (IFormFile)
+            var mockFile = CreateMockFile("image.jpg", "image/jpeg", "fake-image-content");
 
-      // Assert
-      var viewResult = Assert.IsType<ViewResult>(result);
-      Assert.NotNull(viewResult.ViewData["Producers"]);
-      var producerList = Assert.IsType<SelectList>(viewResult.ViewData["Producers"]);
-      Assert.Equal(2, producerList.Count());
-    }
+            // Act: Create metodunu çağırıyoruz
+            var result = await _controller.Create(product, mockFile);
 
-  
+            // Assert: ViewResult döndürmesini bekliyoruz
+            var viewResult = Assert.IsType<ViewResult>(result);
+
+            // ModelState'in geçersiz olduğunu kontrol ediyoruz
+            Assert.False(_controller.ModelState.IsValid);
+        }
+
     }
 }  
