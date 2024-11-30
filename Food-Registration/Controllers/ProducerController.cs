@@ -89,9 +89,9 @@ namespace Food_Registration.Controllers
             await _producerRepository.CreateProducerAsync(producer);
             return RedirectToAction(nameof(Table));
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            _logger.LogError(ex, "Error creating producer");
+            _logger.LogError(e, "Error creating producer");
             return RedirectWithMessage("Producer", "Create", "Error creating producer", "danger");
         }
     }

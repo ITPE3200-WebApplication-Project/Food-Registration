@@ -116,9 +116,9 @@ public class ProductController : Controller
 
         return View(filteredProducts);
     }
-    catch (Exception ex)
+    catch (Exception e)
     {
-        _logger.LogError(ex, "Error retrieving products");
+        _logger.LogError(e, "Error retrieving products");
         return RedirectWithMessage("Product", "Table", "Error retrieving products", "error");
     }
   }
