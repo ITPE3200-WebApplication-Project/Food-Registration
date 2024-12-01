@@ -1,13 +1,16 @@
-import Login from "../auth/Login";
+import { authService } from "../../services/auth";
+import AuthHeader from "../auth/AuthHeader";
 
 export default function Header() {
+  const { loggedIn } = authService.getUser();
+
   return (
     <header>
       <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
-              src="~/images/logo.png"
+              src="/images/logo.png"
               alt="Logo"
               className="logo"
               style={{ height: "100px" }}
@@ -28,48 +31,31 @@ export default function Header() {
           <div className="navbar-collapse collapse d-sm-inline-flex justify-content-between">
             <ul className="navbar-nav mx-auto">
               <li className="nav-item">
-                <a
-                  className="nav-link text-dark"
-                  asp-area=""
-                  asp-controller="Product"
-                  asp-action="AllProducts"
-                >
+                <a className="nav-link text-dark" href="/">
                   All Products
                 </a>
               </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link text-dark"
-                  asp-area=""
-                  asp-controller="Product"
-                  asp-action="NewProduct"
-                >
-                  New Product
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link text-dark"
-                  asp-area=""
-                  asp-controller="Product"
-                  asp-action="Table"
-                >
-                  My Products
-                </a>
-              </li>
-              <li className="nav-item">
-                <a
-                  className="nav-link text-dark"
-                  asp-controller="Producer"
-                  asp-action="Table"
-                >
-                  My Producers
-                </a>
-              </li>
+              {loggedIn && (
+                <>
+                  <li className="nav-item">
+                    <a className="nav-link text-dark" href="/products/create">
+                      New Product
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link text-dark" href="/products/my">
+                      My Products
+                    </a>
+                  </li>
+                  <li className="nav-item">
+                    <a className="nav-link text-dark" href="/producers/my">
+                      My Producers
+                    </a>
+                  </li>
+                </>
+              )}
             </ul>
-            <div className="d-flex">
-              <Login />
-            </div>
+            <AuthHeader />
           </div>
         </div>
       </nav>

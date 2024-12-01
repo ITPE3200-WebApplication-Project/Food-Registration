@@ -1,48 +1,88 @@
+import { useState } from "react";
+import { authService } from "../../services/auth";
+
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = async () => {
+    try {
+      await authService.login(email, password);
+      window.location.href = "/";
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
-    <ul className="navbar-nav">
-      <li className="nav-item">
-        <a
-          id="manage"
-          className="nav-link text-dark"
-          asp-area="Identity"
-          asp-page="/Account/Manage/Index"
-          title="Manage"
-        >
-          Hello @UserManager.GetUserName(User)!
-        </a>
-      </li>
-      <li className="nav-item">
-        <form id="logoutForm" className="form-inline">
-          <button
-            id="logout"
-            type="submit"
-            className="nav-link btn btn-link text-dark border-0"
-          >
-            Logout
-          </button>
-        </form>
-      </li>
-      <li className="nav-item">
-        <a
-          className="nav-link text-dark"
-          id="register"
-          asp-area="Identity"
-          asp-page="/Account/Register"
-        >
-          Register
-        </a>
-      </li>
-      <li className="nav-item">
-        <a
-          className="nav-link text-dark"
-          id="login"
-          asp-area="Identity"
-          asp-page="/Account/Login"
-        >
-          Login
-        </a>
-      </li>
-    </ul>
+    <div>
+      <h1 className="text-center">Log in</h1>
+      <div className="row justify-content-center">
+        <div className="col-md-4">
+          <section>
+            <form
+              id="account"
+              onSubmit={(e) => e.preventDefault()}
+              className="text-center"
+            >
+              <h2>Use a local account to log in.</h2>
+              <hr />
+              <div className="text-danger" role="alert"></div>
+
+              <div className="form-floating mb-3">
+                <input
+                  type="email"
+                  className="form-control"
+                  id="email"
+                  autoComplete="username"
+                  aria-required="true"
+                  placeholder="name@example.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+                <label htmlFor="email" className="form-label">
+                  Email
+                </label>
+                <span className="text-danger"></span>
+              </div>
+
+              <div className="form-floating mb-3">
+                <input
+                  type="password"
+                  className="form-control"
+                  id="password"
+                  autoComplete="current-password"
+                  aria-required="true"
+                  placeholder="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <label htmlFor="password" className="form-label">
+                  Password
+                </label>
+                <span className="text-danger"></span>
+              </div>
+
+              <div>
+                <button
+                  id="login-submit"
+                  type="submit"
+                  className="w-100 btn btn-lg btn-primary"
+                  onClick={handleLogin}
+                >
+                  Log in
+                </button>
+              </div>
+
+              <div>
+                <p>
+                  <a href="/register">Register as a new user</a>
+                </p>
+              </div>
+            </form>
+          </section>
+        </div>
+      </div>
+    </div>
   );
 }

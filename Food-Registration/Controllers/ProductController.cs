@@ -1,544 +1,345 @@
 using Microsoft.AspNetCore.Mvc;
 using Food_Registration.Models;
-using Food_Registration.ViewModels;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Food_Registration.DAL;
-using Microsoft.Extensions.Logging; 
-
+using System.Security.Claims;
+using Food_Registration.Models.DTOs;
+using System.IO;
 
 namespace Food_Registration.Controllers;
 
 
-public class ProductController : Controller
+[ApiController]
+[Route("api/[controller]")]
+public class ProductController : ControllerBase
 {
-  private readonly IProductRepository _productRepository;
+    private readonly IProductRepository _productRepository;
 
-  private readonly IProducerRepository _producerRepository;
+    private readonly IProducerRepository _producerRepository;
 
-  private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IWebHostEnvironment _webHostEnvironment;
 
-   private readonly ILogger<ProductController> _logger;
-  public ProductController(IProductRepository productRepository, IProducerRepository producerRepository, IWebHostEnvironment webHostEnvironment, ILogger<ProductController> logger)
-  {
-    _productRepository = productRepository;
-    _producerRepository = producerRepository;
-    _webHostEnvironment = webHostEnvironment;
-     _logger = logger;
-  }
-
-  [HttpGet]
-  public async Task<IActionResult> Index(string searching, string category)
-  {
-    var products = await _productRepository.GetAllProductsAsync();
-
-    if (products == null)
+    private readonly ILogger<ProductController> _logger;
+    public ProductController(IProductRepository productRepository, IProducerRepository producerRepository, IWebHostEnvironment webHostEnvironment, ILogger<ProductController> logger)
     {
-      _logger.LogError("[ProductController] products not found while executing _productRepository.GetAllProductsAsync()");
-      return NotFound("Products not found");
+        _productRepository = productRepository;
+        _producerRepository = producerRepository;
+        _webHostEnvironment = webHostEnvironment;
+        _logger = logger;
     }
 
-    // Default image
-    foreach (var product in products)
+    [HttpGet]
+    public async Task<ActionResult<IEnumerable<Product>>> GetProducts([FromQuery] string? category, [FromQuery] string? search)
     {
-      if (product.ImageUrl == null || product.ImageUrl == "")
-      {
-        product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
-      }
-    }
-
-    // Filter products based on search
-    if (!string.IsNullOrEmpty(searching))
-    {
-      products = products.Where(x =>
-          x.Name.ToLower().Contains(searching.ToLower()) ||
-          x.ProductId.ToString().Contains(searching.ToLower()));
-    }
-
-    // Filter products based on category
-    if (!string.IsNullOrEmpty(category))
-    {
-      products = products.Where(x =>
-          x.Category != null && x.Category.ToLower() == category.ToLower());
-    }
-
-    // Convert the filtered products to a list
-    var productList = products.ToList();
-
-    return View("~/Views/Product/Index.cshtml", productList);
-  }
-
-
-  [HttpGet]
-  public async Task<IActionResult> ReadMore(int id)
-  {
-    var product = await _productRepository.GetProductByIdAsync(id);
-    
-    if (product == null)
-    {
-        _logger.LogError($"[ProductController] Product with id {id} not found in ReadMore");
-        return RedirectWithMessage("Product", "Table", "Product not found", "error");
-    }
-
-    // Add default image if none exists
-    if (string.IsNullOrEmpty(product.ImageUrl))
-    {
-        product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
-    }
-
-    // Ensure Producer is loaded
-    if (product.Producer == null)
-    {
-        _logger.LogError($"[ProductController] Producer not loaded for product {id} in ReadMore");
-        return RedirectWithMessage("Product", "Table", "Product details not available", "error");
-    }
-
-    // Add default producer image if none exists
-    if (string.IsNullOrEmpty(product.Producer.ImageUrl))
-    {
-        product.Producer.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
-    }
-
-    return View(product);
-  }
-  
-  [Authorize]
-  [HttpGet]
-  public async Task<IActionResult> Table()
-  {
-    var currentUserId = User.Identity?.Name;
-    _logger.LogInformation($"[ProductController] Current user: {currentUserId}");
-
-    if (string.IsNullOrEmpty(currentUserId))
-    {
-        _logger.LogWarning("User does not have a producer account.");
-        return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
-    }
-
-    try
-    {
-        _logger.LogInformation("Getting all products for the user");
-
-        var Index = await _productRepository.GetAllProductsAsync();
-        _logger.LogInformation($"[ProductController] Total products found: {Index?.Count() ?? 0}");
-
-        var filteredProducts = Index?
-            .Where(p => p.Producer?.OwnerId == currentUserId)
-            .ToList();
-        _logger.LogInformation($"[ProductController] Filtered products for user: {filteredProducts?.Count ?? 0}");
-
-        return View(filteredProducts);
-    }
-    catch (Exception ex)
-    {
-        _logger.LogError(ex, "Error retrieving products");
-        return RedirectWithMessage("Product", "Table", "Error retrieving products", "error");
-    }
-  }
-
-
-
-  [Authorize]
-  [HttpGet]
-  public async Task<IActionResult> Create()
-  {
-    var currentUserId = User.Identity?.Name;
-
-    if (string.IsNullOrEmpty(currentUserId))
-    {
-      return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
-    }
-
-    // Get producers owned by current user
-    var userProducers = (await _producerRepository.GetAllProducersAsync())
-        .Where(p => p.OwnerId == currentUserId)
-        .ToList();
-    if (userProducers == null || !userProducers.Any())
-    {
-      return RedirectWithMessage("Producer", "Table", "Please create a producer account first", "warning");
-    }
-
-    // Create SelectList for producers dropdown
-    ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
-
-    // Create SelectList for categories dropdown
-    var categories = new List<string>
+        try
         {
-            "Fruits",
-            "Vegetables",
-            "Meat",
-            "Fish",
-            "Dairy",
-            "Grains",
-            "Beverages",
-            "Snacks",
-            "Other"
-        };
-    ViewBag.Categories = new SelectList(categories);
+            var products = await _productRepository.GetAllProductsAsync();
 
-    // Create SelectList for nutrition score
-    var nutritionScores = new List<string>
-        {
-            "A",
-            "B",
-            "C",
-            "D",
-            "E"
-        };
-    ViewBag.NutritionScores = new SelectList(nutritionScores);
+            if (!string.IsNullOrEmpty(category))
+                products = products.Where(p => p.Category == category);
 
-    return View();
-  }
+            if (!string.IsNullOrEmpty(search))
+                products = products.Where(p => p.Name.Contains(search, StringComparison.OrdinalIgnoreCase));
 
-  [Authorize]
-  [HttpPost]
-  public async Task<IActionResult> Create(Product product, IFormFile? file)
-  {
-
-    // Check for negative values
-    if (product.Calories < 0 || product.Protein < 0 || product.Carbohydrates < 0 || product.Fat < 0)
-    {
-        ModelState.AddModelError(string.Empty, "Calories, Protein, Carbohydrates, and Fat values cannot be negative.");
-
-        // Reload dropdown data
-        await PopulateDropdowns();
-        return View(product); // Return the form
-    }
-
-    if (!ModelState.IsValid)
-    {
-        // Reload dropdowns
-        await PopulateDropdowns();
-        return View(product);
-    }
-
-    if (!ModelState.IsValid)
-    {
-        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
-    });
-    ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
-
-    if (!ModelState.IsValid || product.ProducerId == 0 || string.IsNullOrEmpty(product.NutritionScore))
-    {
-        if (product.ProducerId == 0)
-        {
-            ModelState.AddModelError("ProducerId", "Please select a producer");
+            return Ok(products);
         }
-        if (string.IsNullOrEmpty(product.NutritionScore))
+        catch (Exception ex)
         {
-            ModelState.AddModelError("NutritionScore", "Please select a nutrition score");
+            _logger.LogError(ex, "Error retrieving products");
+            return StatusCode(500, "An error occurred while retrieving the products");
         }
-        return View(product);
     }
 
-    // Handle image upload only if a file was provided
-    if (file != null && file.Length > 0)
+    [HttpGet("{id}")]
+    public async Task<ActionResult<Product>> GetProductById(int id)
     {
-        string wwwRootPath = _webHostEnvironment.WebRootPath;
-        string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-        string productPath = Path.Combine(wwwRootPath, "images", "product");
-        
-        Directory.CreateDirectory(productPath);
-        string filePath = Path.Combine(productPath, fileName);
-        
-        using (var stream = new FileStream(filePath, FileMode.Create))
+        try
         {
-            await file.CopyToAsync(stream);
+            var product = await _productRepository.GetProductByIdAsync(id);
+            if (product == null)
+                return NotFound();
+            return Ok(product);
         }
-        
-        product.ImageUrl = "/images/product/" + fileName;
-    }
-
-    if (!ModelState.IsValid)
-    {
-        await PopulateDropdowns();
-        return View(product);
-    }
-
-    var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
-    if (producer == null || producer.OwnerId != User.Identity?.Name)
-    {
-        _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");   
-        await PopulateDropdowns();
-        return RedirectWithMessage("Product", "Create", "Invalid producer selection", "warning");
-    }
-
-    // Check if user owns the producer
-    if (producer.OwnerId != currentUserId)
-    {
-        _logger.LogError("[ProductController] producer does not belong to current user while executing _producerRepository.GetProducerByIdAsync()");
-        return RedirectWithMessage("Product", "Create", "You are not the owner of this producer", "warning");
-    }
-    
-    try
-      {
-          await _productRepository.CreateProductAsync(product);
-          return RedirectToAction(nameof(Table));
-      }
-      catch (Exception ex)
-      {
-          _logger.LogError(ex, "Error creating product");
-          await PopulateDropdowns();
-          return RedirectWithMessage("Product", "Create", "Error uploading image", "danger");
-      }
-  }
-
-  private async Task PopulateDropdowns()
-  {
-      var currentUserId = User.Identity?.Name;
-      var userProducers = (await _producerRepository.GetAllProducersAsync())
-          .Where(p => p.OwnerId == currentUserId)
-          .ToList();
-          
-      ViewBag.Producers = new SelectList(userProducers, "ProducerId", "Name");
-      ViewBag.Categories = new SelectList(new[] { "Fruits", "Vegetables", "Meat", "Bakery", "Dairy", "Drinks", "Other" });
-      ViewBag.NutritionScores = new SelectList(new[] { "A", "B", "C", "D", "E" });
-  }
-
- 
-  [Authorize]
-  [HttpGet]
-  public async Task<IActionResult> Update(int id)
-  {
-    var product = await _productRepository.GetProductByIdAsync(id);
-
-    if (product == null)
-    {
-      _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
-      return BadRequest("Product not found");
-    }
-
-    // Add default image if none exists
-    if (string.IsNullOrEmpty(product.ImageUrl))
-    {
-        product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
-    }
-
-    // Get only producers owned by current user
-    var currentUserId = User.Identity?.Name;
-    var userProducers = (await _producerRepository.GetAllProducersAsync())
-        .Where(p => p.OwnerId == currentUserId)
-        .ToList();
-
-    ViewBag.Categories = new SelectList(new List<string>
-    {
-        "Fruits", "Vegetables", "Meat", "Bakery", "Dairy", "Drinks", "Other"
-    });
-
-    // Update producer list to only show user's producers
-    ViewBag.ProducerList = new SelectList(userProducers, "ProducerId", "Name", product.ProducerId);
-    ViewBag.NutritionScores = new SelectList(new List<string>
-    {
-      "A", "B", "C", "D", "E"
-    });
-
-    return View(product);
-  }
-
-  [Authorize]
-  [HttpPost]
-  public async Task<IActionResult> Edit(Product product, IFormFile? file)
-  {
-
-    // Negative value check
-    if (product.Calories < 0 || product.Protein < 0 || product.Carbohydrates < 0 || product.Fat < 0)
-    {
-        ModelState.AddModelError(string.Empty, "Calories, Protein, Carbohydrates, and Fat values cannot be negative.");
-        
-        // Reload dropdowns
-        await PopulateDropdowns();
-        return View(product); // Return the form
-    }
-
-    if (!ModelState.IsValid)
-    {
-        // Reload dropdowns in case of invalid state
-        await PopulateDropdowns();
-        return View(product);
-    }
-
-    if (!ModelState.IsValid)
-    {
-        "Fruits", "Vegetables", "Meat", "Fish", "Dairy", "Grains", "Beverages", "Snacks", "Other"
-    });
-    ViewBag.NutritionScores = new SelectList(new List<string> { "A", "B", "C", "D", "E" });
-
-    if (!ModelState.IsValid || product.ProducerId == 0 || string.IsNullOrEmpty(product.NutritionScore))
-    {
-        // Get existing product details
-        var existingProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
-        if (existingProduct != null)
+        catch (Exception ex)
         {
-            product.ImageUrl = existingProduct.ImageUrl;
+            _logger.LogError(ex, "Error retrieving product {ProductId}", id);
+            return StatusCode(500, "An error occurred while retrieving the product");
         }
-
-        // Ensure there's always an image URL
-        if (string.IsNullOrEmpty(product.ImageUrl))
-        {
-            product.ImageUrl = "https://mtek3d.com/wp-content/uploads/2018/01/image-placeholder-500x500.jpg";
-        }
-
-        if (product.ProducerId == 0)
-        {
-            ModelState.AddModelError("ProducerId", "Please select a producer");
-        }
-
-        if (string.IsNullOrEmpty(product.NutritionScore))
-        {
-            ModelState.AddModelError("NutritionScore", "Please select a nutrition score");
-        }
-
-        return View(product);
     }
 
-    // Check if the selected producer belongs to the user
-    if (!userProducers.Select(p => p.ProducerId).Contains(product.ProducerId))
+    [Authorize]
+    [HttpGet("my")]
+    public async Task<ActionResult<IEnumerable<Product>>> GetMyProducts()
     {
-        return RedirectWithMessage("Product", "Table", "Invalid producer selection", "error");
-    }
-
-    try 
-      {
-          // Get existing product with current image
-          var existingProduct = await _productRepository.GetProductByIdAsync(product.ProductId);
-          if (existingProduct == null)
-          {
-              return RedirectWithMessage("Product", "Table", "Product not found", "error");
-          }
-
-    // Verify ownership
-    var producer = await _producerRepository.GetProducerByIdAsync(existingProduct.ProducerId);
-    if (producer?.OwnerId != currentUserId)
-    {
-        return RedirectWithMessage("Product", "Table", "You can only Update your own products", "error");
-    }
-    
-    if (removeImage)
-    {
-        string wwwRootPath = _webHostEnvironment.WebRootPath;
-        if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
+        try
         {
-            string oldImagePath = Path.Combine(wwwRootPath, existingProduct.ImageUrl.TrimStart('/'));
-            if (System.IO.File.Exists(oldImagePath))
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (email == null)
             {
-                System.IO.File.Delete(oldImagePath);
+                _logger.LogWarning("Unauthorized access attempt - no email claim found");
+                return Unauthorized();
             }
-        }
-        existingProduct.ImageUrl = null;
-    }
-    else if (file != null && file.Length > 0)
-    {
-        string wwwRootPath = _webHostEnvironment.WebRootPath;
-        
-        // Delete old image if exists
-        if (!string.IsNullOrEmpty(existingProduct.ImageUrl))
-        {
-            string oldImagePath = Path.Combine(wwwRootPath, existingProduct.ImageUrl.TrimStart('/'));
-            if (System.IO.File.Exists(oldImagePath))
+
+            // Get list of producerIds of producers I own
+            var producers = await _producerRepository.GetAllProducersAsync();
+            var myProducers = producers.Where(p => p.OwnerId == email).Select(p => p.ProducerId).ToList();
+            if (myProducers == null)
             {
-                System.IO.File.Delete(oldImagePath);
+                _logger.LogWarning("Unauthorized access attempt - no producers found for user {Email}", email);
+                return Unauthorized();
             }
+
+            // Get products owned by producers I own        
+            var products = await _productRepository.GetAllProductsAsync();
+            products = products.Where(p => myProducers.Contains(p.ProducerId)).ToList();
+
+            _logger.LogInformation("Successfully retrieved {Count} products for user {Email}", products.Count(), email);
+            return Ok(products);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error retrieving products for user");
+            return StatusCode(500, "An error occurred while retrieving the products");
+        }
+    }
+
+    [Authorize]
+    [HttpPost]
+    public async Task<ActionResult<Product>> CreateProduct([FromBody] CreateProductDTO productDTO)
+    {
+        try
+        {
+            // Get user email
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (email == null)
+            {
+                return Unauthorized("Unauthorized");
+            }
+
+            // Check if user is owner of producer
+            var producers = await _producerRepository.GetAllProducersAsync();
+            var isProducerOwner = producers.Any(p => p.OwnerId == email && p.ProducerId == productDTO.ProducerId);
+            if (!isProducerOwner)
+            {
+                return Unauthorized("Unauthorized. Not owner of producer.");
+            }
+
+            Console.WriteLine("Image file is not null");
+            // Handle image upload
+            string? imagePath = null;
+            if (productDTO.ImageFile != null)
+            {
+                if (productDTO.ImageFile == null)
+                {
+                    return BadRequest("Image file is required.");
+                }
+
+                if (!IsImageFile(productDTO.ImageFile))
+                {
+                    return BadRequest("Invalid file type. Only image files are allowed.");
+                }
+
+                Console.WriteLine("Stuff");
+                // Generate unique filename
+                string uniqueFileName = $"{Guid.NewGuid()}_{productDTO.ImageFile.FileName}";
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "products");
+
+                // Create directory if it doesn't exist
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
+
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await productDTO.ImageFile.CopyToAsync(fileStream);
+                }
+
+                imagePath = $"/images/products/{uniqueFileName}";
+            }
+
+            // Create product
+            var product = new Product
+            {
+                Name = productDTO.Name,
+                Description = productDTO.Description,
+                NutritionScore = productDTO.NutritionScore,
+                Category = productDTO.Category,
+                ProducerId = productDTO.ProducerId,
+                Calories = productDTO.Calories,
+                Carbohydrates = productDTO.Carbohydrates,
+                Fat = productDTO.Fat,
+                Protein = productDTO.Protein,
+                ImageUrl = imagePath
+            };
+
+            await _productRepository.CreateProductAsync(product);
+
+            return CreatedAtAction(nameof(GetProducts), new { id = product.ProductId }, product);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error creating product");
+            return StatusCode(500, "An error occurred while creating the product");
+        }
+    }
+
+    [Authorize]
+    [HttpPut("{id}")]
+    public async Task<IActionResult> UpdateProduct(int id, [FromBody] UpdateProductDTO productDTO)
+    {
+        if (id != productDTO.ProductId)
+        {
+            return BadRequest();
         }
 
-          // IMPORTANT: Always preserve the existing image URL unless a new file is uploaded
-          product.ImageUrl = existingProduct.ImageUrl;
+        // Get user email
+        var email = User.FindFirst(ClaimTypes.Email)?.Value;
+        if (email == null)
+        {
+            return Unauthorized();
+        }
 
-          // Handle new image upload if provided
-          if (file != null)
-          {
-              string wwwRootPath = _webHostEnvironment.WebRootPath;
-              string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-              string productPath = Path.Combine(wwwRootPath, "images", "product");
+        // Get original product
+        var originalProduct = await _productRepository.GetProductByIdAsync(id);
+        if (originalProduct == null)
+        {
+            return NotFound();
+        }
 
-              // Ensure directory exists
-              Directory.CreateDirectory(productPath);
+        // Check if user is owner of original product's producer
+        var producers = await _producerRepository.GetAllProducersAsync();
+        var isOriginalProducerOwner = producers.Any(p => p.OwnerId == email && p.ProducerId == originalProduct.ProducerId);
+        if (!isOriginalProducerOwner)
+        {
+            return Unauthorized();
+        }
 
-              // Delete old image if exists and different from default
-              if (!string.IsNullOrEmpty(existingProduct.ImageUrl) && 
-                  !existingProduct.ImageUrl.Contains("image-placeholder"))
-              {
-                  string oldImagePath = Path.Combine(wwwRootPath, existingProduct.ImageUrl.TrimStart('/'));
-                  if (System.IO.File.Exists(oldImagePath))
-                  {
-                      System.IO.File.Delete(oldImagePath);
-                  }
-              }
+        // Check if user is owner of producer of product to update
+        var isProducerOwner = producers.Any(p => p.OwnerId == email && p.ProducerId == productDTO.ProducerId);
+        if (!isProducerOwner)
+        {
+            return Unauthorized();
+        }
 
-              // Save new image
-              string filePath = Path.Combine(productPath, fileName);
-              using (var stream = new FileStream(filePath, FileMode.Create))
-              {
-                  await file.CopyToAsync(stream);
-              }
+        try
+        {
+            // Handle image upload
+            string? imagePath = originalProduct.ImageUrl;
+            if (productDTO.ImageFile != null)
+            {
+                if (!IsImageFile(productDTO.ImageFile))
+                {
+                    return BadRequest("Invalid file type. Only image files are allowed.");
+                }
 
-              product.ImageUrl = "/images/product/" + fileName;
-          }
+                // Delete old image if it exists
+                if (!string.IsNullOrEmpty(originalProduct.ImageUrl))
+                {
+                    string oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, originalProduct.ImageUrl.TrimStart('/'));
+                    if (System.IO.File.Exists(oldFilePath))
+                    {
+                        System.IO.File.Delete(oldFilePath);
+                    }
+                }
 
-        
-          existingProduct.Name = product.Name;
-          existingProduct.Description = product.Description;
-          existingProduct.Category = product.Category;
-          existingProduct.NutritionScore = product.NutritionScore;
-          existingProduct.Calories = product.Calories;
-          existingProduct.Carbohydrates = product.Carbohydrates;
-          existingProduct.Fat = product.Fat;
-          existingProduct.Protein = product.Protein;
-          existingProduct.ProducerId = product.ProducerId;
-          existingProduct.ImageUrl = product.ImageUrl; 
+                // Save new image
+                string uniqueFileName = $"{Guid.NewGuid()}_{productDTO.ImageFile.FileName}";
+                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "products");
 
-          var success = await _productRepository.UpdateProductAsync(existingProduct);
-          if (!success)
-          {
-              _logger.LogError("Failed to update product");
-              return RedirectWithMessage("Product", "Table", "Failed to update product", "error");
-          }
+                if (!Directory.Exists(uploadsFolder))
+                    Directory.CreateDirectory(uploadsFolder);
 
-          return RedirectToAction(nameof(Table));
-      }
-      catch (Exception ex)
-      {
-          _logger.LogError(ex, "Error updating product");
-          return RedirectWithMessage("Product", "Edit", "Error updating product", "error");
-      }
-  }
+                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-  [HttpPost]
-  [Authorize]
-  public async Task<IActionResult> Delete(int id)
-  {
-    var product = await _productRepository.GetProductByIdAsync(id);
-    if (product == null)
-    {
-    
-        _logger.LogError("[ProductController] product not found while executing _productRepository.GetProductByIdAsync()");
-        return NotFound();
+                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                {
+                    await productDTO.ImageFile.CopyToAsync(fileStream);
+                }
+
+                imagePath = $"/images/products/{uniqueFileName}";
+            }
+
+            // Update product
+            var product = new Product
+            {
+                ProductId = productDTO.ProductId,
+                Name = productDTO.Name,
+                Description = productDTO.Description,
+                NutritionScore = productDTO.NutritionScore,
+                Category = productDTO.Category,
+                ProducerId = productDTO.ProducerId,
+                Calories = productDTO.Calories,
+                Carbohydrates = productDTO.Carbohydrates,
+                Fat = productDTO.Fat,
+                Protein = productDTO.Protein,
+                ImageUrl = imagePath
+            };
+
+            await _productRepository.UpdateProductAsync(product);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating product {ProductId}", id);
+            return StatusCode(500, "An error occurred while updating the product");
+        }
     }
 
-    var producer = await _producerRepository.GetProducerByIdAsync(product.ProducerId);
-    if (producer == null)
+    [Authorize]
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteProduct(int id)
     {
-        _logger.LogError("[ProductController] producer not found while executing _producerRepository.GetProducerByIdAsync()");
-        return NotFound();
+        try
+        {
+            // Get user email
+            var email = User.FindFirst(ClaimTypes.Email)?.Value;
+            if (email == null)
+            {
+                return Unauthorized();
+            }
+
+            // Get original product
+            var originalProduct = await _productRepository.GetProductByIdAsync(id);
+            if (originalProduct == null)
+            {
+                return NotFound();
+            }
+
+            // Check if user is owner of original product's producer
+            var producers = await _producerRepository.GetAllProducersAsync();
+            var isOriginalProducerOwner = producers.Any(p => p.OwnerId == email && p.ProducerId == originalProduct.ProducerId);
+            if (!isOriginalProducerOwner)
+            {
+                return Unauthorized();
+            }
+
+            // Delete product
+            await _productRepository.DeleteProductAsync(id);
+            return NoContent();
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error deleting product {ProductId}", id);
+            return StatusCode(500, "An error occurred while deleting the product");
+        }
     }
 
-    // Verify the current user owns the producer
-    if (producer.OwnerId != User.Identity?.Name)
+    // Add this helper method to validate image files
+    private bool IsImageFile(IFormFile file)
     {
-        return RedirectWithMessage("Product", "Table", "You can only delete your own products", "error");
+        // Check file extension
+        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
+
+        if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
+            return false;
+
+        // Check MIME type
+        var allowedMimeTypes = new[] { "image/jpeg", "image/png", "image/gif" };
+        if (!allowedMimeTypes.Contains(file.ContentType.ToLowerInvariant()))
+            return false;
+
+        return true;
     }
-
-    var success = await _productRepository.DeleteProductAsync(id);
-    if (!success)
-    {
-        return RedirectWithMessage("Product", "Table", "Failed to delete product", "error");
-    }
-
-    return RedirectToAction(nameof(Table));
-  }
-
-
-
-  private IActionResult RedirectWithMessage(string controller, string action, string message, string messageType = "info")
-  {
-    return Redirect($"/{controller}/{action}?message={Uri.EscapeDataString(message)}&messageType={messageType}");
-  }
+}

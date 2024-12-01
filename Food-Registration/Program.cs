@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using Food_Registration.DAL;
 using Serilog;
 using Serilog.Events;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ItemDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ItemDbContextConnection' not found.");
@@ -25,6 +28,35 @@ builder.Services.AddDefaultIdentity<IdentityUser>().AddEntityFrameworkStores<Ite
 
 builder.Services.AddRazorPages();
 builder.Services.AddSession();
+
+// Add CORS support
+builder.Services.AddCors(options =>
+{
+  options.AddPolicy("AllowReactApp",
+      builder => builder
+          .WithOrigins("http://localhost:5174") // React dev server
+          .AllowAnyMethod()
+          .AllowAnyHeader());
+});
+
+builder.Services.AddAuthentication(options =>
+{
+  options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+  options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+  options.TokenValidationParameters = new TokenValidationParameters
+  {
+    ValidateIssuer = true,
+    ValidateAudience = true,
+    ValidateLifetime = true,
+    ValidateIssuerSigningKey = true,
+    ValidIssuer = builder.Configuration["Jwt:Issuer"],
+    ValidAudience = builder.Configuration["Jwt:Audience"],
+    IssuerSigningKey = new SymmetricSecurityKey(
+          Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+  };
+});
 
 // Logging configuration.
 var loggerConfiguration = new LoggerConfiguration()
@@ -59,6 +91,9 @@ app.UseAuthentication();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+// Enable CORS before routing and authorization
+app.UseCors("AllowReactApp");
 
 app.UseAuthorization();
 
