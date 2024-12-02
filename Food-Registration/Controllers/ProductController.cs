@@ -426,7 +426,9 @@ public class ProductController : Controller
             return RedirectWithMessage("Product", "Table", "Failed to delete product", "error");
         }
 
-        return RedirectToAction(nameof(Table));
+        //Feedback to the user
+        await _productRepository.DeleteProductAsync(id);
+        return RedirectWithMessage("Product", "Table", "Product successfully deleted", "success");
     }
     catch (Exception e)
     {

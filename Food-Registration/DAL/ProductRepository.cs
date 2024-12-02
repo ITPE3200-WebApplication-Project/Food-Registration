@@ -15,6 +15,7 @@ public class ProductRepository : IProductRepository
         _logger = logger;
     }
 
+    // Retrieves all products, including their associated producers, from the database.
     public async Task<IEnumerable<Product>> GetAllProductsAsync()
     {
         try
@@ -32,6 +33,7 @@ public class ProductRepository : IProductRepository
         }
     }
 
+    // Retrieves a specific product by its ID, including its producer information.
     public async Task<Product?> GetProductByIdAsync(int id)
     {
         try
@@ -48,6 +50,7 @@ public class ProductRepository : IProductRepository
         }
     }
 
+    // Creates a new product in the database.
     public async Task<bool> CreateProductAsync(Product product)
     {
         try
@@ -67,6 +70,7 @@ public class ProductRepository : IProductRepository
         }
     }
 
+    // Updates an existing product in the database.
     public async Task<bool> UpdateProductAsync(Product product)
     {
         try
@@ -85,6 +89,7 @@ public class ProductRepository : IProductRepository
         }
     }
 
+    // Deletes a product from the database by its ID.
     public async Task<bool> DeleteProductAsync(int id)
     {
         try
@@ -110,6 +115,7 @@ public class ProductRepository : IProductRepository
         }
     }
 
+    // Retrieves products filtered by a search term and/or category.
     public async Task<IEnumerable<Product>> GetFilteredProductsAsync(string? search, string? category)
     {
         try
@@ -138,6 +144,7 @@ public class ProductRepository : IProductRepository
         }
     }
 
+    // Saves a product image file to the server and returns its relative path.
     public async Task<string?> SaveProductImageAsync(IFormFile file, string wwwRootPath)
     {
         try
@@ -163,6 +170,7 @@ public class ProductRepository : IProductRepository
         }
     }
 
+    // Deletes a product image file from the server.
     public async Task<bool> DeleteProductImageAsync(string? imagePath, string wwwRootPath)
     {
         try
@@ -183,6 +191,7 @@ public class ProductRepository : IProductRepository
         }
     }
 
+    // Retrieves all products associated with a specific producer by their ID.
     public async Task<IEnumerable<Product>> GetProductsByProducerIdAsync(int producerId)
     {
         try
