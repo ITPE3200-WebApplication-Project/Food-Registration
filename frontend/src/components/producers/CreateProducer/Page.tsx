@@ -61,7 +61,7 @@ export default function CreateProducerPage() {
     try {
       await producerApi.create(createProducerDTO as ICreateProducerDTO);
       navigate({
-        pathname: "/producers",
+        pathname: "/producers/my",
         search: "?message=Producer created successfully&messageType=success",
       });
     } catch (error) {
@@ -96,7 +96,7 @@ export default function CreateProducerPage() {
               <button type="submit" className="btn btn-success">
                 Create Producer
               </button>
-              <a href="/producers" className="btn btn-secondary">
+              <a href="/producers/my" className="btn btn-secondary">
                 Cancel
               </a>
             </div>

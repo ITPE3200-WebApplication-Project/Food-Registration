@@ -17,8 +17,17 @@ export default function CreateProductPage() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    producerApi.getMyProducers().then(setProducers);
-  }, []);
+    producerApi.getMyProducers().then((producers) => {
+      if (producers.length > 0) {
+        setProducers(producers);
+      } else {
+        navigate({
+          search:
+            "?message=You must have at least one producer to create a product&messageType=danger",
+        });
+      }
+    });
+  }, [navigate]);
 
   const handleProductChange = (
     updates: Partial<IProduct & { imageFile: File | null }>

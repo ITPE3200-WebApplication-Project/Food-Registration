@@ -106,14 +106,9 @@ export default function Register() {
                 aria-required="true"
                 placeholder="password"
                 value={user.confirmPassword}
-                onChange={(e) => {
-                  // Check if passwords match
-                  if (user.password !== e.target.value) {
-                    setError("Passwords do not match");
-                  }
-                  // update user state
-                  setUser({ ...user, confirmPassword: e.target.value });
-                }}
+                onChange={(e) =>
+                  setUser({ ...user, confirmPassword: e.target.value })
+                }
               />
               <label htmlFor="confirmPassword">Confirm Password</label>
               <span className="text-danger"></span>

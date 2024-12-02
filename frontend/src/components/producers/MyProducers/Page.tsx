@@ -41,7 +41,6 @@ export default function MyProducersPage() {
   const handleConfirmDelete = async (id: number) => {
     try {
       await producerApi.delete(id.toString());
-      handleCloseModal();
       navigate({
         search:
           "?message=Producer deleted successfully&messageType=success&producerId=" +
@@ -58,6 +57,7 @@ export default function MyProducersPage() {
         });
       }
     }
+    handleCloseModal();
   };
 
   return (
