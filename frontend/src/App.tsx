@@ -1,30 +1,47 @@
 import { BrowserRouter, Routes, Route } from "react-router";
-import { ProductList } from "./components/products/ProductList";
-import Login from "./components/auth/Login";
 import Layout from "./components/layouts/Layout";
+
+import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
-// import Table from "./components/products/Table";
-import Create from "./components/products/pages/Create";
-import { UserProvider } from "./contexts/UserContext";
-import MyProducts from "./components/products/pages/MyProducts";
-import MyProducers from "./components/producers/pages/MyProducers";
+
+import MyProducersPage from "./components/producers/MyProducers/Page";
+import UpdateProducerPage from "./components/producers/UpdateProducer/Page";
+import CreateProducerPage from "./components/producers/CreateProducer/Page";
+
+import AllProductsPage from "./components/products/AllProducts/Page";
+import MyProductsPage from "./components/products/MyProducts/Page";
+import ProductDetailsPage from "./components/products/ProductDetails/Page";
+import CreateProductPage from "./components/products/CreateProduct/Page";
+import UpdateProductPage from "./components/products/UpdateProduct/Page";
 
 export function App() {
   return (
-    <UserProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route element={<Layout />}>
-            <Route index element={<ProductList />} />
-            <Route path="/products/my" element={<MyProducts />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
-            {/* <Route path="/products/table" element={<Table />} /> */}
-            <Route path="/products/create" element={<Create />} />
-            <Route path="/producers/my" element={<MyProducers />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-    </UserProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          {/* Product-related routes */}
+          <Route index element={<AllProductsPage />} />
+          <Route path="/products/my" element={<MyProductsPage />} />
+          <Route path="/products/:productId" element={<ProductDetailsPage />} />
+          <Route path="/products/create" element={<CreateProductPage />} />
+          <Route
+            path="/products/:productId/update"
+            element={<UpdateProductPage />}
+          />
+
+          {/* Producer-related routes */}
+          <Route path="/producers/my" element={<MyProducersPage />} />
+          <Route path="/producers/create" element={<CreateProducerPage />} />
+          <Route
+            path="/producers/:producerId/update"
+            element={<UpdateProducerPage />}
+          />
+
+          {/* Auth-related routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }

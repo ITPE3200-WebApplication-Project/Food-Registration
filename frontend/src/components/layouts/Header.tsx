@@ -1,8 +1,17 @@
+import { useLocation } from "react-router";
 import { authService } from "../../services/auth";
 import AuthHeader from "../auth/AuthHeader";
+import { useEffect } from "react";
 
 export default function Header() {
-  const { loggedIn } = authService.getUser();
+  let user = authService.getUser();
+
+  const location = useLocation();
+
+  // Update user state when path changes
+  useEffect(() => {
+    user = authService.getUser();
+  }, [location.pathname]);
 
   return (
     <header>
@@ -35,7 +44,7 @@ export default function Header() {
                   All Products
                 </a>
               </li>
-              {loggedIn && (
+              {user.loggedIn && (
                 <>
                   <li className="nav-item">
                     <a className="nav-link text-dark" href="/products/create">

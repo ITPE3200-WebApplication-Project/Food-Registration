@@ -1,16 +1,31 @@
 import { useState } from "react";
 import { authService } from "../../services/auth";
+import { useNavigate } from "react-router";
+import { AxiosError } from "axios";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
   const handleLogin = async () => {
     try {
       await authService.login(email, password);
-      window.location.href = "/";
+      navigate({
+        pathname: "/",
+        search: "?message=Logged in successfully&messageType=success",
+      });
     } catch (error) {
       console.error(error);
+      if (error instanceof AxiosError) {
+        navigate({
+          search: `?message=${error.response?.data}&messageType=danger`,
+        });
+      } else {
+        navigate({
+          search: "?message=Login failed&messageType=danger",
+        });
+      }
     }
   };
 

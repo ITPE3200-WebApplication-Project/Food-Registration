@@ -1,19 +1,21 @@
 interface DeleteModalProps {
   show: boolean;
-  productId: number | null;
-  productName: string;
+  itemId: number | null;
+  itemName: string;
+  itemType: string;
   onClose: () => void;
   onConfirm: (id: number) => void;
 }
 
 export default function DeleteModal({
   show,
-  productId,
-  productName,
+  itemId,
+  itemName,
+  itemType,
   onClose,
   onConfirm,
 }: DeleteModalProps) {
-  if (!show || !productId) return null;
+  if (!show || !itemId) return null;
 
   return (
     <div
@@ -38,12 +40,12 @@ export default function DeleteModal({
             />
           </div>
           <div className="modal-body">
-            Are you sure you want to delete the product "
-            <strong>{productName}</strong>"? This action cannot be undone.
+            Are you sure you want to delete the {itemType} "
+            <strong>{itemName}</strong>"? This action cannot be undone.
           </div>
           <div className="modal-footer">
             <button
-              onClick={() => onConfirm(productId)}
+              onClick={() => onConfirm(itemId)}
               className="btn btn-danger"
             >
               Yes, Delete

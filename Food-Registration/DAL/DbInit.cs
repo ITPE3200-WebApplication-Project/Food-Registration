@@ -59,6 +59,7 @@ public static class DBInit
             context.SaveChanges();
         }
 
+
         // Create products
         var products = new[]
         {
@@ -70,10 +71,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1569870499705-504209102861?w=500&q=80&fit=crop",
                 Category = "Fruits",
                 ProducerId = producers[0].ProducerId,
-                Calories = 52m,
-                Carbohydrates = 14m,
-                Fat = 0.2m,
-                Protein = 0.3m,
+                Calories = 52,
+                Carbohydrates = 14,
+                Fat = 0,
+                Protein = 0,
                 NutritionScore = "A"
             },
             new Product
@@ -83,10 +84,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1571771894821-ce9b6c11b08e?w=500&q=80&fit=crop",
                 Category = "Fruits",
                 ProducerId = producers[0].ProducerId,
-                Calories = 89m,
-                Carbohydrates = 23m,
-                Fat = 0.3m,
-                Protein = 1.1m,
+                Calories = 89,
+                Carbohydrates = 23,
+                Fat = 0,
+                Protein = 1,
                 NutritionScore = "A"
             },
 
@@ -98,10 +99,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?w=500&q=80&fit=crop",
                 Category = "Vegetables",
                 ProducerId = producers[0].ProducerId,
-                Calories = 41m,
-                Carbohydrates = 10m,
-                Fat = 0.2m,
-                Protein = 0.9m,
+                Calories = 41,
+                Carbohydrates = 10,
+                Fat = 0,
+                Protein = 1,
                 NutritionScore = "A"
             },
             new Product
@@ -111,10 +112,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1576045057995-568f588f82fb?w=500&q=80&fit=crop",
                 Category = "Vegetables",
                 ProducerId = producers[0].ProducerId,
-                Calories = 23m,
-                Carbohydrates = 3.6m,
-                Fat = 0.4m,
-                Protein = 2.9m,
+                Calories = 23,
+                Carbohydrates = 3,
+                Fat = 0,
+                Protein = 3,
                 NutritionScore = "A"
             },
 
@@ -126,10 +127,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1603048297172-c92544798d5a?w=500&q=80&fit=crop",
                 Category = "Meats",
                 ProducerId = producers[1].ProducerId,
-                Calories = 250m,
-                Carbohydrates = 0m,
-                Fat = 15m,
-                Protein = 26m,
+                Calories = 250,
+                Carbohydrates = 0,
+                Fat = 15,
+                Protein = 26,
                 NutritionScore = "B"
             },
             new Product
@@ -139,10 +140,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1604503468506-a8da13d82791?w=500&q=80&fit=crop",
                 Category = "Meats",
                 ProducerId = producers[1].ProducerId,
-                Calories = 165m,
-                Carbohydrates = 0m,
-                Fat = 3.6m,
-                Protein = 31m,
+                Calories = 165,
+                Carbohydrates = 0,
+                Fat = 3,
+                Protein = 31,
                 NutritionScore = "A"
             },
 
@@ -154,23 +155,23 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1550583724-b2692b85b150?w=500&q=80&fit=crop",
                 Category = "Dairy",
                 ProducerId = producers[2].ProducerId,
-                Calories = 146m,
-                Carbohydrates = 12m,
-                Fat = 8m,
-                Protein = 8m,
+                Calories = 146,
+                Carbohydrates = 12,
+                Fat = 8,
+                Protein = 8,
                 NutritionScore = "B"
             },
             new Product
             {
                 Name = "Turkish Yogurt",
                 Description = "Creamy Greek yogurt, high in protein",
-                ImageUrl = "~/images/yogurt.jpg",/*images from https://yemek.com/tarif/evde-yogurt-yapimi/*/
+                ImageUrl = "https://images.unsplash.com/photo-1571230389215-b34a89739ef1??w=500&q=80&fit=crop",
                 Category = "Dairy",
                 ProducerId = producers[2].ProducerId,
-                Calories = 130m,
-                Carbohydrates = 9m,
-                Fat = 4m,
-                Protein = 15m,
+                Calories = 130,
+                Carbohydrates = 9,
+                Fat = 4,
+                Protein = 15,
                 NutritionScore = "A"
             },
 
@@ -182,10 +183,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1586444248902-2f64eddc13df?w=500&q=80&fit=crop",
                 Category = "Bakery Foods",
                 ProducerId = producers[3].ProducerId,
-                Calories = 266m,
-                Carbohydrates = 33m,
-                Fat = 10m,
-                Protein = 11m,
+                Calories = 266,
+                Carbohydrates = 33,
+                Fat = 10,
+                Protein = 11,
                 NutritionScore = "C"
             },
             new Product
@@ -195,10 +196,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1555507036-ab1f4038808a?w=500&q=80&fit=crop",
                 Category = "Bakery Foods",
                 ProducerId = producers[3].ProducerId,
-                Calories = 272m,
-                Carbohydrates = 31m,
-                Fat = 14m,
-                Protein = 5.5m,
+                Calories = 272,
+                Carbohydrates = 31,
+                Fat = 14,
+                Protein = 5,
                 NutritionScore = "D"
             },
 
@@ -210,23 +211,23 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1621506289937-a8e4df240d0b?w=500&q=80&fit=crop",
                 Category = "Drinks",
                 ProducerId = producers[4].ProducerId,
-                Calories = 112m,
-                Carbohydrates = 26m,
-                Fat = 0m,
-                Protein = 1.7m,
+                Calories = 112,
+                Carbohydrates = 26,
+                Fat = 0,
+                Protein = 1,
                 NutritionScore = "B"
             },
             new Product
             {
                 Name = "Sparkling Water",
                 Description = "Natural sparkling mineral water",
-                ImageUrl = "~/images/water1.jpg",/*Bildet er tatt av <a href="https://pixabay.com/no/users/leopoldboettcher-10118366/?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Leopold Böttcher</a> fra <a href="https://pixabay.com/no//?utm_source=link-attribution&utm_medium=referral&utm_campaign=image&utm_content=4591710">Pixabay</a>*/
+                ImageUrl = "https://plus.unsplash.com/premium_photo-1679518410151-e0361fc8cf43?w=500&q=80&fit=crop",
                 Category = "Drinks",
                 ProducerId = producers[4].ProducerId,
-                Calories = 0m,
-                Carbohydrates = 0m,
-                Fat = 0m,
-                Protein = 0m,
+                Calories = 0,
+                Carbohydrates = 0,
+                Fat = 0,
+                Protein = 0,
                 NutritionScore = "A"
             },
 
@@ -235,26 +236,26 @@ public static class DBInit
             {
                 Name = "Rainbow Candy Popcorn",
                 Description = "Colorful, sweet popcorn that will make your taste buds dance 🌈",
-                ImageUrl = "~/images/popcornRainbow.jpg",/*(images Updateed)images from https://www.istockphoto.com/photo/white-and-plain-popcorn-for-background-uses-gm1179252944-329907145 */
+                ImageUrl = "https://images.unsplash.com/photo-1541363278861-e218a998284f?w=500&q=80&fit=crop",
                 Category = "Other",
                 ProducerId = producers[4].ProducerId,
-                Calories = 387m,
-                Carbohydrates = 76m,
-                Fat = 8m,
-                Protein = 3m,
+                Calories = 387,
+                Carbohydrates = 76,
+                Fat = 8,
+                Protein = 3,
                 NutritionScore = "D"
             },
             new Product
             {
                 Name = "Chocolate Covered Pickles",
                 Description = "Yes, you read that right. Don't knock it till you try it! 🥒🍫",
-                ImageUrl = "~/images/chocolateCoveredPickles.jpg",/*images from:https://pixabay.com/no/photos/kake-stykke-tallerken-dessert-s%C3%B8t-1971552/*/
+                ImageUrl = "https://plus.unsplash.com/premium_photo-1705003210300-57cac20232fd?w=500&q=80&fit=crop",
                 Category = "Other",
                 ProducerId = producers[0].ProducerId,
-                Calories = 150m,
-                Carbohydrates = 15m,
-                Fat = 9m,
-                Protein = 2m,
+                Calories = 150,
+                Carbohydrates = 15,
+                Fat = 9,
+                Protein = 2,
                 NutritionScore = "D"
             },
             new Product
@@ -264,10 +265,10 @@ public static class DBInit
                 ImageUrl = "https://images.unsplash.com/photo-1617196034796-73dfa7b1fd56?w=500&q=80&fit=crop",
                 Category = "Other",
                 ProducerId = producers[3].ProducerId,
-                Calories = 420m,
-                Carbohydrates = 67m,
-                Fat = 18m,
-                Protein = 5m,
+                Calories = 420,
+                Carbohydrates = 67,
+                Fat = 18,
+                Protein = 5,
                 NutritionScore = "E"
             }
         };

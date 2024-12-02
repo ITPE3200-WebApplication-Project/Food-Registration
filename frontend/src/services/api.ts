@@ -1,17 +1,22 @@
 import axios from "axios";
-import { IProduct } from "../types";
-import { ICreateProductDTO } from "../types/dtos";
+import {
+  ICreateProducerDTO,
+  ICreateProductDTO,
+  IUpdateProducerDTO,
+  IUpdateProductDTO,
+} from "../types/dtos";
 
-const API_BASE_URL = "http://localhost:5173/api";
+export const BASE_URL = "http://localhost:5173";
 
 export const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: BASE_URL + "/api",
   headers: {
     "Content-Type": "application/json",
   },
 });
 
 // Add auth interceptor
+// to apply the token to all requests
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -33,9 +38,23 @@ export const productApi = {
     const response = await api.get("/product/my");
     return response.data;
   },
+  get: async (productId: string) => {
+    const response = await api.get(`/product/${productId}`);
+    return response.data;
+  },
 
   create: async (product: ICreateProductDTO) => {
     const response = await api.post("/product", product);
+    return response.data;
+  },
+
+  update: async (productId: string, product: IUpdateProductDTO) => {
+    const response = await api.put(`/product/${productId}`, product);
+    return response.data;
+  },
+
+  delete: async (productId: string) => {
+    const response = await api.delete(`/product/${productId}`);
     return response.data;
   },
 };
@@ -43,7 +62,22 @@ export const productApi = {
 export const producerApi = {
   getMyProducers: async () => {
     const response = await api.get("/producer");
-    console.log(response.data);
+    return response.data;
+  },
+  get: async (producerId: string) => {
+    const response = await api.get(`/producer/${producerId}`);
+    return response.data;
+  },
+  create: async (producer: ICreateProducerDTO) => {
+    const response = await api.post("/producer", producer);
+    return response.data;
+  },
+  update: async (producerId: string, producer: IUpdateProducerDTO) => {
+    const response = await api.put(`/producer/${producerId}`, producer);
+    return response.data;
+  },
+  delete: async (producerId: string) => {
+    const response = await api.delete(`/producer/${producerId}`);
     return response.data;
   },
 };

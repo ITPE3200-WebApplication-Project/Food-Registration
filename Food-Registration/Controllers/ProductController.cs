@@ -3,7 +3,7 @@ using Food_Registration.Models;
 using Microsoft.AspNetCore.Authorization;
 using Food_Registration.DAL;
 using System.Security.Claims;
-using Food_Registration.Models.DTOs;
+using Food_Registration.DTOs;
 using System.IO;
 
 namespace Food_Registration.Controllers;
@@ -124,38 +124,47 @@ public class ProductController : ControllerBase
                 return Unauthorized("Unauthorized. Not owner of producer.");
             }
 
-            Console.WriteLine("Image file is not null");
             // Handle image upload
             string? imagePath = null;
-            if (productDTO.ImageFile != null)
+            if (!string.IsNullOrEmpty(productDTO.ImageBase64))
             {
-                if (productDTO.ImageFile == null)
+                // Validate file extension
+                var extension = productDTO.ImageFileExtension?.ToLowerInvariant();
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+
+                if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
                 {
-                    return BadRequest("Image file is required.");
+                    return BadRequest("Invalid file extension. Only .jpg, .jpeg, .png, and .gif are allowed.");
                 }
 
-                if (!IsImageFile(productDTO.ImageFile))
+                try
                 {
-                    return BadRequest("Invalid file type. Only image files are allowed.");
+                    // Convert base64 to bytes
+                    byte[] imageBytes = Convert.FromBase64String(productDTO.ImageBase64);
+
+                    // Generate unique filename
+                    string uniqueFileName = $"{Guid.NewGuid()}{extension}";
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "products");
+
+                    // Create directory if it doesn't exist
+                    if (!Directory.Exists(uploadsFolder))
+                        Directory.CreateDirectory(uploadsFolder);
+
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    // Save the file
+                    await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
+
+                    imagePath = $"/images/products/{uniqueFileName}";
                 }
-
-                Console.WriteLine("Stuff");
-                // Generate unique filename
-                string uniqueFileName = $"{Guid.NewGuid()}_{productDTO.ImageFile.FileName}";
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "products");
-
-                // Create directory if it doesn't exist
-                if (!Directory.Exists(uploadsFolder))
-                    Directory.CreateDirectory(uploadsFolder);
-
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                catch (FormatException)
                 {
-                    await productDTO.ImageFile.CopyToAsync(fileStream);
+                    return BadRequest("Invalid base64 string");
                 }
-
-                imagePath = $"/images/products/{uniqueFileName}";
+                catch (Exception)
+                {
+                    return BadRequest("Invalid image file");
+                }
             }
 
             // Create product
@@ -175,7 +184,7 @@ public class ProductController : ControllerBase
 
             await _productRepository.CreateProductAsync(product);
 
-            return CreatedAtAction(nameof(GetProducts), new { id = product.ProductId }, product);
+            return Ok(product);
         }
         catch (Exception ex)
         {
@@ -190,6 +199,7 @@ public class ProductController : ControllerBase
     {
         if (id != productDTO.ProductId)
         {
+
             return BadRequest();
         }
 
@@ -226,58 +236,70 @@ public class ProductController : ControllerBase
         {
             // Handle image upload
             string? imagePath = originalProduct.ImageUrl;
-            if (productDTO.ImageFile != null)
+            if (!string.IsNullOrEmpty(productDTO.ImageBase64))
             {
-                if (!IsImageFile(productDTO.ImageFile))
+                // Validate file extension
+                var extension = productDTO.ImageFileExtension?.ToLowerInvariant();
+                var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
+
+                if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
                 {
-                    return BadRequest("Invalid file type. Only image files are allowed.");
+                    return BadRequest("Invalid file extension. Only .jpg, .jpeg, .png, and .gif are allowed.");
                 }
 
-                // Delete old image if it exists
-                if (!string.IsNullOrEmpty(originalProduct.ImageUrl))
+                try
                 {
-                    string oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, originalProduct.ImageUrl.TrimStart('/'));
-                    if (System.IO.File.Exists(oldFilePath))
+                    // Delete old image if it exists
+                    if (!string.IsNullOrEmpty(originalProduct.ImageUrl))
                     {
-                        System.IO.File.Delete(oldFilePath);
+                        string oldFilePath = Path.Combine(_webHostEnvironment.WebRootPath, originalProduct.ImageUrl.TrimStart('/'));
+                        if (System.IO.File.Exists(oldFilePath))
+                        {
+                            System.IO.File.Delete(oldFilePath);
+                        }
                     }
+
+                    // Convert base64 to bytes
+                    byte[] imageBytes = Convert.FromBase64String(productDTO.ImageBase64);
+
+                    // Generate unique filename
+                    string uniqueFileName = $"{Guid.NewGuid()}{extension}";
+                    string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "products");
+
+                    if (!Directory.Exists(uploadsFolder))
+                        Directory.CreateDirectory(uploadsFolder);
+
+                    string filePath = Path.Combine(uploadsFolder, uniqueFileName);
+
+                    // Save the file
+                    await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
+
+                    imagePath = $"/images/products/{uniqueFileName}";
                 }
-
-                // Save new image
-                string uniqueFileName = $"{Guid.NewGuid()}_{productDTO.ImageFile.FileName}";
-                string uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "products");
-
-                if (!Directory.Exists(uploadsFolder))
-                    Directory.CreateDirectory(uploadsFolder);
-
-                string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-                using (var fileStream = new FileStream(filePath, FileMode.Create))
+                catch (FormatException)
                 {
-                    await productDTO.ImageFile.CopyToAsync(fileStream);
+                    return BadRequest("Invalid base64 string");
                 }
-
-                imagePath = $"/images/products/{uniqueFileName}";
+                catch (Exception)
+                {
+                    return BadRequest("Invalid image file");
+                }
             }
 
             // Update product
-            var product = new Product
-            {
-                ProductId = productDTO.ProductId,
-                Name = productDTO.Name,
-                Description = productDTO.Description,
-                NutritionScore = productDTO.NutritionScore,
-                Category = productDTO.Category,
-                ProducerId = productDTO.ProducerId,
-                Calories = productDTO.Calories,
-                Carbohydrates = productDTO.Carbohydrates,
-                Fat = productDTO.Fat,
-                Protein = productDTO.Protein,
-                ImageUrl = imagePath
-            };
+            originalProduct.Name = productDTO.Name;
+            originalProduct.Description = productDTO.Description;
+            originalProduct.NutritionScore = productDTO.NutritionScore;
+            originalProduct.Category = productDTO.Category;
+            originalProduct.ProducerId = productDTO.ProducerId;
+            originalProduct.Calories = productDTO.Calories;
+            originalProduct.Carbohydrates = productDTO.Carbohydrates;
+            originalProduct.Fat = productDTO.Fat;
+            originalProduct.Protein = productDTO.Protein;
+            originalProduct.ImageUrl = imagePath;
 
-            await _productRepository.UpdateProductAsync(product);
-            return NoContent();
+            await _productRepository.UpdateProductAsync(originalProduct);
+            return Ok(originalProduct);
         }
         catch (Exception ex)
         {
@@ -323,23 +345,5 @@ public class ProductController : ControllerBase
             _logger.LogError(ex, "Error deleting product {ProductId}", id);
             return StatusCode(500, "An error occurred while deleting the product");
         }
-    }
-
-    // Add this helper method to validate image files
-    private bool IsImageFile(IFormFile file)
-    {
-        // Check file extension
-        var allowedExtensions = new[] { ".jpg", ".jpeg", ".png", ".gif" };
-        var extension = Path.GetExtension(file.FileName).ToLowerInvariant();
-
-        if (string.IsNullOrEmpty(extension) || !allowedExtensions.Contains(extension))
-            return false;
-
-        // Check MIME type
-        var allowedMimeTypes = new[] { "image/jpeg", "image/png", "image/gif" };
-        if (!allowedMimeTypes.Contains(file.ContentType.ToLowerInvariant()))
-            return false;
-
-        return true;
     }
 }

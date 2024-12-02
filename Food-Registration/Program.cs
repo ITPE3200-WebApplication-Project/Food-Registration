@@ -34,10 +34,17 @@ builder.Services.AddCors(options =>
 {
   options.AddPolicy("AllowReactApp",
       builder => builder
-          .WithOrigins("http://localhost:5174") // React dev server
+          .WithOrigins("http://localhost:5174", "http://localhost:4173") // React dev server
           .AllowAnyMethod()
           .AllowAnyHeader());
 });
+
+// JWT Configuration
+var jwtKey = builder.Configuration["Jwt:Key"];
+if (string.IsNullOrEmpty(jwtKey))
+{
+  throw new InvalidOperationException("JWT key is not configured in appsettings.json");
+}
 
 builder.Services.AddAuthentication(options =>
 {
@@ -54,7 +61,7 @@ builder.Services.AddAuthentication(options =>
     ValidIssuer = builder.Configuration["Jwt:Issuer"],
     ValidAudience = builder.Configuration["Jwt:Audience"],
     IssuerSigningKey = new SymmetricSecurityKey(
-          Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+          Encoding.UTF8.GetBytes(jwtKey))
   };
 });
 
