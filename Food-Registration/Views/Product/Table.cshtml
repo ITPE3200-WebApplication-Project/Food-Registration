@@ -2,13 +2,17 @@
 
 <div class="container my-4">
     <h1 class="text-center mb-4">My Products</h1>
+    <!-- Card Container for the Table -->
     <div class="card shadow-sm" style="width: 100%; max-width: none; height: 100%; max-height: none;">
         <div class="card-body px-4 py-2">
             <div class="d-flex justify-content-between align-items-center" style="width: 100%; min-height: 60px;">
+                <!-- Header Section with "Add New Product" Button -->
                 <a asp-action="Create" class="btn btn-success rounded-pill px-3">
                     <i class="bi bi-plus-circle"></i> Add New Product
                 </a>
             </div>
+
+            <!-- Table to Display the Products -->
             <table class="table table-hover table-bordered mt-2">
                 <thead class="table-primary">
                     <tr>
@@ -20,6 +24,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Loop through each product in the model to populate rows -->
                     @foreach (var product in Model)
                     {
                         <tr>
@@ -36,11 +41,13 @@
                                     <span>N/A</span>
                                 }
                             </td>
+                            <!-- Update Button -->
                             <td class="text-center">
                                 <a asp-action="Update" asp-route-id="@product.ProductId" class="btn btn-sm btn-warning rounded-pill px-3">
                                     <i class="bi bi-pencil-square"></i> Update
                                 </a>
                             </td>
+                            <!-- Delete Button with Confirmation Modal -->
                             <td class="text-center">
                                 <button class="btn btn-danger btn-sm rounded-pill px-3"
                                     onclick="showDeleteModal(@product.ProductId, '@product.Name.Replace("'", "\'")')">
@@ -55,7 +62,7 @@
     </div>
 </div>
 
-<!-- Delete Modal -->
+<!-- Delete Confirmation Modal -->
 <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -68,9 +75,12 @@
             </div>
             <div class="modal-footer">
                 <form id="deleteForm" asp-action="Delete" method="post">
+                    <!-- Hidden field to store the ID of the product to delete -->
                     <input type="hidden" id="productIdToDelete" name="id" value="" />
+                    <!-- Confirm Delete Button -->
                     <button type="submit" class="btn btn-danger">Yes, Delete</button>
                 </form>
+                <!-- Cancel Button -->
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
@@ -79,6 +89,7 @@
 
 @section Scripts {
     <script>
+        // Function to populate and show the delete confirmation modal
         function showDeleteModal(productId, productName) {
             document.getElementById('productIdToDelete').value = productId;
             document.getElementById('productNameToDelete').textContent = productName;

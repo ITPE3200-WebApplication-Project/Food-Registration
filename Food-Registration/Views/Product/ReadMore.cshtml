@@ -3,6 +3,7 @@
 <div class="container my-4">
   <div class="card shadow">
     <div class="row g-0">
+      <!-- Product Image Section -->
       <div class="col-md-4">
         <img src="@Url.Content(Model.ImageUrl)" class="img-fluid rounded-start h-100" alt="@Model.Name" style="object-fit: cover;" title="@Model.Name">
       </div>
@@ -89,6 +90,7 @@
             </div>
           </div>
 
+          <!-- Back to Products Button -->
           <div class="mt-4">
             <a href="@Url.Action("Index", "Product")" class="btn btn-primary rounded-pill" title="Back to Products">
               <i class="bi bi-arrow-left"></i> Back to Products
